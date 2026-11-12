@@ -1,0 +1,22 @@
+# Shrimp Apps i Web Apps zostają przy gtk4 0.10 / libadwaita 0.8: libflatpak 0.7 jest zbudowany na glib 0.21.
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directories: [/boxes/cocktail, /boxes/panko, /boxes/shrimp-i18n]
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+    groups:
+      gtk-rs:
+        patterns: ["gtk4", "libadwaita", "glib", "gio"]
+  - package-ecosystem: cargo
+    directories: [/boxes/shrimp-apps, /boxes/web-apps]
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: gtk4
+        update-types: ["version-update:semver-minor"]
+      - dependency-name: libadwaita
+        update-types: ["version-update:semver-minor"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: monthly }
