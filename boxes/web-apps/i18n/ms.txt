@@ -1,0 +1,27 @@
+1	Cari apl web
+2	Cipta
+3	Buka
+4	Alih keluar apl web
+5	{name} telah ditambah ke apl anda
+6	{name} telah dialih keluar
+7	Tidak dapat mencipta {name}: {error}
+8	Apl web baharu
+9	Masukkan alamat mana-mana tapak web. Tapak itu akan dibuka dalam tetingkapnya sendiri, seperti apl.
+10	Alamat
+11	Nama
+12	Batal
+13	Tiada hasil
+14	Cuba nama lain atau cipta apl web anda sendiri.
+15	Cipta sendiri
+16	Grafik
+17	Video
+18	Muzik
+19	Permainan
+20	Pejabat
+21	Internet
+22	Pembangunan
+23	Utiliti
+24	Apl web anda
+25	Mencipta apl web daripada kotak pasir belum disokong
+26	Ini bukan alamat web yang sah
+27	Apl web

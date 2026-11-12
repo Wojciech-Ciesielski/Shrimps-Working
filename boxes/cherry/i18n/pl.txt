@@ -1,0 +1,191 @@
+1	Pomoc
+2	Ustawienia
+3	Nowa karta
+4	Folder domowy
+5	Zamknij kartę
+6	Jak to działa?
+7	Notatki
+8	Skróty
+9	Historia
+10	Wpisz komendę, a tutaj zobaczysz, z czego się składa.
+11	Z czego się składa
+12	Nowa notatka
+13	Komenda
+14	Co robi
+15	Odśwież listę dostępnych aktualizacji
+16	Pokaż wszystkie pliki ze szczegółami
+17	Przejdź do folderu wyżej
+18	Nowy skrót
+19	Klawisze
+20	Skróty w zapisie
+21	Naciśnij klawisze, np. Alt+G
+22	Skrót, np. gs
+23	Wyczyść historię
+24	Szukaj w historii
+25	Brak komend
+26	Nic nie znaleziono
+27	Usuń
+28	Anuluj
+29	Zapisz
+30	Położenie kart
+31	Karty u góry
+32	Karty po prawej
+33	Usuwanie historii
+34	Nigdy
+35	Po {n} dniu
+36	Po {n} dniach
+37	Po {n} dniach
+38	Po {n} dniach
+39	Gałąź {branch}
+40	Argument dla komendy
+41	Plik albo folder
+42	Folder
+43	Plik
+44	Szukany tekst
+45	Tekst do wypisania
+46	Nazwa komendy
+47	Nowe uprawnienia, np. +x albo 755
+48	Nowy właściciel (użytkownik:grupa)
+49	Numer procesu (PID)
+50	Adres w internecie
+51	Nazwa albo adres komputera
+52	Folder wyżej
+53	Twój folder domowy
+54	Poprzedni folder
+55	Uruchamia resztę jako administrator. Pyta o hasło, zachowaj ostrożność.
+56	Program albo komenda
+57	Opcja tej komendy
+58	Co komenda ma zrobić
+59	Pokazuje pomoc komendy
+60	Pokazuje wersję programu
+61	Usuwa wszystko w środku, na stałe i bez pytania. Nic nie trafia do kosza.
+62	Cocktail zrobi to bez wpisywania komend.
+63	Shrimp Apps zrobi to bez wpisywania komend.
+64	Panko zrobi to bez wpisywania komend.
+65	Przekazuje wynik do następnej komendy
+66	Następna komenda tylko, jeśli ta się udała
+67	Następna komenda tylko, jeśli ta się nie udała
+68	Potem uruchamia następną komendę
+69	Zapisuje wynik do pliku, zastępując go
+70	Dopisuje wynik na końcu pliku
+71	Uruchamia w tle
+72	Pokazuje pliki w folderze
+73	Jako lista ze szczegółami
+74	Razem z ukrytymi plikami
+75	Rozmiary w KB, MB, GB
+76	Najnowsze najpierw
+77	Także zawartość podfolderów
+78	Zmienia bieżący folder
+79	Pokazuje bieżący folder
+80	Kopiuje pliki
+81	Razem z całą zawartością
+82	Pyta przed nadpisaniem
+83	Pokazuje, co robi
+84	Bez pytania
+85	Przenosi albo zmienia nazwę plików
+86	Usuwa pliki na stałe (nie do kosza)
+87	Tworzy folder
+88	Tworzy też brakujące foldery nadrzędne
+89	Usuwa pusty folder
+90	Tworzy pusty plik albo odświeża jego datę
+91	Wypisuje zawartość pliku
+92	Pokazuje plik strona po stronie (q wychodzi)
+93	Pokazuje początek pliku
+94	Pokazuje koniec pliku
+95	Ile wierszy
+96	Pokazuje na bieżąco nowe wiersze
+97	Otwiera plik w prostym edytorze tekstu
+98	Szuka wierszy z tekstem
+99	Bez rozróżniania wielkości liter
+100	Pokazuje numery wierszy
+101	Pokazuje wiersze, które NIE pasują
+102	Szuka plików
+103	Wypisuje tekst
+104	Otwiera instrukcję komendy
+105	Pokazuje, gdzie jest program
+106	Pokazuje nazwę użytkownika
+107	Pokazuje informacje o systemie
+108	Wszystko
+109	Wersja jądra
+110	Czyści ekran
+111	Zamyka terminal
+112	Pokazuje poprzednie komendy
+113	Zmienia uprawnienia pliku
+114	Zmienia właściciela pliku
+115	Pokazuje wolne miejsce na dyskach
+116	W KB, MB, GB
+117	Pokazuje, ile miejsca zajmują pliki
+118	Tylko suma
+119	Pokazuje użycie pamięci
+120	Pokazuje działające programy i obciążenie
+121	Pokazuje uruchomione procesy
+122	Wszystkich użytkowników
+123	Z właścicielem i użyciem
+124	Także bez terminala
+125	Zatrzymuje proces
+126	Natychmiast, bez zapisywania
+127	Pakuje albo rozpakowuje archiwa
+128	Rozpakuj
+129	Utwórz archiwum
+130	Skompresowane (gzip)
+131	Dalej nazwa pliku archiwum
+132	Rozpakowuje plik ZIP
+133	Pobiera z internetu
+134	Idzie za przekierowaniami
+135	Zapisuje pod oryginalną nazwą
+136	Zapisuje do podanego pliku
+137	Pobiera plik z internetu
+138	Sprawdza połączenie z komputerem
+139	Ile razy
+140	Łączy się z innym komputerem
+141	Pokazuje ustawienia sieci
+142	Adresy
+143	Karty sieciowe
+144	Trasy
+145	Pokazuje dziennik systemu
+146	Od ostatniego uruchomienia
+147	Jednej usługi
+148	Zarządza usługami systemu
+149	Uruchom usługę
+150	Zatrzymaj usługę
+151	Uruchom usługę ponownie
+152	Pokaż stan usługi
+153	Uruchamiaj z systemem
+154	Nie uruchamiaj z systemem
+155	Uruchom komputer ponownie
+156	Wyłącz komputer
+157	Instaluje i aktualizuje pakiety systemu
+158	Odśwież listę pakietów
+159	Zaktualizuj zainstalowane pakiety
+160	Zainstaluj pakiet
+161	Usuń pakiet
+162	Szukaj pakietu
+163	Zaktualizuj cały system
+164	Pokaż informacje o pakiecie
+165	Bezpiecznie zmienia system, działa po ponownym uruchomieniu
+166	Zaktualizuj system
+167	Zainstaluj albo usuń pakiety
+168	Wróć do poprzedniego stanu
+169	Instaluje i aktualizuje aplikacje
+170	Zainstaluj aplikację
+171	Zaktualizuj aplikacje
+172	Usuń aplikację
+173	Pokaż zainstalowane aplikacje
+174	Uruchom aplikację
+175	Szukaj aplikacji
+176	Zarządza migawkami systemu
+177	Pokaż migawki
+178	Utwórz migawkę
+179	Cofnij zmiany między migawkami
+180	Kontrola wersji projektów
+181	Pokaż, co się zmieniło
+182	Zaznacz zmiany do zapisu
+183	Zapisz zaznaczone zmiany
+184	Wyślij zmiany na serwer
+185	Pobierz zmiany z serwera
+186	Skopiuj projekt na ten komputer
+187	Pokaż historię zmian
+188	Pokaż różnice
+189	Przełącz na inną gałąź
+190	Pokaż albo utwórz gałęzie
+191	Zacznij nowy projekt

@@ -1,0 +1,27 @@
+1	Sesha izinhlelo zokusebenza zewebhu
+2	Dala
+3	Vula
+4	Susa uhlelo lokusebenza lwewebhu
+5	{name} yengezwe ezinhlelweni zakho zokusebenza
+6	{name} isusiwe
+7	Ayikwazanga ukudala {name}: {error}
+8	Uhlelo lokusebenza lwewebhu olusha
+9	Faka ikheli lanoma iyiphi iwebhusayithi. Izovulwa efasiteleni layo, njengohlelo lokusebenza.
+10	Ikheli
+11	Igama
+12	Khansela
+13	Ayikho imiphumela
+14	Zama elinye igama noma wakhe uhlelo lwakho lokusebenza lwewebhu.
+15	Dala olwakho
+16	Imidwebo
+17	Ividiyo
+18	Umculo
+19	Imidlalo
+20	Ehhovisi
+21	I-inthanethi
+22	Intuthuko
+23	Amathuluzi
+24	Izinhlelo zakho zokusebenza zewebhu
+25	Ukudala izinhlelo zokusebenza zewebhu ku-sandbox akukasekelwa
+26	Leli akulona ikheli lewebhu elivumelekile
+27	Izinhlelo zokusebenza zewebhu

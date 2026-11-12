@@ -1,0 +1,28 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	search.placeholder	Search web apps
+2	button.create	Create
+3	button.open	Open
+4	button.remove.tooltip	Remove web app
+5	toast.created	{name} was added to your apps
+6	toast.removed	{name} was removed
+7	error.create	Could not create {name}: {error}
+8	custom.title	New web app
+9	custom.body	Enter the address of any website. It will open in its own window, like an app.
+10	custom.url	Address
+11	custom.name	Name
+12	button.cancel	Cancel
+13	empty.title	No results
+14	empty.body	Try a different name or create your own web app.
+15	custom.button	Create your own
+16	cat.grafika	Graphics
+17	cat.wideo	Video
+18	cat.muzyka	Music
+19	cat.gry	Games
+20	cat.biuro	Office
+21	cat.internet	Internet
+22	cat.programowanie	Development
+23	cat.narzedzia	Utilities
+24	custom.section	Your web apps
+25	error.sandbox	Creating web apps from a sandbox is not supported yet
+26	error.url	This is not a valid web address
+27	page.title	Web apps

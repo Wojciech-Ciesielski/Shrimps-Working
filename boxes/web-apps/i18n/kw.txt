@@ -1,0 +1,27 @@
+1	Whelas appys web
+2	Gwruthyl
+3	Egery
+4	Dyllo an app web
+5	{name} re beu keworrys dh’agas appys
+6	{name} re beu dyllys
+7	Ny allas gwruthyl {name}: {error}
+8	App web nowydh
+9	Predyr tebel unn wiasva-web vyth. Hi a egor y’y fenester y honan, kepar ha’n app.
+10	Tebel
+11	Hanow
+12	Hepkorr
+13	Nyns eus sewyans vyth
+14	Assayewgh hanow aral po gwrewgh agas app web agas honan.
+15	Gwruthyl an dha honan
+16	Grafik
+17	Gwydhyo
+18	Musyk
+19	Gwarijow
+20	Soedhva
+21	Kesrosweyth
+22	Displetyans
+23	Daffar
+24	Agas appys web
+25	Nyns yw gwruthyl appys web dhyworth sandbox skoodhys hwath
+26	Nyns yw hemma tebel web da
+27	Appys web

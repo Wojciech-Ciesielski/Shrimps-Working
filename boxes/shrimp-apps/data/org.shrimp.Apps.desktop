@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Shrimp Apps
+Name[pl]=Shrimp Apps
+Comment=Install and update apps
+Comment[pl]=Instaluj i aktualizuj aplikacje
+Keywords=apps;store;install;update;software;
+Keywords[pl]=aplikacje;programy;sklep;instaluj;aktualizuj;
+Exec=shrimp-apps %U
+Icon=org.shrimp.Apps
+Terminal=false
+Categories=GNOME;GTK;System;PackageManager;
+MimeType=x-scheme-handler/appstream;
+StartupNotify=true

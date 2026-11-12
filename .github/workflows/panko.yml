@@ -1,0 +1,26 @@
+name: Panko
+
+on:
+  push:
+    paths: ["boxes/panko/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/help-links/**", ".github/workflows/panko.yml"]
+  pull_request:
+    paths: ["boxes/panko/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/help-links/**", ".github/workflows/panko.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    # Testy po polsku (LANGUAGE czyta i18n Shrimp i Web Apps)
+    env: { LANGUAGE: pl }
+    defaults: { run: { working-directory: boxes/panko } }
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libgtk-4-dev libadwaita-1-dev desktop-file-utils libxml2-utils
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
+      - run: cargo build --locked --release
+      - run: desktop-file-validate data/org.shrimp.Panko.desktop
+      - run: xmllint --noout data/org.shrimp.Panko.policy

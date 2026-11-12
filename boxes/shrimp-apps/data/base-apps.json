@@ -1,0 +1,28 @@
+{
+  "_": "Zestaw podstawowy Shrimp: instalowany przez sklep Shrimp (shrimp-apps --install --base) przy pierwszej konfiguracji, z Flathub. Reszta wybierana w onboardingu. Firefox i aplikacje GNOME Core z Flathub, bez tych, które zastępują Shrimps (Software → Shrimp Apps, Console → Cherry, Web → Firefox).",
+  "apps": [
+    { "id": "org.mozilla.firefox", "name": "Firefox" },
+    { "id": "org.gnome.Papers", "name": "Papers" },
+    { "id": "org.gnome.Loupe", "name": "Loupe" },
+    { "id": "org.gnome.Showtime", "name": "Showtime" },
+    { "id": "org.gnome.Decibels", "name": "Decibels" },
+    { "id": "org.gnome.TextEditor", "name": "Text Editor" },
+    { "id": "org.gnome.Calculator", "name": "Calculator" },
+    { "id": "org.gnome.Characters", "name": "Characters" },
+    { "id": "org.gnome.clocks", "name": "Clocks" },
+    { "id": "org.gnome.Weather", "name": "Weather" },
+    { "id": "org.gnome.Maps", "name": "Maps" },
+    { "id": "org.gnome.Snapshot", "name": "Snapshot" },
+    { "id": "org.gnome.SimpleScan", "name": "Document Scanner" },
+    { "id": "org.gnome.baobab", "name": "Disk Usage Analyzer" },
+    { "id": "org.gnome.Connections", "name": "Connections" },
+    { "id": "org.gnome.Calendar", "name": "Calendar" },
+    { "id": "org.gnome.Contacts", "name": "Contacts" },
+    { "id": "org.gnome.font-viewer", "name": "Fonts" },
+    { "id": "org.gnome.Logs", "name": "Logs" },
+    { "id": "org.gnome.Music", "name": "Music" },
+    { "id": "org.gnome.SystemMonitor", "name": "System Monitor" },
+    { "id": "org.gnome.Tour", "name": "Tour" },
+    { "id": "org.gnome.Yelp", "name": "Help" }
+  ]
+}

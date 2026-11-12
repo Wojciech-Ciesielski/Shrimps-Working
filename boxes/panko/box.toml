@@ -1,0 +1,31 @@
+[box]
+id = "panko"
+version = "0.1.0"
+kind = "app"
+summary = "Cofanie zmian w systemie: migawki i przywracanie (GTK4 + libadwaita, Rust)"
+build_depends = ["shrimp-i18n", "help-links"]
+ci = "panko"
+
+[packages]
+image = ["libgtk-4-1", "libadwaita-1-0", "snapper"]
+build = [
+    "bash",
+    "coreutils",
+    "findutils",
+    "gawk",
+    "gcc",
+    "pkg-config",
+    "rustup",
+    "ca-certificates",
+    "ca-certificates-mozilla",
+    "pkgconfig(gtk4)",
+    "pkgconfig(libadwaita-1)",
+]
+
+[build]
+chroot = "cargo build --release --locked"
+outputs = ["target/release/panko"]
+install = "install.sh"
+
+[image]
+enable = ["panko-cleanup.timer"]

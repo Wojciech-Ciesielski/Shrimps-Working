@@ -1,0 +1,114 @@
+1	Après mise à jour
+2	Avant mise à jour
+3	Planifié
+4	Avant restauration
+5	Après restauration
+6	Installation du système
+7	Instantané manuel
+8	lun.
+9	mar.
+10	mer.
+11	jeu.
+12	ven.
+13	sam.
+14	dim.
+15	janvier
+16	février
+17	mars
+18	avril
+19	mai
+20	juin
+21	juillet
+22	août
+23	septembre
+24	octobre
+25	novembre
+26	décembre
+27	{month} {year}
+28	Aujourd'hui
+29	Hier
+30	La semaine dernière
+31	aujourd'hui {time}
+32	hier {time}
+33	Ajouté
+34	Supprimé
+35	Modifié
+36	Instantanés horaires
+37	Instantanés quotidiens
+38	Instantanés hebdomadaires
+39	Instantanés mensuels
+40	Instantanés annuels
+41	Instantanés numérotés
+42	/ (système)
+43	Instantanés du système
+44	Instantanés du dossier personnel
+45	Instantanés de {path}
+46	Volumes
+47	Nettoyage
+48	Accès
+49	Supprimer les paires d'instantanés vides
+50	Limite d'espace disque
+51	Utilisateurs ayant accès
+52	Nom d'utilisateur
+53	Désactiver les instantanés ?
+54	Les instantanés de ce volume seront supprimés.
+55	Désactiver
+56	Impossible de désactiver les instantanés.
+57	Comparer avec
+58	Instantané à comparer
+59	Restaurer la sélection
+60	Aucune modification depuis cet instantané.
+61	Impossible de comparer l'instantané.
+62	Restaurer les fichiers sélectionnés ?
+63	Les fichiers reviendront à leur état dans l'instantané sélectionné.
+64	Restaurer
+65	Impossible de restaurer les fichiers.
+66	Replier {name}
+67	Déplier {name}
+68	Sélectionner {name}
+69	Les fichiers système de /usr ne peuvent pas être restaurés un par un. Utilisez « Restaurer le système ».
+70	Afficher les modifications
+71	Supprimer
+72	Créer un instantané
+73	Il n'y a pas encore d'instantanés.
+74	Restaurer le système
+75	Description
+76	Description de l'instantané
+77	Créer
+78	Le système reviendra à son état dans l'instantané « {name} ». Un nouvel instantané est créé avant la restauration. Le système va redémarrer.
+79	Restaurer le système ?
+80	Impossible de créer l'instantané.
+81	Supprimer l'instantané ?
+82	Cette action est irréversible.
+83	Impossible de supprimer l'instantané.
+84	Redémarrez l'ordinateur pour terminer.
+85	Impossible de restaurer le système.
+86	Instantanés
+87	Modifications
+88	Avancé
+89	Aide
+90	Rien ne correspond à cette recherche.
+91	Données d'exemple qui montrent la mise en page, pas l'état du système.
+92	Annuler les modifications du système.
+93	Instantané avant les mises à jour
+94	Instantanés planifiés
+95	Supprimer les anciens instantanés
+96	Nombre de jours
+97	jours
+98	Plus anciens que
+99	À propos de Panko
+100	Menu principal
+101	Les instantanés sont désactivés
+102	Activez les instantanés pour pouvoir annuler les modifications du système.
+103	Activer
+104	Pas d'accès aux instantanés
+105	Pour parcourir les instantanés, autorisez l'accès à ce compte.
+106	Autoriser
+107	Les instantanés ne sont pas disponibles
+108	Impossible de lire les instantanés.
+109	Réessayer
+110	Impossible d'autoriser l'accès.
+111	Impossible d'activer les instantanés.
+112	Impossible d'enregistrer les paramètres.
+113	Rechercher
+114	Annuler

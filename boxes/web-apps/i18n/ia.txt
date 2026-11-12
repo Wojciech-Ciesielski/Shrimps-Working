@@ -1,0 +1,27 @@
+1	Cercar applicationes web
+2	Crear
+3	Aperir
+4	Remover application web
+5	{name} ha essite addite a tu applicationes
+6	{name} ha essite removite
+7	Impossibile crear {name}: {error}
+8	Nove application web
+9	Entra le adresse de omne sito web. Illo se aperira in su proprie fenestra, como un application.
+10	Adresse
+11	Nomine
+12	Cancellar
+13	Nulle resultato
+14	Proba un altere nomine o crea tu proprie application web.
+15	Crear tu proprie
+16	Graphica
+17	Video
+18	Musica
+19	Jocos
+20	Officio
+21	Internet
+22	Disveloppamento
+23	Utilitates
+24	Tu applicationes web
+25	Crear applicationes web ab un sandbox non es ancora supportate
+26	Isto non es un adresse web valide
+27	Applicationes web

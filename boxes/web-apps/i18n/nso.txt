@@ -1,0 +1,27 @@
+1	Nyaka diapolikešene tša weposaete
+2	Hlama
+3	Bula
+4	Tloša papolikešene ya weposaete
+5	{name} e oketšwe diapolikešeneng tša gago
+6	{name} e tlošitšwe
+7	Ga se ya kgona go hlama {name}: {error}
+8	Papolikešene ye mpsha ya weposaete
+9	Tsenya aterese ya weposaete efe goba efe. E tla bulwa lefastereng la yona, bjalo ka papolikešene.
+10	Aterese
+11	Leina
+12	Khansela
+13	Ga go na dipoelo
+14	Leka leina le lengwe goba o hlame papolikešene ya gago ya weposaete.
+15	Hlama ya gago
+16	Dithwii
+17	Vidio
+18	Mmino
+19	Dithaelo
+20	Ofisi
+21	Inthanete
+22	Tlhabollo
+23	Didiriswa
+24	Diapolikešene tša gago tša weposaete
+25	Go hlama diapolikešene tša weposaete go tšwa go sandbox ga go thekgwe le
+26	Ye ga se aterese ya weposaete ye e nepagetšego
+27	Diapolikešene tša weposaete

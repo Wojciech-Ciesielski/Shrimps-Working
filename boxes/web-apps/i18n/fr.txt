@@ -1,0 +1,27 @@
+1	Rechercher des applications web
+2	Créer
+3	Ouvrir
+4	Supprimer l’application web
+5	{name} a été ajoutée à vos applications
+6	{name} a été supprimée
+7	Impossible de créer {name} : {error}
+8	Nouvelle application web
+9	Saisissez l’adresse d’un site web. Il s’ouvrira dans sa propre fenêtre, comme une application.
+10	Adresse
+11	Nom
+12	Annuler
+13	Aucun résultat
+14	Essayez un autre nom ou créez votre propre application web.
+15	Créer la vôtre
+16	Graphisme
+17	Vidéo
+18	Musique
+19	Jeux
+20	Bureautique
+21	Internet
+22	Développement
+23	Utilitaires
+24	Vos applications web
+25	La création d’applications web depuis un bac à sable n’est pas encore prise en charge
+26	Ce n’est pas une adresse web valide
+27	Applications web

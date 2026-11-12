@@ -1,0 +1,27 @@
+1	Caută aplicații web
+2	Creează
+3	Deschide
+4	Elimină aplicația web
+5	{name} a fost adăugată la aplicațiile tale
+6	{name} a fost eliminată
+7	Nu s-a putut crea {name}: {error}
+8	Aplicație web nouă
+9	Introdu adresa oricărui site web. Se va deschide în propria fereastră, ca o aplicație.
+10	Adresă
+11	Nume
+12	Anulează
+13	Niciun rezultat
+14	Încearcă alt nume sau creează propria aplicație web.
+15	Creează-ți propria aplicație
+16	Grafică
+17	Video
+18	Muzică
+19	Jocuri
+20	Birou
+21	Internet
+22	Dezvoltare
+23	Utilitare
+24	Aplicațiile tale web
+25	Crearea aplicațiilor web dintr-un mediu izolat nu este încă acceptată
+26	Aceasta nu este o adresă web validă
+27	Aplicații web

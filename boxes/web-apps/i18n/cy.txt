@@ -1,0 +1,27 @@
+1	Chwilio apiau gwe
+2	Creu
+3	Agor
+4	Tynnu ap gwe
+5	Ychwanegwyd {name} at eich apiau
+6	Tynnwyd {name}
+7	Methu creu {name}: {error}
+8	Ap gwe newydd
+9	Rhowch gyfeiriad unrhyw wefan. Bydd yn agor yn ei ffenestr ei hun, fel ap.
+10	Cyfeiriad
+11	Enw
+12	Diddymu
+13	Dim canlyniadau
+14	Rhowch gynnig ar enw arall neu crëwch eich ap gwe eich hun.
+15	Creu eich un chi
+16	Graffeg
+17	Fideo
+18	Cerddoriaeth
+19	Gemau
+20	Swyddfa
+21	Rhyngrwyd
+22	Datblygu
+23	Cyfleustodau
+24	Eich apiau gwe
+25	Nid yw creu apiau gwe o flwch tywod yn cael ei gefnogi eto
+26	Nid yw hwn yn gyfeiriad gwe dilys
+27	Apiau gwe

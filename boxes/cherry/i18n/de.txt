@@ -1,0 +1,191 @@
+1	Hilfe
+2	Einstellungen
+3	Neuer Tab
+4	Persönlicher Ordner
+5	Tab schließen
+6	Wie funktioniert das?
+7	Notizen
+8	Tastenkürzel
+9	Verlauf
+10	Tippe einen Befehl ein, und hier siehst du, woraus er besteht.
+11	Woraus er besteht
+12	Neue Notiz
+13	Befehl
+14	Was er macht
+15	Liste der verfügbaren Aktualisierungen auffrischen
+16	Alle Dateien mit Details anzeigen
+17	In den übergeordneten Ordner wechseln
+18	Neues Kürzel
+19	Tasten
+20	Abkürzungen
+21	Tasten drücken, z. B. Alt+G
+22	Abkürzung, z. B. gs
+23	Verlauf leeren
+24	Im Verlauf suchen
+25	Noch keine Befehle
+26	Nichts gefunden
+27	Löschen
+28	Abbrechen
+29	Speichern
+30	Position der Tabs
+31	Tabs oben
+32	Tabs rechts
+33	Verlauf löschen
+34	Nie
+35	Nach {n} Tag
+36	Nach {n} Tagen
+37	Nach {n} Tagen
+38	Nach {n} Tagen
+39	Zweig {branch}
+40	Argument für den Befehl
+41	Datei oder Ordner
+42	Ordner
+43	Datei
+44	Gesuchter Text
+45	Auszugebender Text
+46	Name eines Befehls
+47	Neue Rechte, z. B. +x oder 755
+48	Neuer Besitzer (Benutzer:Gruppe)
+49	Prozessnummer (PID)
+50	Internetadresse
+51	Name oder Adresse eines Computers
+52	Ein Ordner höher
+53	Dein persönlicher Ordner
+54	Der vorherige Ordner
+55	Führt den Rest als Administrator aus. Fragt nach deinem Passwort; sei vorsichtig.
+56	Ein Programm oder Befehl
+57	Eine Option dieses Befehls
+58	Was der Befehl tun soll
+59	Zeigt die Hilfe des Befehls
+60	Zeigt die Programmversion
+61	Löscht alles darin, endgültig und ohne Nachfrage. Nichts landet im Papierkorb.
+62	Cocktail erledigt das ohne Befehle.
+63	Shrimp Apps erledigt das ohne Befehle.
+64	Panko erledigt das ohne Befehle.
+65	Gibt die Ausgabe an den nächsten Befehl weiter
+66	Nächster Befehl nur, wenn dieser erfolgreich war
+67	Nächster Befehl nur, wenn dieser fehlgeschlagen ist
+68	Danach den nächsten Befehl ausführen
+69	Schreibt die Ausgabe in eine Datei und ersetzt sie
+70	Hängt die Ausgabe ans Ende einer Datei an
+71	Läuft im Hintergrund
+72	Zeigt die Dateien in einem Ordner
+73	Als Liste mit Details
+74	Einschließlich versteckter Dateien
+75	Größen in KB, MB, GB
+76	Neueste zuerst
+77	Auch alles in Unterordnern
+78	Wechselt den aktuellen Ordner
+79	Zeigt den aktuellen Ordner
+80	Kopiert Dateien
+81	Mit dem gesamten Inhalt
+82	Fragt vor dem Überschreiben
+83	Zeigt, was er tut
+84	Ohne Nachfrage
+85	Verschiebt oder benennt Dateien um
+86	Löscht Dateien endgültig (nicht in den Papierkorb)
+87	Erstellt einen Ordner
+88	Erstellt auch fehlende übergeordnete Ordner
+89	Löscht einen leeren Ordner
+90	Erstellt eine leere Datei oder aktualisiert ihr Datum
+91	Gibt den Inhalt einer Datei aus
+92	Zeigt eine Datei seitenweise (q beendet)
+93	Zeigt den Anfang einer Datei
+94	Zeigt das Ende einer Datei
+95	Wie viele Zeilen
+96	Zeigt laufend neue Zeilen an
+97	Öffnet eine Datei in einem einfachen Texteditor
+98	Sucht Zeilen mit einem Text
+99	Ohne Groß-/Kleinschreibung zu unterscheiden
+100	Zeigt Zeilennummern
+101	Zeigt Zeilen, die NICHT passen
+102	Sucht nach Dateien
+103	Gibt Text aus
+104	Öffnet die Anleitung eines Befehls
+105	Zeigt, wo ein Programm liegt
+106	Zeigt deinen Benutzernamen
+107	Zeigt Informationen über das System
+108	Alles
+109	Kernelversion
+110	Leert den Bildschirm
+111	Schließt das Terminal
+112	Zeigt frühere Befehle
+113	Ändert die Dateirechte
+114	Ändert den Dateibesitzer
+115	Zeigt den freien Platz auf den Laufwerken
+116	In KB, MB, GB
+117	Zeigt, wie viel Platz Dateien belegen
+118	Nur die Summe
+119	Zeigt die Speichernutzung
+120	Zeigt laufende Programme und ihre Last
+121	Zeigt laufende Prozesse
+122	Aller Benutzer
+123	Mit Besitzer und Nutzung
+124	Auch ohne Terminal
+125	Beendet einen Prozess
+126	Sofort, ohne Speichern zu lassen
+127	Packt oder entpackt Archive
+128	Entpacken
+129	Archiv erstellen
+130	Komprimiert (gzip)
+131	Danach folgt der Archivname
+132	Entpackt eine ZIP-Datei
+133	Lädt aus dem Internet herunter
+134	Folgt Weiterleitungen
+135	Speichert unter dem Originalnamen
+136	Speichert in die angegebene Datei
+137	Lädt eine Datei aus dem Internet herunter
+138	Prüft die Verbindung zu einem Computer
+139	Wie oft
+140	Verbindet sich mit einem anderen Computer
+141	Zeigt die Netzwerkeinstellungen
+142	Adressen
+143	Netzwerkkarten
+144	Routen
+145	Zeigt das Systemprotokoll
+146	Seit dem letzten Start
+147	Eines Dienstes
+148	Verwaltet Systemdienste
+149	Dienst starten
+150	Dienst stoppen
+151	Dienst neu starten
+152	Zustand des Dienstes anzeigen
+153	Mit dem System starten
+154	Nicht mit dem System starten
+155	Computer neu starten
+156	Computer ausschalten
+157	Installiert und aktualisiert Systempakete
+158	Paketliste auffrischen
+159	Installierte Pakete aktualisieren
+160	Paket installieren
+161	Paket entfernen
+162	Paket suchen
+163	Ganzes System aktualisieren
+164	Paketinformationen anzeigen
+165	Ändert das System sicher, wirksam nach Neustart
+166	System aktualisieren
+167	Pakete installieren oder entfernen
+168	Zum vorherigen Zustand zurück
+169	Installiert und aktualisiert Apps
+170	App installieren
+171	Apps aktualisieren
+172	App entfernen
+173	Installierte Apps anzeigen
+174	App starten
+175	App suchen
+176	Verwaltet Systemschnappschüsse
+177	Schnappschüsse anzeigen
+178	Schnappschuss erstellen
+179	Änderungen zwischen Schnappschüssen rückgängig machen
+180	Versionsverwaltung für Projekte
+181	Zeigen, was sich geändert hat
+182	Änderungen zum Speichern vormerken
+183	Vorgemerkte Änderungen speichern
+184	Änderungen an den Server senden
+185	Änderungen vom Server holen
+186	Projekt auf diesen Computer kopieren
+187	Änderungsverlauf anzeigen
+188	Unterschiede anzeigen
+189	Zu einem anderen Zweig wechseln
+190	Zweige anzeigen oder erstellen
+191	Neues Projekt beginnen

@@ -1,0 +1,27 @@
+1	Szukaj aplikacji internetowych
+2	Utwórz
+3	Otwórz
+4	Usuń aplikację internetową
+5	Dodano {name} do aplikacji
+6	Usunięto {name}
+7	Nie udało się utworzyć {name}: {error}
+8	Nowa aplikacja internetowa
+9	Wpisz adres dowolnej strony. Otworzy się we własnym oknie, jak aplikacja.
+10	Adres
+11	Nazwa
+12	Anuluj
+13	Brak wyników
+14	Spróbuj innej nazwy albo utwórz własną aplikację internetową.
+15	Utwórz własną
+16	Grafika
+17	Wideo
+18	Muzyka
+19	Gry
+20	Biuro
+21	Internet
+22	Programowanie
+23	Narzędzia
+24	Twoje aplikacje internetowe
+25	Tworzenie aplikacji internetowych z piaskownicy nie jest jeszcze obsługiwane
+26	To nie jest poprawny adres strony
+27	Aplikacje internetowe

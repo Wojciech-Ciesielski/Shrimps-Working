@@ -1,0 +1,125 @@
+/* Shrimp Apps: tylko nazwane kolory libadwaita, bez kart i obrysów. */
+
+.sidebar-heading {
+  font-size: 0.8em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 12px 0 2px 0;
+}
+
+.sidebar-search {
+  padding: 6px 6px 8px 6px;
+}
+
+.discover {
+  margin: 12px 24px 36px 24px;
+}
+
+.banner-area {
+  margin-bottom: 18px;
+}
+
+.banner {
+  border-radius: 18px;
+  padding: 24px 22px 24px 26px;
+  min-height: 96px;
+}
+
+.banner-kicker {
+  font-size: 0.8em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+.banner-summary {
+  opacity: 0.92;
+}
+
+button.banner-get {
+  min-width: 96px;
+  font-weight: 700;
+}
+
+.section {
+  margin-top: 18px;
+}
+
+button.section-title {
+  padding: 2px 6px;
+  margin-left: -6px;
+}
+
+.app-row {
+  min-height: 64px;
+}
+
+button.app-tile {
+  padding: 8px 6px;
+  margin-left: -6px;
+  border-radius: 12px;
+  font-weight: normal;
+}
+
+button.get-button {
+  color: @accent_color;
+  font-weight: 700;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+button.get-button:disabled {
+  color: @window_fg_color;
+  opacity: 0.6;
+}
+
+separator.row-separator {
+  margin-left: 60px;
+  background-color: alpha(currentColor, 0.1);
+}
+
+gridview.app-grid {
+  background: none;
+  margin: 12px 24px;
+}
+
+gridview.app-grid > child {
+  padding: 0 12px;
+  background: none;
+}
+
+gridview.app-grid > child:hover,
+gridview.app-grid > child:selected {
+  background: none;
+}
+
+.installed {
+  margin: 18px 24px 36px 24px;
+}
+
+.details {
+  margin: 12px 24px 48px 24px;
+}
+
+.details .app-icon {
+  margin-right: 6px;
+}
+
+.screenshots picture {
+  border-radius: 12px;
+}
+
+.description {
+  line-height: 1.4;
+}
+
+.app-info {
+  margin-top: 6px;
+}
+
+button.info-link {
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+}

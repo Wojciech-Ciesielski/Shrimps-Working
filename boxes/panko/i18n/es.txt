@@ -1,0 +1,114 @@
+1	Después de actualizar
+2	Antes de actualizar
+3	Programada
+4	Antes de restaurar
+5	Después de restaurar
+6	Instalación del sistema
+7	Instantánea manual
+8	lun
+9	mar
+10	mié
+11	jue
+12	vie
+13	sáb
+14	dom
+15	enero
+16	febrero
+17	marzo
+18	abril
+19	mayo
+20	junio
+21	julio
+22	agosto
+23	septiembre
+24	octubre
+25	noviembre
+26	diciembre
+27	{month} de {year}
+28	Hoy
+29	Ayer
+30	La semana pasada
+31	hoy {time}
+32	ayer {time}
+33	Añadido
+34	Quitado
+35	Cambiado
+36	Instantáneas cada hora
+37	Instantáneas diarias
+38	Instantáneas semanales
+39	Instantáneas mensuales
+40	Instantáneas anuales
+41	Instantáneas numeradas
+42	/ (sistema)
+43	Instantáneas del sistema
+44	Instantáneas de la carpeta personal
+45	Instantáneas de {path}
+46	Volúmenes
+47	Limpieza
+48	Acceso
+49	Borrar pares de instantáneas vacíos
+50	Límite de espacio en disco
+51	Usuarios con acceso
+52	Nombre de usuario
+53	¿Desactivar las instantáneas?
+54	Se borrarán las instantáneas de este volumen.
+55	Desactivar
+56	No se pudieron desactivar las instantáneas.
+57	Comparar con
+58	Instantánea para comparar
+59	Restaurar selección
+60	No hay cambios desde esta instantánea.
+61	No se pudo comparar la instantánea.
+62	¿Restaurar los archivos seleccionados?
+63	Los archivos volverán a como estaban en la instantánea seleccionada.
+64	Restaurar
+65	No se pudieron restaurar los archivos.
+66	Contraer {name}
+67	Expandir {name}
+68	Seleccionar {name}
+69	Los archivos del sistema en /usr no se pueden restaurar uno a uno. Usa «Restaurar sistema».
+70	Mostrar cambios
+71	Borrar
+72	Crear instantánea
+73	Todavía no hay instantáneas.
+74	Restaurar sistema
+75	Descripción
+76	Descripción de la instantánea
+77	Crear
+78	El sistema volverá a como estaba en la instantánea «{name}». Antes se crea una instantánea nueva. El sistema se reiniciará.
+79	¿Restaurar el sistema?
+80	No se pudo crear la instantánea.
+81	¿Borrar la instantánea?
+82	Esto no se puede deshacer.
+83	No se pudo borrar la instantánea.
+84	Reinicia el equipo para terminar.
+85	No se pudo restaurar el sistema.
+86	Instantáneas
+87	Cambios
+88	Avanzado
+89	Ayuda
+90	Nada coincide con esta búsqueda.
+91	Datos de ejemplo que muestran el diseño, no el estado del sistema.
+92	Deshacer cambios en el sistema.
+93	Instantánea antes de actualizar
+94	Instantáneas programadas
+95	Borrar instantáneas antiguas
+96	Número de días
+97	días
+98	Más antiguas que
+99	Acerca de Panko
+100	Menú principal
+101	Las instantáneas están desactivadas
+102	Activa las instantáneas para poder deshacer cambios en el sistema.
+103	Activar
+104	Sin acceso a las instantáneas
+105	Para ver las instantáneas, permite el acceso a esta cuenta.
+106	Permitir
+107	Las instantáneas no están disponibles
+108	No se pudieron leer las instantáneas.
+109	Reintentar
+110	No se pudo permitir el acceso.
+111	No se pudieron activar las instantáneas.
+112	No se pudo guardar la configuración.
+113	Buscar
+114	Cancelar

@@ -1,0 +1,27 @@
+1	Tafuta programu za wavuti
+2	Unda
+3	Fungua
+4	Ondoa programu ya wavuti
+5	{name} imeongezwa kwenye programu zako
+6	{name} imeondolewa
+7	Imeshindwa kuunda {name}: {error}
+8	Programu mpya ya wavuti
+9	Weka anwani ya tovuti yoyote. Itafunguka katika dirisha lake lenyewe, kama programu.
+10	Anwani
+11	Jina
+12	Ghairi
+13	Hakuna matokeo
+14	Jaribu jina lingine au unda programu yako ya wavuti.
+15	Unda yako mwenyewe
+16	Picha
+17	Video
+18	Muziki
+19	Michezo
+20	Ofisi
+21	Intaneti
+22	Uundaji
+23	Zana
+24	Programu zako za wavuti
+25	Kuunda programu za wavuti kutoka kwenye sandbox bado hakuhimiliwi
+26	Hii si anwani halali ya wavuti
+27	Programu za wavuti

@@ -1,0 +1,27 @@
+1	Tìm ứng dụng web
+2	Tạo
+3	Mở
+4	Gỡ ứng dụng web
+5	Đã thêm {name} vào ứng dụng của bạn
+6	Đã gỡ {name}
+7	Không thể tạo {name}: {error}
+8	Ứng dụng web mới
+9	Nhập địa chỉ của bất kỳ trang web nào. Trang sẽ mở trong cửa sổ riêng, như một ứng dụng.
+10	Địa chỉ
+11	Tên
+12	Hủy
+13	Không có kết quả
+14	Hãy thử tên khác hoặc tạo ứng dụng web của riêng bạn.
+15	Tạo của riêng bạn
+16	Đồ họa
+17	Video
+18	Âm nhạc
+19	Trò chơi
+20	Văn phòng
+21	Internet
+22	Phát triển
+23	Tiện ích
+24	Ứng dụng web của bạn
+25	Chưa hỗ trợ tạo ứng dụng web từ môi trường hộp cát
+26	Đây không phải là địa chỉ web hợp lệ
+27	Ứng dụng web

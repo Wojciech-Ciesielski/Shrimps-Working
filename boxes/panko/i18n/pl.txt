@@ -1,0 +1,114 @@
+1	Po aktualizacji
+2	Przed aktualizacją
+3	Cykliczna
+4	Przed przywróceniem
+5	Po przywróceniu
+6	Instalacja systemu
+7	Migawka ręczna
+8	pon.
+9	wt.
+10	śr.
+11	czw.
+12	pt.
+13	sob.
+14	niedz.
+15	Styczeń
+16	Luty
+17	Marzec
+18	Kwiecień
+19	Maj
+20	Czerwiec
+21	Lipiec
+22	Sierpień
+23	Wrzesień
+24	Październik
+25	Listopad
+26	Grudzień
+27	{month} {year}
+28	Dziś
+29	Wczoraj
+30	Ostatni tydzień
+31	dziś {time}
+32	wczoraj {time}
+33	Dodany
+34	Usunięty
+35	Zmieniony
+36	Migawki godzinowe
+37	Migawki dzienne
+38	Migawki tygodniowe
+39	Migawki miesięczne
+40	Migawki roczne
+41	Migawki numerowane
+42	/ (system)
+43	Migawki dla systemu
+44	Migawki dla katalogu domowego
+45	Migawki dla {path}
+46	Woluminy
+47	Czyszczenie
+48	Dostęp
+49	Usuwaj puste pary migawek
+50	Limit miejsca na dysku
+51	Użytkownicy z dostępem
+52	Nazwa użytkownika
+53	Wyłączyć migawki?
+54	Migawki tego woluminu zostaną usunięte.
+55	Wyłącz
+56	Nie udało się wyłączyć migawek.
+57	Porównaj z
+58	Migawka do porównania
+59	Przywróć wybrane
+60	Brak zmian względem tej migawki.
+61	Nie udało się porównać migawki.
+62	Przywrócić wybrane pliki?
+63	Pliki wrócą do stanu z wybranej migawki.
+64	Przywróć
+65	Nie udało się przywrócić plików.
+66	Zwiń {name}
+67	Rozwiń {name}
+68	Wybierz {name}
+69	Plików systemowych z /usr nie da się przywrócić pojedynczo. Użyj „Przywróć system”.
+70	Pokaż zmiany
+71	Usuń
+72	Utwórz migawkę
+73	Nie ma jeszcze migawek.
+74	Przywróć system
+75	Opis
+76	Opis migawki
+77	Utwórz
+78	System wróci do stanu z migawki „{name}”. Przed przywróceniem powstanie nowa migawka. System uruchomi się ponownie.
+79	Przywrócić system?
+80	Nie udało się utworzyć migawki.
+81	Usunąć migawkę?
+82	Tej operacji nie można cofnąć.
+83	Nie udało się usunąć migawki.
+84	Uruchom ponownie komputer, aby zakończyć.
+85	Nie udało się przywrócić systemu.
+86	Migawki
+87	Zmiany
+88	Zaawansowane
+89	Pomoc
+90	Nic nie pasuje do tego wyszukiwania.
+91	Przykładowe dane, pokazują wygląd, nie stan systemu.
+92	Cofanie zmian w systemie.
+93	Migawka przed aktualizacją
+94	Migawki cykliczne
+95	Usuwaj stare migawki
+96	Liczba dni
+97	dni
+98	Starsze niż
+99	O aplikacji Panko
+100	Menu główne
+101	Migawki są wyłączone
+102	Włącz migawki, aby móc cofać zmiany w systemie.
+103	Włącz
+104	Brak dostępu do migawek
+105	Aby przeglądać migawki, zezwól na dostęp temu kontu.
+106	Zezwól
+107	Migawki są niedostępne
+108	Nie udało się odczytać migawek.
+109	Spróbuj ponownie
+110	Nie udało się zezwolić na dostęp.
+111	Nie udało się włączyć migawek.
+112	Nie udało się zapisać ustawień.
+113	Szukaj
+114	Anuluj

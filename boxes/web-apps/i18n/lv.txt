@@ -1,0 +1,27 @@
+1	Meklēt tīmekļa lietotnes
+2	Izveidot
+3	Atvērt
+4	Noņemt tīmekļa lietotni
+5	{name} pievienota jūsu lietotnēm
+6	{name} noņemta
+7	Neizdevās izveidot {name}: {error}
+8	Jauna tīmekļa lietotne
+9	Ievadiet jebkuras vietnes adresi. Tā tiks atvērta savā logā kā lietotne.
+10	Adrese
+11	Nosaukums
+12	Atcelt
+13	Nav rezultātu
+14	Izmēģiniet citu nosaukumu vai izveidojiet savu tīmekļa lietotni.
+15	Izveidot savu
+16	Grafika
+17	Video
+18	Mūzika
+19	Spēles
+20	Birojs
+21	Internets
+22	Izstrāde
+23	Rīki
+24	Jūsu tīmekļa lietotnes
+25	Tīmekļa lietotņu izveide no smilškastes vēl netiek atbalstīta
+26	Šī nav derīga tīmekļa adrese
+27	Tīmekļa lietotnes

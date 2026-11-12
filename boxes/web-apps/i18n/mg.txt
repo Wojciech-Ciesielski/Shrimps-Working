@@ -1,0 +1,27 @@
+1	Hitady fampiharana tranonkala
+2	Mamorona
+3	Sokafy
+4	Esory ny fampiharana tranonkala
+5	Nampiana tamin’ny fampiharanao i {name}
+6	Nesorina i {name}
+7	Tsy afaka namorona {name}: {error}
+8	Fampiharana tranonkala vaovao
+9	Ampidiro ny adiresin’ny tranonkala rehetra. Hisokatra ao amin’ny varavarankeliny izy, toy ny fampiharana.
+10	Adiresy
+11	Anarana
+12	Foano
+13	Tsy misy valiny
+14	Andramo anarana hafa na amoroty ny fampiharana tranonkalanao.
+15	Mamorona ny anao
+16	Sary
+17	Horonan-tsary
+18	Mozika
+19	Lalao
+20	Biraobe
+21	Internet
+22	Fampandrosoana
+23	Fitaovana
+24	Ny fampiharana tranonkalanao
+25	Mbola tsy ampiasaina ny famoronana fampiharana tranonkala avy amin’ny sandbox
+26	Tsy adiresy tranonkala mety ity
+27	Fampiharana tranonkala

@@ -1,0 +1,191 @@
+1	Ayuda
+2	Configuración
+3	Pestaña nueva
+4	Carpeta personal
+5	Cerrar pestaña
+6	¿Cómo funciona?
+7	Notas
+8	Atajos
+9	Historial
+10	Escribe una orden y aquí verás de qué se compone.
+11	De qué se compone
+12	Nota nueva
+13	Orden
+14	Qué hace
+15	Actualizar la lista de actualizaciones disponibles
+16	Mostrar todos los archivos con detalles
+17	Ir a la carpeta superior
+18	Atajo nuevo
+19	Teclas
+20	Abreviaturas
+21	Pulsa teclas, p. ej. Alt+G
+22	Abreviatura, p. ej. gs
+23	Borrar historial
+24	Buscar en el historial
+25	Aún no hay órdenes
+26	No se encontró nada
+27	Borrar
+28	Cancelar
+29	Guardar
+30	Posición de las pestañas
+31	Pestañas arriba
+32	Pestañas a la derecha
+33	Borrado del historial
+34	Nunca
+35	Tras {n} día
+36	Tras {n} días
+37	Tras {n} días
+38	Tras {n} días
+39	Rama {branch}
+40	Argumento para la orden
+41	Archivo o carpeta
+42	Carpeta
+43	Archivo
+44	Texto que se busca
+45	Texto que se muestra
+46	Nombre de una orden
+47	Permisos nuevos, p. ej. +x o 755
+48	Propietario nuevo (usuario:grupo)
+49	Número de proceso (PID)
+50	Dirección de internet
+51	Nombre o dirección de un equipo
+52	Una carpeta más arriba
+53	Tu carpeta personal
+54	La carpeta anterior
+55	Ejecuta el resto como administrador. Pide tu contraseña; ten cuidado.
+56	Un programa u orden
+57	Una opción de esta orden
+58	Qué debe hacer la orden
+59	Muestra la ayuda de la orden
+60	Muestra la versión del programa
+61	Borra todo lo que contiene, para siempre y sin preguntar. Nada va a la papelera.
+62	Cocktail lo hace sin escribir órdenes.
+63	Shrimp Apps lo hace sin escribir órdenes.
+64	Panko lo hace sin escribir órdenes.
+65	Pasa el resultado a la siguiente orden
+66	Siguiente orden solo si esta tuvo éxito
+67	Siguiente orden solo si esta falló
+68	Después ejecuta la siguiente orden
+69	Escribe el resultado en un archivo, reemplazándolo
+70	Añade el resultado al final de un archivo
+71	Se ejecuta en segundo plano
+72	Muestra los archivos de una carpeta
+73	Como lista con detalles
+74	Incluidos los archivos ocultos
+75	Tamaños en KB, MB, GB
+76	Los más recientes primero
+77	También el contenido de las subcarpetas
+78	Cambia la carpeta actual
+79	Muestra la carpeta actual
+80	Copia archivos
+81	Con todo su contenido
+82	Pregunta antes de sobrescribir
+83	Muestra lo que hace
+84	Sin preguntar
+85	Mueve o cambia el nombre de archivos
+86	Borra archivos para siempre (no a la papelera)
+87	Crea una carpeta
+88	Crea también las carpetas superiores que falten
+89	Borra una carpeta vacía
+90	Crea un archivo vacío o actualiza su fecha
+91	Muestra el contenido de un archivo
+92	Muestra un archivo página a página (q para salir)
+93	Muestra el principio de un archivo
+94	Muestra el final de un archivo
+95	Cuántas líneas
+96	Muestra las líneas nuevas según aparecen
+97	Abre un archivo en un editor de texto sencillo
+98	Busca líneas que contienen un texto
+99	Sin distinguir mayúsculas y minúsculas
+100	Muestra los números de línea
+101	Muestra las líneas que NO coinciden
+102	Busca archivos
+103	Muestra un texto
+104	Abre el manual de una orden
+105	Muestra dónde está un programa
+106	Muestra tu nombre de usuario
+107	Muestra información del sistema
+108	Todo
+109	Versión del núcleo
+110	Limpia la pantalla
+111	Cierra la terminal
+112	Muestra las órdenes anteriores
+113	Cambia los permisos de un archivo
+114	Cambia el propietario de un archivo
+115	Muestra el espacio libre en los discos
+116	En KB, MB, GB
+117	Muestra cuánto ocupan los archivos
+118	Solo el total
+119	Muestra el uso de la memoria
+120	Muestra los programas en ejecución y su carga
+121	Lista los procesos en ejecución
+122	De todos los usuarios
+123	Con el propietario y el uso
+124	También los que no tienen terminal
+125	Detiene un proceso
+126	Inmediatamente, sin dejarle guardar
+127	Empaqueta o desempaqueta archivos comprimidos
+128	Desempaquetar
+129	Crear un archivo comprimido
+130	Comprimido (gzip)
+131	A continuación, el nombre del archivo
+132	Descomprime un archivo ZIP
+133	Descarga de internet
+134	Sigue las redirecciones
+135	Guarda con el nombre original
+136	Guarda en el archivo indicado
+137	Descarga un archivo de internet
+138	Comprueba la conexión con un equipo
+139	Cuántas veces
+140	Se conecta a otro equipo
+141	Muestra la configuración de red
+142	Direcciones
+143	Tarjetas de red
+144	Rutas
+145	Muestra el registro del sistema
+146	Desde el último arranque
+147	De un servicio
+148	Gestiona los servicios del sistema
+149	Iniciar un servicio
+150	Detener un servicio
+151	Reiniciar un servicio
+152	Mostrar el estado de un servicio
+153	Iniciar con el sistema
+154	No iniciar con el sistema
+155	Reiniciar el equipo
+156	Apagar el equipo
+157	Instala y actualiza paquetes del sistema
+158	Actualizar la lista de paquetes
+159	Actualizar los paquetes instalados
+160	Instalar un paquete
+161	Quitar un paquete
+162	Buscar un paquete
+163	Actualizar todo el sistema
+164	Mostrar información del paquete
+165	Cambia el sistema de forma segura, efectivo tras reiniciar
+166	Actualizar el sistema
+167	Instalar o quitar paquetes
+168	Volver al estado anterior
+169	Instala y actualiza aplicaciones
+170	Instalar una aplicación
+171	Actualizar aplicaciones
+172	Quitar una aplicación
+173	Listar las aplicaciones instaladas
+174	Ejecutar una aplicación
+175	Buscar una aplicación
+176	Gestiona las instantáneas del sistema
+177	Listar instantáneas
+178	Crear una instantánea
+179	Deshacer cambios entre instantáneas
+180	Control de versiones para proyectos
+181	Mostrar qué ha cambiado
+182	Marcar cambios para guardar
+183	Guardar los cambios marcados
+184	Enviar los cambios al servidor
+185	Traer los cambios del servidor
+186	Copiar un proyecto a este equipo
+187	Mostrar el historial de cambios
+188	Mostrar diferencias
+189	Cambiar a otra rama
+190	Listar o crear ramas
+191	Empezar un proyecto nuevo

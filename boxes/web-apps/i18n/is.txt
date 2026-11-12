@@ -1,0 +1,27 @@
+1	Leita að vefforritum
+2	Búa til
+3	Opna
+4	Fjarlægja vefforrit
+5	{name} var bætt við forritin þín
+6	{name} var fjarlægt
+7	Ekki tókst að búa til {name}: {error}
+8	Nýtt vefforrit
+9	Sláðu inn vistfang hvaða vefsvæðis sem er. Það opnast í eigin glugga eins og forrit.
+10	Vistfang
+11	Heiti
+12	Hætta við
+13	Engar niðurstöður
+14	Prófaðu annað heiti eða búðu til þitt eigið vefforrit.
+15	Búa til þitt eigið
+16	Grafík
+17	Myndskeið
+18	Tónlist
+19	Leikir
+20	Skrifstofa
+21	Internet
+22	Þróun
+23	Verkfæri
+24	Vefforritin þín
+25	Ekki er enn stuðningur við að búa til vefforrit úr einangruðu umhverfi
+26	Þetta er ekki gilt vefvistfang
+27	Vefforrit

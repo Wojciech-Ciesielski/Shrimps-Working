@@ -1,0 +1,27 @@
+1	Shakisha porogaramu z’urubuga
+2	Kora
+3	Fungura
+4	Kuraho porogaramu y’urubuga
+5	{name} yongewe kuri porogaramu zawe
+6	{name} yakuweho
+7	Ntibyashobotse gukora {name}: {error}
+8	Porogaramu nshya y’urubuga
+9	Andika aderesi y’urubuga urwo ari rwo rwose. Ruzafungurwa mu idirishya rwarwo, nka porogaramu.
+10	Aderesi
+11	Izina
+12	Reka
+13	Nta bisubizo
+14	Gerageza irindi zina cyangwa ukore porogaramu yawe y’urubuga.
+15	Kora iyawe
+16	Ibishushanyo
+17	Videwo
+18	Umuziki
+19	Imikino
+20	Ibiro
+21	Interineti
+22	Iterambere
+23	Ibikoresho
+24	Porogaramu zawe z’urubuga
+25	Gukora porogaramu z’urubuga uturutse muri sandbox ntibirashyigikirwa
+26	Iyi si aderesi y’urubuga yemewe
+27	Porogaramu z’urubuga

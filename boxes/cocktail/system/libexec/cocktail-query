@@ -1,0 +1,27 @@
+#!/bin/bash
+# Odczyty Cocktail wymagające roota, bez zmian w systemie (akcja org.shrimp.cocktail.query,
+# bez hasła w aktywnej sesji lokalnej).
+#   cocktail-query refresh               odświeża repozytoria (pamięć podręczna w /var/cache/zypp)
+#   cocktail-query history               wypisuje dziennik /var/log/zypp/history
+#   cocktail-query remove-preview PAKIET...  co usunie „remove” (XML zyppera, bez zmian)
+set -euo pipefail
+die() { echo "cocktail-query: $*" >&2; exit 2; }
+HISTORY=${COCKTAIL_HISTORY:-/var/log/zypp/history}
+
+[ $# -ge 1 ] || die "użycie: cocktail-query refresh|history|remove-preview [PAKIET...]"
+cmd=$1; shift
+case "$cmd" in
+  refresh)
+    [ $# -eq 0 ] || die "refresh nie przyjmuje argumentów"
+    zypper --non-interactive --gpg-auto-import-keys refresh ;;
+  history)
+    [ $# -eq 0 ] || die "history nie przyjmuje argumentów"
+    [ -r "$HISTORY" ] && cat "$HISTORY" ;;
+  remove-preview)
+    [ $# -gt 0 ] || die "brak nazw pakietów"
+    for p in "$@"; do
+      [[ "$p" =~ ^[A-Za-z0-9][A-Za-z0-9+._-]*$ ]] || die "niedozwolona nazwa pakietu: $p"
+    done
+    zypper --xmlout --non-interactive --no-refresh remove --dry-run "$@" ;;
+  *) die "nieznane polecenie: $cmd" ;;
+esac

@@ -1,0 +1,93 @@
+1	La orden terminó con el código {code}.
+2	Cerrar
+3	Cancelar
+4	Espera a que termine el cambio anterior
+5	No se puede quitar: {name}
+6	Sin el paquete {package} el sistema dejaría de funcionar.
+7	También se quitarán: {list}.
+8	También se quitarán: {list} y {n} más.
+9	También se quitarán: {list} y {n} más.
+10	También se quitarán: {list} y {n} más.
+11	También se quitarán: {list} y {n} más.
+12	¿Quitar {name}?
+13	Quitar
+14	No se pudo instalar: {name}
+15	No se pudo quitar: {name}
+16	No se pudo actualizar el sistema
+17	Multimedia
+18	Tipografías
+19	Entornos de ejecución
+20	Herramientas de desarrollo
+21	Red
+22	Impresión
+23	Firmware
+24	Seguridad
+25	Virtualización
+26	Herramientas del sistema
+27	Códecs de vídeo
+28	Códecs de audio
+29	Tipografías de Microsoft
+30	Samba (carpetas compartidas de Windows)
+31	Avahi (descubrimiento de red)
+32	Cockpit (panel del sistema)
+33	Paquetes del sistema
+34	Se quitará tras reiniciar
+35	Listo tras reiniciar
+36	Instalado
+37	Disponible para descargar
+38	Instalar
+39	Instalando…
+40	Resultados de la búsqueda
+41	Baterías
+42	Procesadores
+43	Tarjetas gráficas
+44	Sonido
+45	Cámaras
+46	Adaptadores de red
+47	Bluetooth
+48	Teclados
+49	Dispositivos señaladores
+50	Discos
+51	Dispositivos USB
+52	Biometría
+53	Dispositivos desconocidos
+54	nouveau (código abierto)
+55	Cargando…
+56	No se pudo leer la lista de dispositivos.
+57	Controlador en uso: {list}
+58	Controladores en uso: {list}
+59	Controladores en uso: {list}
+60	Controladores en uso: {list}
+61	Instalado: {name} {version}
+62	Actualizado: {name} {old} → {version}
+63	Quitado: {name} {version}
+64	Hoy
+65	Ayer
+66	La semana pasada
+67	Antes
+68	No se pudo leer el historial.
+69	El historial está vacío.
+70	Nada coincide con esta búsqueda.
+71	El sistema está actualizado
+72	Buscar actualizaciones
+73	Actualizaciones disponibles
+74	Instalar actualizaciones
+75	Actualizaciones instaladas
+76	Reinicia para terminar
+77	Reiniciar
+78	Comprobando…
+79	No hay actualizaciones nuevas
+80	Reiniciando…
+81	No se pudieron buscar actualizaciones
+82	{n} paquete
+83	{n} paquetes
+84	{n} paquetes
+85	{n} paquetes
+86	Actualizaciones
+87	Dispositivos
+88	Paquetes
+89	Historial
+90	Buscar
+91	Acerca de Cocktail
+92	Menú principal
+93	Actualizaciones del sistema, dispositivos y paquetes.

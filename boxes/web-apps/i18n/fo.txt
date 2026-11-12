@@ -1,0 +1,27 @@
+1	Leita eftir vevforritum
+2	Stovna
+3	Lat upp
+4	Strika vevforrit
+5	{name} varð lagt afturat tínum forritum
+6	{name} varð strikað
+7	Ikki bar til at stovna {name}: {error}
+8	Nýtt vevforrit
+9	Skriva adressuna á einum og hvørjum vevstaði. Hann verður latin upp í sínum egna glugga, sum eitt forrit.
+10	Adressa
+11	Navn
+12	Ógilda
+13	Eingi úrslit
+14	Royn eitt annað navn ella stovna títt egna vevforrit.
+15	Stovna títt egna
+16	Grafikkur
+17	Sjónfíla
+18	Tónleikur
+19	Spøl
+20	Skrivstova
+21	Alnet
+22	Menning
+23	Amboð
+24	Tíni vevforrit
+25	Ikki er enn stuðlað at stovna vevforrit úr sandkassa
+26	Hetta er ikki ein gildug vevadressa
+27	Vevforrit

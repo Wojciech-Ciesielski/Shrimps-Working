@@ -1,0 +1,27 @@
+1	Cercar d’aplicacions web
+2	Crear
+3	Dobrir
+4	Suprimir l’aplicacion web
+5	{name} es estada ajustada a vòstras aplicacions
+6	{name} es estada suprimida
+7	Impossible de crear {name} : {error}
+8	Aplicacion web novèla
+9	Picatz l’adreça de qualsevol site web. Se dobrirà dins sa pròpria fenèstra, coma una aplicacion.
+10	Adreça
+11	Nom
+12	Anullar
+13	Cap de resultat
+14	Ensajatz un autre nom o creatz vòstra pròpria aplicacion web.
+15	Crear la vòstra
+16	Grafisme
+17	Vidèo
+18	Musica
+19	Jòcs
+20	Burèutica
+21	Internet
+22	Desvolopament
+23	Utilitaris
+24	Vòstras aplicacions web
+25	La creacion d’aplicacions web dempuèi un bac a sabla es pas encara presa en carga
+26	Aquò es pas una adreça web valida
+27	Aplicacions web

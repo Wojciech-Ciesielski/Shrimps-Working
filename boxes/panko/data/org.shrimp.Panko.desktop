@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Panko
+Name[pl]=Panko
+Comment=Undo changes to the system
+Comment[pl]=Cofanie zmian w systemie
+Keywords=snapshot;restore;rollback;undo;backup;
+Keywords[pl]=migawka;przywróć;cofnij;kopia;
+Exec=panko
+Icon=org.shrimp.Panko
+Terminal=false
+Categories=GNOME;GTK;System;Settings;
+StartupNotify=true

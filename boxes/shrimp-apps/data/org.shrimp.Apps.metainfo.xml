@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.shrimp.Apps</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Shrimp Apps</name>
+  <summary>Install and update apps</summary>
+  <summary xml:lang="pl">Instaluj i aktualizuj aplikacje</summary>
+  <description>
+    <p>Apps from Flathub for Shrimp: discover, search, install, update and remove.</p>
+    <p xml:lang="pl">Aplikacje z Flathub dla Shrimp: odkrywaj, szukaj, instaluj, aktualizuj i usuwaj.</p>
+  </description>
+  <launchable type="desktop-id">org.shrimp.Apps.desktop</launchable>
+  <developer id="org.shrimp"><name>Shrimp</name></developer>
+  <releases><release version="0.1.0" date="2026-11-07"/></releases>
+</component>

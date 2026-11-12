@@ -1,0 +1,30 @@
+[box]
+id = "shrimp-apps"
+version = "0.1.0"
+kind = "app"
+summary = "Sklep z aplikacjami z Flathub (GTK4 + libadwaita, Rust)"
+# Zdalne repozytorium Flathub w systemie daje box „flathub” w CoreOS-Working (kontener desktop).
+build_depends = ["shrimp-i18n", "web-apps", "help-links"]
+ci = "shrimp-apps"
+
+[packages]
+image = ["libflatpak0", "libadwaita-1-0", "steam-devices", "gamemode"]
+build = [
+    "bash",
+    "coreutils",
+    "findutils",
+    "gawk",
+    "gcc",
+    "pkg-config",
+    "rustup",
+    "ca-certificates",
+    "ca-certificates-mozilla",
+    "pkgconfig(gtk4)",
+    "pkgconfig(libadwaita-1)",
+    "pkgconfig(flatpak)",
+]
+
+[build]
+chroot = "cargo build --release --locked"
+outputs = ["target/release/shrimp-apps"]
+install = "install.sh"

@@ -1,0 +1,67 @@
+1	Grafika
+2	Wideo
+3	Muzyka
+4	Gry
+5	Biuro
+6	Internet
+7	Programowanie
+8	Narzędzia
+9	Sprawdzony twórca
+10	Usuń
+11	Anuluj
+12	Wersja
+13	Rozmiar
+14	Kategoria
+15	Licencja
+16	Twórca
+17	Otwórz
+18	Strona WWW
+19	{size} do pobrania
+20	Zamknięta
+21	i
+22	lub
+23	Poprzedni
+24	Następny
+25	Usunąć „{name}”?
+26	Aplikacja zniknie z komputera. Twoje pliki zostaną.
+27	Pobierz
+28	Zaktualizuj
+29	Oczekuje
+30	Usuwanie
+31	Dodawanie Flathub…
+32	Pobieranie katalogu…
+33	Aplikacje z Flathub
+34	Odkrywaj
+35	Zainstalowane
+36	Aplikacje internetowe
+37	Kategorie
+38	Szukaj aplikacji
+39	Pomoc
+40	Wczytywanie katalogu…
+41	Nie udało się odświeżyć katalogu
+42	Nie udało się zainstalować „{name}”
+43	Nie udało się zaktualizować „{name}”
+44	Nie udało się usunąć „{name}”
+45	Zainstalowano „{name}”
+46	Nie udało się otworzyć „{name}”
+47	Odśwież katalog
+48	O programie Shrimp Apps
+49	Menu główne
+50	Brak połączenia z internetem
+51	Połącz się z internetem, aby zobaczyć aplikacje.
+52	Spróbuj ponownie
+53	WYBÓR TYGODNIA
+54	Poprzednie
+55	Następne
+56	Wyniki dla „{query}”
+57	Nic nie znaleziono
+58	Spróbuj innej nazwy.
+59	Nie masz jeszcze aplikacji
+60	Aplikacje, które pobierzesz, pojawią się tutaj.
+61	Wersja {version}
+62	Aktualizacje ({count})
+63	Zaktualizuj wszystko
+64	Wszystkie
+65	Brak repozytorium {remote}
+66	Brak katalogu aplikacji
+67	Katalog aplikacji jest pusty

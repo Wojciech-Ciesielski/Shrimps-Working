@@ -1,0 +1,25 @@
+[package]
+name = "shrimp-webapps"
+version = "0.1.0"
+edition = "2021"
+description = "Aplikacje internetowe w Shrimp Apps: katalog popularnych PWA i tworzenie ich jednym kliknięciem"
+license = "GPL-3.0-or-later"
+publish = false
+
+[features]
+default = ["gtk"]
+# Strona GTK4/libadwaita (shrimp_webapps::page). Bez niej zostaje sam katalog i tworzenie plików.
+gtk = ["dep:gtk", "dep:adw"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+gtk = { package = "gtk4", version = "0.10", features = ["v4_14"], optional = true }
+adw = { package = "libadwaita", version = "0.8", features = ["v1_5"], optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+
+[[example]]
+name = "demo"
+required-features = ["gtk"]

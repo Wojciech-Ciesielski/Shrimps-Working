@@ -1,0 +1,27 @@
+1	Webalkalmazások keresése
+2	Létrehozás
+3	Megnyitás
+4	Webalkalmazás eltávolítása
+5	{name} hozzáadva az alkalmazásaidhoz
+6	{name} eltávolítva
+7	A(z) {name} létrehozása nem sikerült: {error}
+8	Új webalkalmazás
+9	Add meg bármely weboldal címét. Saját ablakban nyílik meg, mint egy alkalmazás.
+10	Cím
+11	Név
+12	Mégse
+13	Nincs találat
+14	Próbálj ki másik nevet, vagy hozd létre a saját webalkalmazásodat.
+15	Saját létrehozása
+16	Grafika
+17	Videó
+18	Zene
+19	Játékok
+20	Iroda
+21	Internet
+22	Fejlesztés
+23	Eszközök
+24	Webalkalmazásaid
+25	Webalkalmazások létrehozása homokozóból még nem támogatott
+26	Ez nem érvényes webcím
+27	Webalkalmazások

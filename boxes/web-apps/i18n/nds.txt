@@ -1,0 +1,27 @@
+1	Web-Apps söken
+2	Opstellen
+3	Opmaken
+4	Web-App wegdoon
+5	{name} is to dien Apps toföögt worrn
+6	{name} is wegdaan worrn
+7	{name} kunn nich opstellt warrn: {error}
+8	Nee Web-App
+9	Giff de Adress vun jichtenseen Webstee in. Se geit in en egen Finster apen, as en App.
+10	Adress
+11	Naam
+12	Afbreken
+13	Keen Resultaten
+14	Versöök en annern Naam oder stell dien eegen Web-App op.
+15	Egen opstellen
+16	Grafik
+17	Video
+18	Musik
+19	Speelen
+20	Büro
+21	Internet
+22	Entwicklung
+23	Warktüüch
+24	Dien Web-Apps
+25	Web-Apps ut en Sandkassen opstellen warrt noch nich ünnerstütt
+26	Dat is keen güllige Webadress
+27	Web-Apps

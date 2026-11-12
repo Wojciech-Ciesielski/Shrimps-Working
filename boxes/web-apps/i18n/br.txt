@@ -1,0 +1,27 @@
+1	Klask arloadoù web
+2	Krouiñ
+3	Digeriñ
+4	Lemel an arload web
+5	Ouzhpennet eo bet {name} d’ho arloadoù
+6	Lamet eo bet {name}
+7	Dibosupl krouiñ {name}: {error}
+8	Arload web nevez
+9	Roit chomlec’h forzh peseurt lec’hienn. Digeriñ a ray en e brenestr dezhañ, evel un arload.
+10	Chomlec’h
+11	Anv
+12	Nullañ
+13	Disoc’h ebet
+14	Klaskit un anv all pe grouit hoc’h arload web.
+15	Krouiñ unan deoc’h
+16	Grafek
+17	Video
+18	Sonerezh
+19	C’hoarioù
+20	Burev
+21	Internet
+22	Diorren
+23	Ostilhoù
+24	Hoc’h arloadoù web
+25	Krouiñ arloadoù web diwar ur boestad-traezh n’eo ket skoret c’hoazh
+26	Ne c’hell ket bezañ ur chomlec’h web mat
+27	Arloadoù web

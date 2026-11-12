@@ -1,0 +1,27 @@
+1	Nadi ɣef yisnasen web
+2	Snulfu
+3	Ldi
+4	Kkes asnas web
+5	{name} yettwarna ɣer yisnasen-ik
+6	{name} yettwakkes
+7	Ur izmir ara ad yesnulfu {name}: {error}
+8	Asnas web amaynut
+9	Sekcem tansa n yal asmel web. Ad d-yeldi deg usfaylu-is, am wasnas.
+10	Tansa
+11	Isem
+12	Sefsex
+13	Ulac igmaḍ
+14	Ɛreḍ isem-nniḍen neɣ snulfu asnas-ik web.
+15	Snulfu win-ik
+16	Ugar n tugniwin
+17	Tavidyut
+18	Aẓawan
+19	Uraren
+20	Tama n tmellict
+21	Internet
+22	Taneflit
+23	Ifecka
+24	Isnasen-ik web
+25	Timerna n yisnasen web si tama n sandbox mazal ur tettwasefrek ara
+26	Wagi ur yelli d tansa web tameɣtut
+27	Isnasen web

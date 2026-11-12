@@ -1,0 +1,27 @@
+1	Cerche aplicazions web
+2	Cree
+3	Vierç
+4	Gjave la aplicazion web
+5	{name} e je stade zontade aes tôs aplicazions
+6	{name} e je stade gjavade
+7	Impussibil creâ {name}: {error}
+8	Gnove aplicazion web
+9	Inserìs la direzion di un sît web cualsisei. Si vierzarà intune sô fenestre, come une aplicazion.
+10	Direzion
+11	Non
+12	Anule
+13	Nissun risultât
+14	Prove un altri non o cree la tô aplicazion web.
+15	Cree la tô
+16	Grafiche
+17	Video
+18	Musiche
+19	Zûcs
+20	Ufici
+21	Internet
+22	Disvilup
+23	Struments
+24	Lis tôs aplicazions web
+25	La creazion di aplicazions web di un sandbox no je ancjemò supuartade
+26	Cheste no je une direzion web valide
+27	Aplicazions web

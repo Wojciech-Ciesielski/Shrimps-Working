@@ -1,0 +1,27 @@
+1	Busca aplicacions web
+2	Crea
+3	Obri
+4	Elimina l’aplicació web
+5	S’ha afegit {name} a les teues aplicacions
+6	S’ha eliminat {name}
+7	No s’ha pogut crear {name}: {error}
+8	Aplicació web nova
+9	Introduïx l’adreça de qualsevol lloc web. S’obrirà en una finestra pròpia, com una aplicació.
+10	Adreça
+11	Nom
+12	Cancel·la
+13	Cap resultat
+14	Prova un altre nom o crea la teua pròpia aplicació web.
+15	Crea’n una de pròpia
+16	Gràfics
+17	Vídeo
+18	Música
+19	Jocs
+20	Ofimàtica
+21	Internet
+22	Desenvolupament
+23	Utilitats
+24	Les teues aplicacions web
+25	Encara no es poden crear aplicacions web des d’un entorn aïllat
+26	Esta no és una adreça web vàlida
+27	Aplicacions web

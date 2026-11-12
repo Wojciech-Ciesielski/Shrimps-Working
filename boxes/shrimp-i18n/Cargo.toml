@@ -1,0 +1,9 @@
+[package]
+name = "shrimp-i18n"
+version = "0.1.0"
+edition = "2021"
+description = "Teksty interfejsu aplikacji GTK Shrimp z katalogu i18n/ ich boxów (format jak Setup i Web Apps)"
+license = "GPL-3.0-or-later"
+build = "build.rs"
+
+[dependencies]

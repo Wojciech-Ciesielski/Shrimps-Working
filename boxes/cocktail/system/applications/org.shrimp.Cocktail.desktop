@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Cocktail
+Name[pl]=Cocktail
+Comment=System updates, drivers and packages
+Comment[pl]=Aktualizacje systemu, sterowniki i pakiety
+Exec=cocktail
+Icon=org.shrimp.Cocktail
+Terminal=false
+Categories=GNOME;GTK;System;Settings;PackageManager;
+Keywords=update;package;driver;zypper;
+Keywords[pl]=aktualizacja;pakiet;sterownik;zypper;
+StartupNotify=true

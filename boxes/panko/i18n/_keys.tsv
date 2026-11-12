@@ -1,0 +1,115 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	category.after-update	After update
+2	category.before-update	Before update
+3	category.timeline	Scheduled
+4	category.before-restore	Before restore
+5	category.after-restore	After restore
+6	category.install	System installation
+7	category.manual	Manual snapshot
+8	weekday.1	Mon
+9	weekday.2	Tue
+10	weekday.3	Wed
+11	weekday.4	Thu
+12	weekday.5	Fri
+13	weekday.6	Sat
+14	weekday.7	Sun
+15	month.1	January
+16	month.2	February
+17	month.3	March
+18	month.4	April
+19	month.5	May
+20	month.6	June
+21	month.7	July
+22	month.8	August
+23	month.9	September
+24	month.10	October
+25	month.11	November
+26	month.12	December
+27	day.month	{month} {year}
+28	day.today	Today
+29	day.yesterday	Yesterday
+30	day.week	Last week
+31	day.when-today	today {time}
+32	day.when-yesterday	yesterday {time}
+33	marker.added	Added
+34	marker.removed	Removed
+35	marker.changed	Changed
+36	limit.hourly	Hourly snapshots
+37	limit.daily	Daily snapshots
+38	limit.weekly	Weekly snapshots
+39	limit.monthly	Monthly snapshots
+40	limit.yearly	Yearly snapshots
+41	limit.number	Numbered snapshots
+42	volume.system	/ (system)
+43	volume.root	Snapshots of the system
+44	volume.home	Snapshots of the home folder
+45	volume.other	Snapshots of {path}
+46	adv.volumes	Volumes
+47	adv.cleanup	Cleanup
+48	adv.access	Access
+49	adv.empty-pairs	Delete empty snapshot pairs
+50	adv.space	Disk space limit
+51	adv.users	Users with access
+52	adv.username	User name
+53	disable.title	Turn off snapshots?
+54	disable.body	The snapshots of this volume will be deleted.
+55	button.turn-off	Turn off
+56	error.disable	Could not turn off snapshots.
+57	changes.compare	Compare with
+58	changes.compare-a11y	Snapshot to compare
+59	changes.restore	Restore selected
+60	changes.none	No changes since this snapshot.
+61	error.compare	Could not compare the snapshot.
+62	restore-files.title	Restore the selected files?
+63	restore-files.body	The files will go back to how they were in the selected snapshot.
+64	button.restore	Restore
+65	error.restore-files	Could not restore the files.
+66	tree.collapse	Collapse {name}
+67	tree.expand	Expand {name}
+68	tree.select	Select {name}
+69	changes.usr-readonly	System files in /usr cannot be restored one by one. Use “Restore system”.
+70	snap.show-changes	Show changes
+71	button.delete	Delete
+72	snap.create	Create snapshot
+73	snap.none	There are no snapshots yet.
+74	snap.restore-system	Restore system
+75	snap.description	Description
+76	snap.description-a11y	Snapshot description
+77	button.create	Create
+78	restore-system.body	The system will go back to how it was in the snapshot “{name}”. A new snapshot is created before restoring. The system will restart.
+79	restore-system.title	Restore the system?
+80	error.create	Could not create the snapshot.
+81	delete.title	Delete the snapshot?
+82	delete.body	This cannot be undone.
+83	error.delete	Could not delete the snapshot.
+84	toast.restart	Restart the computer to finish.
+85	error.restore-system	Could not restore the system.
+86	page.snapshots	Snapshots
+87	page.changes	Changes
+88	page.advanced	Advanced
+89	help	Help
+90	search.none	Nothing matches this search.
+91	demo.note	Sample data that shows the layout, not the state of the system.
+92	about.comments	Undo changes to the system.
+93	menu.before-update	Snapshot before updates
+94	menu.timeline	Scheduled snapshots
+95	menu.max-age	Delete old snapshots
+96	menu.days-a11y	Number of days
+97	menu.days	days
+98	menu.older-than	Older than
+99	menu.about	About Panko
+100	menu.main	Main menu
+101	status.off	Snapshots are turned off
+102	status.off-body	Turn on snapshots to be able to undo changes to the system.
+103	button.turn-on	Turn on
+104	status.no-access	No access to snapshots
+105	status.no-access-body	To browse snapshots, allow access for this account.
+106	button.allow	Allow
+107	status.unavailable	Snapshots are not available
+108	status.unavailable-body	Could not read the snapshots.
+109	button.retry	Try again
+110	error.allow	Could not allow access.
+111	error.enable	Could not turn on snapshots.
+112	error.settings	Could not save the settings.
+113	search.placeholder	Search
+114	button.cancel	Cancel

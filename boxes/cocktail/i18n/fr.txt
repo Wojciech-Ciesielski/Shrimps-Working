@@ -1,0 +1,93 @@
+1	La commande s'est terminée avec le code {code}.
+2	Fermer
+3	Annuler
+4	Attendez la fin de la modification précédente
+5	Impossible de supprimer : {name}
+6	Sans le paquet {package}, le système cesserait de fonctionner.
+7	Seront aussi supprimés : {list}.
+8	Seront aussi supprimés : {list} et {n} autre.
+9	Seront aussi supprimés : {list} et {n} autres.
+10	Seront aussi supprimés : {list} et {n} autres.
+11	Seront aussi supprimés : {list} et {n} autres.
+12	Supprimer {name} ?
+13	Supprimer
+14	Impossible d'installer : {name}
+15	Impossible de supprimer : {name}
+16	Impossible de mettre à jour le système
+17	Multimédia
+18	Polices
+19	Environnements d'exécution
+20	Outils de développement
+21	Réseau
+22	Impression
+23	Micrologiciel
+24	Sécurité
+25	Virtualisation
+26	Outils système
+27	Codecs vidéo
+28	Codecs audio
+29	Polices Microsoft
+30	Samba (partages Windows)
+31	Avahi (découverte réseau)
+32	Cockpit (panneau système)
+33	Paquets système
+34	Supprimé après redémarrage
+35	Prêt après redémarrage
+36	Installé
+37	Disponible au téléchargement
+38	Installer
+39	Installation…
+40	Résultats de recherche
+41	Batteries
+42	Processeurs
+43	Cartes graphiques
+44	Son
+45	Caméras
+46	Cartes réseau
+47	Bluetooth
+48	Claviers
+49	Dispositifs de pointage
+50	Disques
+51	Périphériques USB
+52	Biométrie
+53	Périphériques inconnus
+54	nouveau (libre)
+55	Chargement…
+56	Impossible de lire la liste des périphériques.
+57	Pilote utilisé : {list}
+58	Pilotes utilisés : {list}
+59	Pilotes utilisés : {list}
+60	Pilotes utilisés : {list}
+61	Installé : {name} {version}
+62	Mis à jour : {name} {old} → {version}
+63	Supprimé : {name} {version}
+64	Aujourd'hui
+65	Hier
+66	La semaine dernière
+67	Plus tôt
+68	Impossible de lire l'historique.
+69	L'historique est vide.
+70	Rien ne correspond à cette recherche.
+71	Le système est à jour
+72	Rechercher des mises à jour
+73	Mises à jour disponibles
+74	Installer les mises à jour
+75	Mises à jour installées
+76	Redémarrer pour terminer
+77	Redémarrer
+78	Vérification…
+79	Aucune nouvelle mise à jour
+80	Redémarrage…
+81	Impossible de rechercher des mises à jour
+82	{n} paquet
+83	{n} paquets
+84	{n} paquets
+85	{n} paquets
+86	Mises à jour
+87	Périphériques
+88	Paquets
+89	Historique
+90	Rechercher
+91	À propos de Cocktail
+92	Menu principal
+93	Mises à jour du système, périphériques et paquets.

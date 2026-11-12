@@ -1,0 +1,27 @@
+1	Li sepanên malperê bigere
+2	Çêke
+3	Veke
+4	Sepana malperê rake
+5	{name} li sepanên te hat zêdekirin
+6	{name} hat rakirin
+7	{name} nehat çêkirin: {error}
+8	Sepana malperê ya nû
+9	Navnîşana her malperekê binivîse. Ew wekî sepanekê di paceya xwe de vedibe.
+10	Navnîşan
+11	Nav
+12	Betal bike
+13	Encam tune
+14	Navekî din biceribîne an sepana malperê ya xwe çêke.
+15	Ya xwe çêke
+16	Grafîk
+17	Vîdyo
+18	Muzîk
+19	Lîstik
+20	Ofîs
+21	Înternet
+22	Pêşxistin
+23	Amûr
+24	Sepanên te yên malperê
+25	Çêkirina sepanên malperê ji sandboxê hê nayê piştgirîkirin
+26	Ev navnîşanek malperê ya derbasdar nîne
+27	Sepanên malperê

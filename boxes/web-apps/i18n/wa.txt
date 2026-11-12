@@ -1,0 +1,27 @@
+1	Cweri des aplikêyes waibe
+2	Ahiver
+3	Drovi
+4	Oister l’ aplikêye waibe
+5	{name} a stî radjoutêye ås aplikêyes
+6	{name} a stî oistêye
+7	Dji n’ a nén polu ahiver {name}: {error}
+8	Novele aplikêye waibe
+9	Metoz l’ adresse di tos sites waibe. Çoula serè drovou dins si prôpe fenèsse, come ene aplikêye.
+10	Adresse
+11	No
+12	Rinoncî
+13	Nou rzultat
+14	Sayîz èn ôte no ou ahivez vosse aplikêye waibe.
+15	Ahiver li vosse
+16	Grafike
+17	Videyo
+18	Musike
+19	Djeus
+20	Burea
+21	Rantoele
+22	Diswalpemint
+23	Outis
+24	Vos aplikêyes waibe
+25	Ahiver des aplikêyes waibe d’ on bac a sauve n’ est nén co sopoirtî
+26	Çouchal n’ est nén ene boune adresse waibe
+27	Aplikêyes waibe

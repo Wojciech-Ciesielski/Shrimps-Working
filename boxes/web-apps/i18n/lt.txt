@@ -1,0 +1,27 @@
+1	Ieškoti žiniatinklio programų
+2	Sukurti
+3	Atverti
+4	Pašalinti žiniatinklio programą
+5	{name} pridėta prie jūsų programų
+6	{name} pašalinta
+7	Nepavyko sukurti {name}: {error}
+8	Nauja žiniatinklio programa
+9	Įveskite bet kurios svetainės adresą. Ji atsivers savo lange, kaip programa.
+10	Adresas
+11	Pavadinimas
+12	Atšaukti
+13	Rezultatų nėra
+14	Išbandykite kitą pavadinimą arba sukurkite savo žiniatinklio programą.
+15	Sukurti savo
+16	Grafika
+17	Vaizdo įrašai
+18	Muzika
+19	Žaidimai
+20	Biuras
+21	Internetas
+22	Programavimas
+23	Priemonės
+24	Jūsų žiniatinklio programos
+25	Žiniatinklio programų kūrimas iš smėlio dėžės kol kas nepalaikomas
+26	Tai nėra tinkamas žiniatinklio adresas
+27	Žiniatinklio programos

@@ -1,0 +1,27 @@
+1	Bilatu web aplikazioak
+2	Sortu
+3	Ireki
+4	Kendu web aplikazioa
+5	{name} zure aplikazioetara gehitu da
+6	{name} kendu da
+7	Ezin izan da {name} sortu: {error}
+8	Web aplikazio berria
+9	Idatzi edozein webgunetako helbidea. Bere leihoan irekiko da, aplikazio bat bezala.
+10	Helbidea
+11	Izena
+12	Utzi
+13	Emaitzarik ez
+14	Saiatu beste izen batekin edo sortu zeure web aplikazioa.
+15	Sortu zurea
+16	Grafikoak
+17	Bideoa
+18	Musika
+19	Jokoak
+20	Bulegotika
+21	Internet
+22	Garapena
+23	Utilitateak
+24	Zure web aplikazioak
+25	Oraindik ez da onartzen web aplikazioak sandbox batetik sortzea
+26	Hau ez da baliozko web helbidea
+27	Web aplikazioak

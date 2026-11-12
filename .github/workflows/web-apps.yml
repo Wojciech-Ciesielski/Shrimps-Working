@@ -1,0 +1,51 @@
+name: Web Apps
+
+# Katalog 150 aplikacji internetowych (boxes/web-apps): sprawdzenie adresów, pobranie ikon,
+# testy biblioteki i przycisku „Utwórz”. Dane weryfikacji są aktualizowane na gałęzi.
+on:
+  push:
+    paths: ["boxes/web-apps/**", "boxes/i18n-core/**", ".github/workflows/web-apps.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: web-apps-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends imagemagick librsvg2-bin
+      - name: Sprawdzenie adresów i pobranie ikon
+        run: python3 boxes/web-apps/tools/verify.py
+      - name: Zapis wyników do gałęzi
+        # Na main nic nie commitujemy: wyniki przychodzą tam razem z PR.
+        if: github.ref_name != 'main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add boxes/web-apps/data
+          git commit -m "Web Apps: weryfikacja adresów i ikony (run ${{ github.run_id }}) [skip ci]" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin "${{ github.ref_name }}" && git push origin HEAD:"${{ github.ref_name }}" && break; sleep 5; done
+
+  build:
+    needs: verify
+    runs-on: ubuntu-24.04
+    defaults: { run: { working-directory: boxes/web-apps } }
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: "${{ github.ref_name }}" }
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libgtk-4-dev libadwaita-1-dev xvfb librsvg2-common
+      - run: cargo test --locked
+      - run: cargo build --locked --example demo
+      - name: Test przycisku „Utwórz”
+        run: |
+          mkdir -p xdg
+          export XDG_DATA_HOME=$PWD/xdg LANGUAGE=pl GSK_RENDERER=cairo
+          xvfb-run -a -s "-screen 0 1280x900x24" target/debug/examples/demo --click spotify | tee out.txt
+          grep -q "przycisk po: Otwórz" out.txt
+          cat xdg/applications/shrimp-webapp-spotify.desktop

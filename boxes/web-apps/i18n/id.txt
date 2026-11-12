@@ -1,0 +1,27 @@
+1	Cari aplikasi web
+2	Buat
+3	Buka
+4	Hapus aplikasi web
+5	{name} ditambahkan ke aplikasi Anda
+6	{name} dihapus
+7	Tidak dapat membuat {name}: {error}
+8	Aplikasi web baru
+9	Masukkan alamat situs web apa pun. Situs akan terbuka di jendelanya sendiri, seperti aplikasi.
+10	Alamat
+11	Nama
+12	Batal
+13	Tidak ada hasil
+14	Coba nama lain atau buat aplikasi web Anda sendiri.
+15	Buat sendiri
+16	Grafis
+17	Video
+18	Musik
+19	Game
+20	Perkantoran
+21	Internet
+22	Pengembangan
+23	Utilitas
+24	Aplikasi web Anda
+25	Membuat aplikasi web dari sandbox belum didukung
+26	Ini bukan alamat web yang valid
+27	Aplikasi web

@@ -1,0 +1,27 @@
+1	Hae verkkosovelluksia
+2	Luo
+3	Avaa
+4	Poista verkkosovellus
+5	{name} lisättiin sovelluksiisi
+6	{name} poistettiin
+7	Sovelluksen {name} luominen ei onnistunut: {error}
+8	Uusi verkkosovellus
+9	Kirjoita minkä tahansa verkkosivuston osoite. Se avautuu omaan ikkunaansa sovelluksen tapaan.
+10	Osoite
+11	Nimi
+12	Peruuta
+13	Ei tuloksia
+14	Kokeile toista nimeä tai luo oma verkkosovellus.
+15	Luo oma
+16	Grafiikka
+17	Video
+18	Musiikki
+19	Pelit
+20	Toimisto
+21	Internet
+22	Kehitys
+23	Työkalut
+24	Verkkosovelluksesi
+25	Verkkosovellusten luontia hiekkalaatikosta ei vielä tueta
+26	Tämä ei ole kelvollinen verkko-osoite
+27	Verkkosovellukset

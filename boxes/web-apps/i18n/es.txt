@@ -1,0 +1,27 @@
+1	Buscar aplicaciones web
+2	Crear
+3	Abrir
+4	Quitar aplicación web
+5	Se añadió {name} a tus aplicaciones
+6	Se quitó {name}
+7	No se pudo crear {name}: {error}
+8	Nueva aplicación web
+9	Escribe la dirección de cualquier sitio web. Se abrirá en su propia ventana, como una aplicación.
+10	Dirección
+11	Nombre
+12	Cancelar
+13	Sin resultados
+14	Prueba con otro nombre o crea tu propia aplicación web.
+15	Crear la tuya
+16	Gráficos
+17	Vídeo
+18	Música
+19	Juegos
+20	Ofimática
+21	Internet
+22	Desarrollo
+23	Utilidades
+24	Tus aplicaciones web
+25	Todavía no se pueden crear aplicaciones web desde un entorno aislado
+26	Esta no es una dirección web válida
+27	Aplicaciones web

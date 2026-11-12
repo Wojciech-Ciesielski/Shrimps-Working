@@ -1,0 +1,27 @@
+1	Webapps zoeken
+2	Maken
+3	Openen
+4	Webapp verwijderen
+5	{name} is aan je apps toegevoegd
+6	{name} is verwijderd
+7	{name} kon niet worden gemaakt: {error}
+8	Nieuwe webapp
+9	Voer het adres van een willekeurige website in. Die opent in een eigen venster, als een app.
+10	Adres
+11	Naam
+12	Annuleren
+13	Geen resultaten
+14	Probeer een andere naam of maak je eigen webapp.
+15	Maak je eigen
+16	Afbeeldingen
+17	Video
+18	Muziek
+19	Games
+20	Kantoor
+21	Internet
+22	Ontwikkeling
+23	Hulpmiddelen
+24	Je webapps
+25	Webapps maken vanuit een sandbox wordt nog niet ondersteund
+26	Dit is geen geldig webadres
+27	Webapps

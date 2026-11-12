@@ -1,0 +1,27 @@
+1	Rapua ngā taupānga tukutuku
+2	Waihanga
+3	Whakatuwhera
+4	Tango i te taupānga tukutuku
+5	Kua tāpirihia a {name} ki ō taupānga
+6	Kua tangohia a {name}
+7	Kāore i taea te waihanga i a {name}: {error}
+8	Taupānga tukutuku hou
+9	Whakauruhia te wāhitau o tētahi pae tukutuku. Ka whakatuwheratia ki tōna ake matapihi, pērā i tētahi taupānga.
+10	Wāhitau
+11	Ingoa
+12	Whakakore
+13	Kāore he hua
+14	Whakamātauria tētahi atu ingoa, waihangatia rānei tō ake taupānga tukutuku.
+15	Waihangatia tōu ake
+16	Whakairoiro
+17	Ataata
+18	Puoro
+19	Kēmu
+20	Tari
+21	Ipurangi
+22	Whanaketanga
+23	Taputapu
+24	Ō taupānga tukutuku
+25	Kāore anō kia tautokona te waihanga taupānga tukutuku mai i tētahi pouaka kirikiri
+26	Ehara tēnei i te wāhitau tukutuku tika
+27	Ngā taupānga tukutuku
