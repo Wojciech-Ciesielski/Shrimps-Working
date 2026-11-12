@@ -1,0 +1,67 @@
+1	Grafik
+2	Video
+3	Musik
+4	Spiele
+5	Büro
+6	Internet
+7	Entwicklung
+8	Werkzeuge
+9	Verifizierter Entwickler
+10	Entfernen
+11	Abbrechen
+12	Version
+13	Größe
+14	Kategorie
+15	Lizenz
+16	Entwickler
+17	Öffnen
+18	Webseite
+19	{size} zum Herunterladen
+20	Proprietär
+21	und
+22	oder
+23	Zurück
+24	Weiter
+25	„{name}“ entfernen?
+26	Die App wird vom Computer entfernt. Deine Dateien bleiben erhalten.
+27	Holen
+28	Aktualisieren
+29	Wartet
+30	Wird entfernt
+31	Flathub wird hinzugefügt …
+32	Katalog wird heruntergeladen …
+33	Apps von Flathub
+34	Entdecken
+35	Installiert
+36	Web-Apps
+37	Kategorien
+38	Apps suchen
+39	Hilfe
+40	Katalog wird geladen …
+41	Der Katalog konnte nicht aktualisiert werden
+42	„{name}“ konnte nicht installiert werden
+43	„{name}“ konnte nicht aktualisiert werden
+44	„{name}“ konnte nicht entfernt werden
+45	„{name}“ wurde installiert
+46	„{name}“ konnte nicht geöffnet werden
+47	Katalog aktualisieren
+48	Über Shrimp Apps
+49	Hauptmenü
+50	Keine Internetverbindung
+51	Verbinde dich mit dem Internet, um Apps zu sehen.
+52	Erneut versuchen
+53	TIPP DER WOCHE
+54	Zurück
+55	Weiter
+56	Ergebnisse für „{query}“
+57	Nichts gefunden
+58	Versuche einen anderen Namen.
+59	Du hast noch keine Apps
+60	Apps, die du holst, erscheinen hier.
+61	Version {version}
+62	Aktualisierungen ({count})
+63	Alle aktualisieren
+64	Alle
+65	Das Repository {remote} fehlt
+66	Der App-Katalog fehlt
+67	Der App-Katalog ist leer

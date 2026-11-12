@@ -1,0 +1,67 @@
+1	Graphisme
+2	Vidéo
+3	Musique
+4	Jeux
+5	Bureautique
+6	Internet
+7	Développement
+8	Outils
+9	Développeur vérifié
+10	Supprimer
+11	Annuler
+12	Version
+13	Taille
+14	Catégorie
+15	Licence
+16	Développeur
+17	Ouvrir
+18	Site web
+19	{size} à télécharger
+20	Propriétaire
+21	et
+22	ou
+23	Précédent
+24	Suivant
+25	Supprimer « {name} » ?
+26	L'application sera supprimée de l'ordinateur. Vos fichiers resteront.
+27	Obtenir
+28	Mettre à jour
+29	En attente
+30	Suppression
+31	Ajout de Flathub…
+32	Téléchargement du catalogue…
+33	Applications de Flathub
+34	Découvrir
+35	Installées
+36	Applications web
+37	Catégories
+38	Rechercher des applications
+39	Aide
+40	Chargement du catalogue…
+41	Impossible d'actualiser le catalogue
+42	Impossible d'installer « {name} »
+43	Impossible de mettre à jour « {name} »
+44	Impossible de supprimer « {name} »
+45	« {name} » a été installé
+46	Impossible d'ouvrir « {name} »
+47	Actualiser le catalogue
+48	À propos de Shrimp Apps
+49	Menu principal
+50	Pas de connexion Internet
+51	Connectez-vous à Internet pour voir les applications.
+52	Réessayer
+53	CHOIX DE LA SEMAINE
+54	Précédent
+55	Suivant
+56	Résultats pour « {query} »
+57	Aucun résultat
+58	Essayez un autre nom.
+59	Vous n'avez pas encore d'applications
+60	Les applications obtenues apparaîtront ici.
+61	Version {version}
+62	Mises à jour ({count})
+63	Tout mettre à jour
+64	Toutes
+65	Le dépôt {remote} est manquant
+66	Le catalogue d'applications est manquant
+67	Le catalogue d'applications est vide

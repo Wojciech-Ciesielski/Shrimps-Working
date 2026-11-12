@@ -1,0 +1,114 @@
+1	Nach Aktualisierung
+2	Vor Aktualisierung
+3	Geplant
+4	Vor Wiederherstellung
+5	Nach Wiederherstellung
+6	Systeminstallation
+7	Manueller Schnappschuss
+8	Mo
+9	Di
+10	Mi
+11	Do
+12	Fr
+13	Sa
+14	So
+15	Januar
+16	Februar
+17	März
+18	April
+19	Mai
+20	Juni
+21	Juli
+22	August
+23	September
+24	Oktober
+25	November
+26	Dezember
+27	{month} {year}
+28	Heute
+29	Gestern
+30	Letzte Woche
+31	heute {time}
+32	gestern {time}
+33	Hinzugefügt
+34	Entfernt
+35	Geändert
+36	Stündliche Schnappschüsse
+37	Tägliche Schnappschüsse
+38	Wöchentliche Schnappschüsse
+39	Monatliche Schnappschüsse
+40	Jährliche Schnappschüsse
+41	Nummerierte Schnappschüsse
+42	/ (System)
+43	Schnappschüsse des Systems
+44	Schnappschüsse des persönlichen Ordners
+45	Schnappschüsse von {path}
+46	Datenträger
+47	Aufräumen
+48	Zugriff
+49	Leere Schnappschusspaare löschen
+50	Speicherplatzgrenze
+51	Benutzer mit Zugriff
+52	Benutzername
+53	Schnappschüsse ausschalten?
+54	Die Schnappschüsse dieses Datenträgers werden gelöscht.
+55	Ausschalten
+56	Schnappschüsse konnten nicht ausgeschaltet werden.
+57	Vergleichen mit
+58	Zu vergleichender Schnappschuss
+59	Ausgewählte wiederherstellen
+60	Keine Änderungen seit diesem Schnappschuss.
+61	Der Schnappschuss konnte nicht verglichen werden.
+62	Ausgewählte Dateien wiederherstellen?
+63	Die Dateien werden auf den Stand im ausgewählten Schnappschuss zurückgesetzt.
+64	Wiederherstellen
+65	Die Dateien konnten nicht wiederhergestellt werden.
+66	{name} einklappen
+67	{name} ausklappen
+68	{name} auswählen
+69	Systemdateien in /usr können nicht einzeln wiederhergestellt werden. Verwende „System wiederherstellen“.
+70	Änderungen anzeigen
+71	Löschen
+72	Schnappschuss erstellen
+73	Es gibt noch keine Schnappschüsse.
+74	System wiederherstellen
+75	Beschreibung
+76	Beschreibung des Schnappschusses
+77	Erstellen
+78	Das System wird auf den Stand im Schnappschuss „{name}“ zurückgesetzt. Vorher wird ein neuer Schnappschuss erstellt. Das System startet neu.
+79	System wiederherstellen?
+80	Der Schnappschuss konnte nicht erstellt werden.
+81	Schnappschuss löschen?
+82	Dies kann nicht rückgängig gemacht werden.
+83	Der Schnappschuss konnte nicht gelöscht werden.
+84	Starte den Computer neu, um abzuschließen.
+85	Das System konnte nicht wiederhergestellt werden.
+86	Schnappschüsse
+87	Änderungen
+88	Erweitert
+89	Hilfe
+90	Nichts passt zu dieser Suche.
+91	Beispieldaten, die das Layout zeigen, nicht den Zustand des Systems.
+92	Änderungen am System rückgängig machen.
+93	Schnappschuss vor Aktualisierungen
+94	Geplante Schnappschüsse
+95	Alte Schnappschüsse löschen
+96	Anzahl der Tage
+97	Tage
+98	Älter als
+99	Über Panko
+100	Hauptmenü
+101	Schnappschüsse sind ausgeschaltet
+102	Schalte Schnappschüsse ein, um Änderungen am System rückgängig machen zu können.
+103	Einschalten
+104	Kein Zugriff auf Schnappschüsse
+105	Erlaube diesem Konto den Zugriff, um Schnappschüsse anzusehen.
+106	Erlauben
+107	Schnappschüsse sind nicht verfügbar
+108	Die Schnappschüsse konnten nicht gelesen werden.
+109	Erneut versuchen
+110	Zugriff konnte nicht erlaubt werden.
+111	Schnappschüsse konnten nicht eingeschaltet werden.
+112	Die Einstellungen konnten nicht gespeichert werden.
+113	Suchen
+114	Abbrechen

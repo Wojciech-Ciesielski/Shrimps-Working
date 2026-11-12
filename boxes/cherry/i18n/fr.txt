@@ -1,0 +1,191 @@
+1	Aide
+2	Paramètres
+3	Nouvel onglet
+4	Dossier personnel
+5	Fermer l'onglet
+6	Comment ça marche ?
+7	Notes
+8	Raccourcis
+9	Historique
+10	Tapez une commande et vous verrez ici de quoi elle est faite.
+11	De quoi elle est faite
+12	Nouvelle note
+13	Commande
+14	Ce qu'elle fait
+15	Actualiser la liste des mises à jour disponibles
+16	Afficher tous les fichiers avec les détails
+17	Aller au dossier parent
+18	Nouveau raccourci
+19	Touches
+20	Abréviations
+21	Appuyez sur des touches, p. ex. Alt+G
+22	Abréviation, p. ex. gs
+23	Effacer l'historique
+24	Rechercher dans l'historique
+25	Aucune commande pour l'instant
+26	Aucun résultat
+27	Supprimer
+28	Annuler
+29	Enregistrer
+30	Position des onglets
+31	Onglets en haut
+32	Onglets à droite
+33	Suppression de l'historique
+34	Jamais
+35	Après {n} jour
+36	Après {n} jours
+37	Après {n} jours
+38	Après {n} jours
+39	Branche {branch}
+40	Argument de la commande
+41	Fichier ou dossier
+42	Dossier
+43	Fichier
+44	Texte recherché
+45	Texte à afficher
+46	Nom d'une commande
+47	Nouvelles permissions, p. ex. +x ou 755
+48	Nouveau propriétaire (utilisateur:groupe)
+49	Numéro de processus (PID)
+50	Adresse Internet
+51	Nom ou adresse d'un ordinateur
+52	Un dossier plus haut
+53	Votre dossier personnel
+54	Le dossier précédent
+55	Exécute la suite en administrateur. Demande votre mot de passe ; soyez prudent.
+56	Un programme ou une commande
+57	Une option de cette commande
+58	Ce que la commande doit faire
+59	Affiche l'aide de la commande
+60	Affiche la version du programme
+61	Supprime tout ce qu'il contient, définitivement et sans demander. Rien ne va à la corbeille.
+62	Cocktail le fait sans taper de commandes.
+63	Shrimp Apps le fait sans taper de commandes.
+64	Panko le fait sans taper de commandes.
+65	Transmet le résultat à la commande suivante
+66	Commande suivante seulement si celle-ci a réussi
+67	Commande suivante seulement si celle-ci a échoué
+68	Puis exécute la commande suivante
+69	Écrit le résultat dans un fichier en le remplaçant
+70	Ajoute le résultat à la fin d'un fichier
+71	S'exécute en arrière-plan
+72	Affiche les fichiers d'un dossier
+73	Sous forme de liste détaillée
+74	Y compris les fichiers cachés
+75	Tailles en Ko, Mo, Go
+76	Les plus récents d'abord
+77	Aussi le contenu des sous-dossiers
+78	Change de dossier courant
+79	Affiche le dossier courant
+80	Copie des fichiers
+81	Avec tout son contenu
+82	Demande avant d'écraser
+83	Montre ce qu'elle fait
+84	Sans demander
+85	Déplace ou renomme des fichiers
+86	Supprime des fichiers définitivement (pas dans la corbeille)
+87	Crée un dossier
+88	Crée aussi les dossiers parents manquants
+89	Supprime un dossier vide
+90	Crée un fichier vide ou met à jour sa date
+91	Affiche le contenu d'un fichier
+92	Affiche un fichier page par page (q pour quitter)
+93	Affiche le début d'un fichier
+94	Affiche la fin d'un fichier
+95	Combien de lignes
+96	Affiche les nouvelles lignes au fur et à mesure
+97	Ouvre un fichier dans un éditeur de texte simple
+98	Cherche les lignes contenant un texte
+99	Sans tenir compte de la casse
+100	Affiche les numéros de ligne
+101	Affiche les lignes qui NE correspondent PAS
+102	Cherche des fichiers
+103	Affiche du texte
+104	Ouvre le manuel d'une commande
+105	Indique où se trouve un programme
+106	Affiche votre nom d'utilisateur
+107	Affiche des informations sur le système
+108	Tout
+109	Version du noyau
+110	Efface l'écran
+111	Ferme le terminal
+112	Affiche les commandes précédentes
+113	Change les permissions d'un fichier
+114	Change le propriétaire d'un fichier
+115	Affiche l'espace libre sur les disques
+116	En Ko, Mo, Go
+117	Affiche l'espace occupé par les fichiers
+118	Seulement le total
+119	Affiche l'utilisation de la mémoire
+120	Affiche les programmes en cours et leur charge
+121	Liste les processus en cours
+122	De tous les utilisateurs
+123	Avec le propriétaire et l'utilisation
+124	Aussi ceux sans terminal
+125	Arrête un processus
+126	Immédiatement, sans le laisser enregistrer
+127	Crée ou extrait des archives
+128	Extraire
+129	Créer une archive
+130	Compressé (gzip)
+131	Suivi du nom de l'archive
+132	Extrait un fichier ZIP
+133	Télécharge depuis Internet
+134	Suit les redirections
+135	Enregistre sous le nom d'origine
+136	Enregistre dans le fichier indiqué
+137	Télécharge un fichier depuis Internet
+138	Vérifie la connexion à un ordinateur
+139	Combien de fois
+140	Se connecte à un autre ordinateur
+141	Affiche les paramètres réseau
+142	Adresses
+143	Cartes réseau
+144	Routes
+145	Affiche le journal du système
+146	Depuis le dernier démarrage
+147	D'un seul service
+148	Gère les services du système
+149	Démarrer un service
+150	Arrêter un service
+151	Redémarrer un service
+152	Afficher l'état d'un service
+153	Démarrer avec le système
+154	Ne pas démarrer avec le système
+155	Redémarrer l'ordinateur
+156	Éteindre l'ordinateur
+157	Installe et met à jour les paquets du système
+158	Actualiser la liste des paquets
+159	Mettre à jour les paquets installés
+160	Installer un paquet
+161	Supprimer un paquet
+162	Chercher un paquet
+163	Mettre à niveau tout le système
+164	Afficher les informations d'un paquet
+165	Modifie le système en sécurité, effectif après redémarrage
+166	Mettre à jour le système
+167	Installer ou supprimer des paquets
+168	Revenir à l'état précédent
+169	Installe et met à jour des applications
+170	Installer une application
+171	Mettre à jour les applications
+172	Supprimer une application
+173	Lister les applications installées
+174	Lancer une application
+175	Chercher une application
+176	Gère les instantanés du système
+177	Lister les instantanés
+178	Créer un instantané
+179	Annuler les modifications entre instantanés
+180	Gestion de versions pour projets
+181	Montrer ce qui a changé
+182	Marquer des modifications à enregistrer
+183	Enregistrer les modifications marquées
+184	Envoyer les modifications au serveur
+185	Récupérer les modifications du serveur
+186	Copier un projet sur cet ordinateur
+187	Afficher l'historique des modifications
+188	Afficher les différences
+189	Passer à une autre branche
+190	Lister ou créer des branches
+191	Démarrer un nouveau projet

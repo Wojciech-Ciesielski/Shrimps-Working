@@ -1,0 +1,93 @@
+1	Der Befehl endete mit Code {code}.
+2	Schließen
+3	Abbrechen
+4	Warte, bis die vorherige Änderung abgeschlossen ist
+5	Entfernen nicht möglich: {name}
+6	Ohne das Paket {package} würde das System nicht mehr funktionieren.
+7	Damit werden auch entfernt: {list}.
+8	Damit werden auch entfernt: {list} und {n} weiteres.
+9	Damit werden auch entfernt: {list} und {n} weitere.
+10	Damit werden auch entfernt: {list} und {n} weitere.
+11	Damit werden auch entfernt: {list} und {n} weitere.
+12	{name} entfernen?
+13	Entfernen
+14	Installation nicht möglich: {name}
+15	Entfernen nicht möglich: {name}
+16	Das System konnte nicht aktualisiert werden
+17	Multimedia
+18	Schriften
+19	Laufzeitumgebungen
+20	Entwicklerwerkzeuge
+21	Netzwerk
+22	Drucken
+23	Firmware
+24	Sicherheit
+25	Virtualisierung
+26	Systemwerkzeuge
+27	Video-Codecs
+28	Audio-Codecs
+29	Microsoft-Schriften
+30	Samba (Windows-Freigaben)
+31	Avahi (Netzwerkerkennung)
+32	Cockpit (Systemverwaltung)
+33	Systempakete
+34	Nach Neustart entfernt
+35	Nach Neustart bereit
+36	Installiert
+37	Zum Herunterladen verfügbar
+38	Installieren
+39	Wird installiert …
+40	Suchergebnisse
+41	Akkus
+42	Prozessoren
+43	Grafikkarten
+44	Audio
+45	Kameras
+46	Netzwerkadapter
+47	Bluetooth
+48	Tastaturen
+49	Zeigegeräte
+50	Laufwerke
+51	USB-Geräte
+52	Biometrie
+53	Unbekannte Geräte
+54	nouveau (Open Source)
+55	Wird geladen …
+56	Die Geräteliste konnte nicht gelesen werden.
+57	Verwendeter Treiber: {list}
+58	Verwendete Treiber: {list}
+59	Verwendete Treiber: {list}
+60	Verwendete Treiber: {list}
+61	Installiert: {name} {version}
+62	Aktualisiert: {name} {old} → {version}
+63	Entfernt: {name} {version}
+64	Heute
+65	Gestern
+66	Letzte Woche
+67	Früher
+68	Der Verlauf konnte nicht gelesen werden.
+69	Der Verlauf ist leer.
+70	Nichts passt zu dieser Suche.
+71	Das System ist aktuell
+72	Nach Aktualisierungen suchen
+73	Aktualisierungen verfügbar
+74	Aktualisierungen installieren
+75	Aktualisierungen installiert
+76	Zum Abschließen neu starten
+77	Neu starten
+78	Wird geprüft …
+79	Keine neuen Aktualisierungen
+80	Wird neu gestartet …
+81	Suche nach Aktualisierungen fehlgeschlagen
+82	{n} Paket
+83	{n} Pakete
+84	{n} Pakete
+85	{n} Pakete
+86	Aktualisierungen
+87	Geräte
+88	Pakete
+89	Verlauf
+90	Suchen
+91	Über Cocktail
+92	Hauptmenü
+93	Systemaktualisierungen, Geräte und Pakete.
