@@ -8,6 +8,7 @@ Repozytorium robocze aplikacji **Shrimps**: natywnych programów Shrimp (GTK4 + 
 | `cocktail` | aktualizacje i pakiety (zypper, transactional-update) | Cocktail |
 | `panko` | migawki i cofanie zmian (snapper) | Panko |
 | `cherry` | terminal z zsh, który tłumaczy komendy (VTE) | Cherry |
+| `filer` | menedżer plików: funkcje i układ 1:1 z Nemo | Filer |
 | `shrimp-i18n`, `web-apps` | biblioteki tych aplikacji | Web Apps |
 | `i18n-core`, `help-links`, `shrimp-box` | kopie wspólnych boxów (patrz niżej) | Boxy |
 

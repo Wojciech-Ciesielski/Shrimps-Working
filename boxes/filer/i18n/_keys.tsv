@@ -1,0 +1,238 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	cancel	Cancel
+2	ok	OK
+3	action.trash	Move to Trash
+4	about.comments	File manager with the functions and layout of Nemo
+5	bookmarks.add	Add Bookmark
+6	bookmarks.edit	Edit Bookmarks
+7	bookmarks.edit_hint	Rename a bookmark and press Enter, or remove it.
+8	col.accessed	Accessed
+9	col.location	Location
+10	col.modified	Modified
+11	col.name	Name
+12	col.owner	Owner
+13	col.permissions	Permissions
+14	col.size	Size
+15	col.type	Type
+16	conflict.all	Apply this action to all
+17	conflict.file_title	Replace file?
+18	conflict.folder_title	Merge folder?
+19	conflict.file_body	A file named “{name}” already exists here.
+20	conflict.folder_body	A folder named “{name}” already exists here. Merging keeps files from both folders.
+21	conflict.merge	Merge
+22	conflict.rename	Keep Both
+23	conflict.replace	Replace
+24	conflict.skip	Skip
+25	connect.title	Connect to Server
+26	connect.body	Enter a server address.
+27	connect.button	Connect
+28	copy.suffix	copy
+29	date.format	%d/%m/%Y %H:%M
+30	date.today	Today
+31	date.yesterday	Yesterday
+32	delete.button	Delete
+33	delete.title	Delete permanently?
+34	delete.one	“{name}” will be deleted permanently.
+35	delete.many.one	{n} item will be deleted permanently.
+36	delete.many.few	{n} items will be deleted permanently.
+37	delete.many.many	{n} items will be deleted permanently.
+38	delete.many.other	{n} items will be deleted permanently.
+39	dest.choose	Choose a Folder
+40	dest.desktop	Desktop
+41	dest.other	Other Location…
+42	dest.other_pane	Other Pane
+43	go.back	Back
+44	go.forward	Forward
+45	go.home	Home
+46	go.reload	Reload
+47	go.search	Search
+48	go.up	Up
+49	menu.about	About Filer
+50	menu.bookmarks	_Bookmarks
+51	menu.close_tab	Close Tab
+52	menu.close_window	Close Window
+53	menu.connect	Connect to Server…
+54	menu.copy	Copy
+55	menu.copy_to	Copy to
+56	menu.cut	Cut
+57	menu.delete	Delete
+58	menu.edit	_Edit
+59	menu.file	_File
+60	menu.go	_Go
+61	menu.help	_Help
+62	menu.invert	Invert Selection
+63	menu.make_link	Make Link
+64	menu.move_to	Move to
+65	menu.new_document	Create New Document
+66	menu.new_folder	Create New Folder
+67	menu.new_tab	New Tab
+68	menu.new_window	New Window
+69	menu.open	Open
+70	menu.open_tab	Open in New Tab
+71	menu.open_window	Open in New Window
+72	menu.open_with	Open With
+73	menu.open_with_other	Other Application…
+74	menu.paste	Paste
+75	menu.paste_into	Paste Into Folder
+76	menu.preferences	Preferences
+77	menu.properties	Properties
+78	menu.quit	Quit
+79	menu.rename	Rename…
+80	menu.scripts	Scripts
+81	menu.scripts_folder	Open Scripts Folder
+82	menu.select_all	Select All
+83	menu.select_pattern	Select Items Matching…
+84	menu.terminal	Open in Terminal
+85	menu.undo	Undo
+86	menu.view	_View
+87	new.document	New Document
+88	new.empty	Empty Document
+89	new.failed	Could not create
+90	new.folder	New Folder
+91	openwith.for	Applications for “{type}”
+92	openwith.reset	Reset
+93	ops.error	Error with “{name}”: {error}
+94	ops.error_title	Operation error
+95	ops.files_left.one	{name}: {n} item left
+96	ops.files_left.few	{name}: {n} items left
+97	ops.files_left.many	{name}: {n} items left
+98	ops.files_left.other	{name}: {n} items left
+99	ops.into_itself	A folder cannot be moved into itself
+100	ops.link_name	Link to {name}
+101	ops.title	File Operations
+102	ops.copying	Copying files
+103	ops.moving	Moving files
+104	ops.linking	Creating links
+105	ops.trashing	Moving files to the Trash
+106	ops.deleting	Deleting files
+107	ops.restoring	Restoring files from the Trash
+108	pathbar.placeholder	Location
+109	pathbar.toggle	Type a location (Ctrl+L)
+110	pattern.title	Select Items Matching
+111	pattern.body	Use * and ?, for example *.jpg
+112	pattern.select	Select
+113	perm.access	Access files
+114	perm.create	Create and delete files
+115	perm.exec	Allow executing file as program
+116	perm.group	Group
+117	perm.list	List files only
+118	perm.none	None
+119	perm.not_owner	You are not the owner, so you cannot change these permissions.
+120	perm.others	Others
+121	perm.owner	Owner
+122	perm.read	Read-only
+123	perm.read_write	Read and write
+124	place.computer	Computer
+125	place.filesystem	File System
+126	place.home	Home
+127	place.network	Network
+128	place.recent	Recent
+129	place.trash	Trash
+130	prefs.behavior	Behavior
+131	prefs.confirm_delete	Ask before deleting permanently
+132	prefs.confirm_trash	Ask before moving files to the Trash
+133	prefs.default_view	Default view
+134	prefs.default_zoom	Default zoom level
+135	prefs.display	Display
+136	prefs.folders_first	Sort folders before files
+137	prefs.full_path	Show the full path in the title bar
+138	prefs.menubar	Show the menu bar
+139	prefs.preview	Preview
+140	prefs.show_delete	Include a Delete command that bypasses the Trash
+141	prefs.show_hidden	Show hidden files
+142	prefs.sidebar	Show the sidebar
+143	prefs.single_click	Open items with a single click
+144	prefs.statusbar	Show the status bar
+145	prefs.thumb_limit	Only for files smaller than (MB)
+146	prefs.thumbnails	Show thumbnails
+147	prefs.title	Preferences
+148	prefs.views	Views
+149	props.accessed	Accessed
+150	props.basic	Basic
+151	props.contents_title	Contents
+152	props.free	Free space
+153	props.link_target	Link target
+154	props.location	Parent folder
+155	props.modified	Modified
+156	props.name	Name
+157	props.open_with	Open With
+158	props.permissions	Permissions
+159	props.size	Size
+160	props.type	Type
+161	props.contents.one	{n} item, totalling {size}
+162	props.contents.few	{n} items, totalling {size}
+163	props.contents.many	{n} items, totalling {size}
+164	props.contents.other	{n} items, totalling {size}
+165	props.title	“{name}” Properties
+166	props.title_many.one	Properties of {n} item
+167	props.title_many.few	Properties of {n} items
+168	props.title_many.many	Properties of {n} items
+169	props.title_many.other	Properties of {n} items
+170	rename.button	Rename
+171	rename.failed	Could not rename
+172	rename.title	Rename
+173	search.placeholder	Search in this folder and subfolders
+174	search.tab	Search: {query}
+175	side.bookmarks	Bookmarks
+176	side.computer	My Computer
+177	side.devices	Devices
+178	side.eject	Eject
+179	side.eject_failed	Could not eject
+180	side.network	Network
+181	side.remove	Remove
+182	side.rename	Rename…
+183	side.rename_title	Rename Bookmark
+184	size.bytes.one	{n} byte
+185	size.bytes.few	{n} bytes
+186	size.bytes.many	{n} bytes
+187	size.bytes.other	{n} bytes
+188	size.decimal	.
+189	sort.folders_first	Folders First
+190	sort.modified	By Modification Date
+191	sort.name	By Name
+192	sort.reverse	Reversed Order
+193	sort.size	By Size
+194	sort.title	Arrange Items
+195	sort.type	By Type
+196	status.files.one	{n} file ({size})
+197	status.files.few	{n} files ({size})
+198	status.files.many	{n} files ({size})
+199	status.files.other	{n} files ({size})
+200	status.folders.one	{n} folder
+201	status.folders.few	{n} folders
+202	status.folders.many	{n} folders
+203	status.folders.other	{n} folders
+204	status.items.one	{n} item
+205	status.items.few	{n} items
+206	status.items.many	{n} items
+207	status.items.other	{n} items
+208	status.free	{items}, Free space: {free}
+209	status.one	“{name}” selected ({size})
+210	status.one_folder	“{name}” selected
+211	trash.banner	Items in the Trash
+212	trash.empty	Empty Trash
+213	trash.empty_title	Empty the Trash?
+214	trash.empty_body	All items in the Trash will be deleted permanently.
+215	trash.restore	Restore
+216	trash.confirm_title	Move to the Trash?
+217	trash.confirm_one	Move “{name}” to the Trash?
+218	trash.confirm_many.one	Move {n} item to the Trash?
+219	trash.confirm_many.few	Move {n} items to the Trash?
+220	trash.confirm_many.many	Move {n} items to the Trash?
+221	trash.confirm_many.other	Move {n} items to the Trash?
+222	trash.unavailable_title	Cannot move to the Trash
+223	trash.unavailable_body	This location has no Trash. Delete permanently instead?
+224	view.compact	Compact
+225	view.hidden	Show Hidden Files
+226	view.icons	Icons
+227	view.list	List
+228	view.location	Location…
+229	view.menubar	Menu Bar
+230	view.sidebar	Sidebar
+231	view.split	Extra Pane
+232	view.statusbar	Status Bar
+233	view.zoom	Zoom
+234	view.zoom_in	Zoom In
+235	view.zoom_normal	Normal Size
+236	view.zoom_out	Zoom Out
+237	view.error_title	Cannot open “{name}”
