@@ -7,7 +7,8 @@ build_depends = ["shrimp-i18n", "help-links"]
 ci = "cherry"
 
 [packages]
-image = ["libgtk-4-1", "libadwaita-1-0", "libvte-2_91-gtk4-0", "zsh"]
+# VTE dla GTK4 jako zdolność biblioteki: nazwa pakietu różni się między wydaniami openSUSE.
+image = ["libgtk-4-1", "libadwaita-1-0", "libvte-2.91-gtk4.so.0()(64bit)", "zsh"]
 build = [
     "bash",
     "coreutils",
