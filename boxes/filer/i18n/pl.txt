@@ -1,0 +1,237 @@
+1	Anuluj
+2	OK
+3	Przenieś do kosza
+4	Menedżer plików z funkcjami i układem Nemo
+5	Dodaj zakładkę
+6	Edytuj zakładki
+7	Zmień nazwę zakładki i naciśnij Enter albo ją usuń.
+8	Dostęp
+9	Położenie
+10	Zmodyfikowano
+11	Nazwa
+12	Właściciel
+13	Uprawnienia
+14	Rozmiar
+15	Typ
+16	Zastosuj do wszystkich
+17	Zastąpić plik?
+18	Scalić folder?
+19	Plik o nazwie „{name}” już tu istnieje.
+20	Folder o nazwie „{name}” już tu istnieje. Scalenie zachowa pliki z obu folderów.
+21	Scal
+22	Zachowaj oba
+23	Zastąp
+24	Pomiń
+25	Połącz z serwerem
+26	Wpisz adres serwera.
+27	Połącz
+28	kopia
+29	%d.%m.%Y %H:%M
+30	Dziś
+31	Wczoraj
+32	Usuń
+33	Usunąć na zawsze?
+34	„{name}” zostanie usunięty na zawsze.
+35	{n} element zostanie usunięty na zawsze.
+36	{n} elementy zostaną usunięte na zawsze.
+37	{n} elementów zostanie usuniętych na zawsze.
+38	{n} elementów zostanie usuniętych na zawsze.
+39	Wybierz folder
+40	Pulpit
+41	Inne miejsce…
+42	Drugi panel
+43	Wstecz
+44	Dalej
+45	Katalog domowy
+46	Odśwież
+47	Szukaj
+48	W górę
+49	O programie Filer
+50	_Zakładki
+51	Zamknij kartę
+52	Zamknij okno
+53	Połącz z serwerem…
+54	Kopiuj
+55	Kopiuj do
+56	Wytnij
+57	Usuń
+58	_Edycja
+59	_Plik
+60	Przejd_ź
+61	Pomo_c
+62	Odwróć zaznaczenie
+63	Utwórz dowiązanie
+64	Przenieś do
+65	Utwórz nowy dokument
+66	Utwórz nowy folder
+67	Nowa karta
+68	Nowe okno
+69	Otwórz
+70	Otwórz w nowej karcie
+71	Otwórz w nowym oknie
+72	Otwórz za pomocą
+73	Inny program…
+74	Wklej
+75	Wklej do folderu
+76	Preferencje
+77	Właściwości
+78	Zakończ
+79	Zmień nazwę…
+80	Skrypty
+81	Otwórz folder skryptów
+82	Zaznacz wszystko
+83	Zaznacz według wzorca…
+84	Otwórz w terminalu
+85	Cofnij
+86	_Widok
+87	Nowy dokument
+88	Pusty dokument
+89	Nie udało się utworzyć
+90	Nowy folder
+91	Programy dla typu „{type}”
+92	Przywróć domyślne
+93	Błąd przy „{name}”: {error}
+94	Błąd operacji
+95	{name}: został {n} element
+96	{name}: zostały {n} elementy
+97	{name}: zostało {n} elementów
+98	{name}: zostało {n} elementów
+99	Nie można przenieść folderu do niego samego
+100	Dowiązanie do {name}
+101	Operacje na plikach
+102	Kopiowanie plików
+103	Przenoszenie plików
+104	Tworzenie dowiązań
+105	Przenoszenie do kosza
+106	Usuwanie plików
+107	Przywracanie z kosza
+108	Położenie
+109	Wpisz położenie (Ctrl+L)
+110	Zaznacz według wzorca
+111	Użyj * i ?, na przykład *.jpg
+112	Zaznacz
+113	Dostęp do plików
+114	Tworzenie i usuwanie plików
+115	Zezwól na uruchamianie jako programu
+116	Grupa
+117	Tylko wyświetlanie plików
+118	Brak
+119	Nie jesteś właścicielem, więc nie możesz zmienić tych uprawnień.
+120	Pozostali
+121	Właściciel
+122	Tylko odczyt
+123	Odczyt i zapis
+124	Komputer
+125	System plików
+126	Katalog domowy
+127	Sieć
+128	Ostatnie
+129	Kosz
+130	Zachowanie
+131	Pytaj przed usunięciem na zawsze
+132	Pytaj przed przeniesieniem do kosza
+133	Domyślny widok
+134	Domyślne powiększenie
+135	Wyświetlanie
+136	Foldery przed plikami
+137	Pełna ścieżka na pasku tytułu
+138	Pasek menu
+139	Podgląd
+140	Polecenie Usuń z pominięciem kosza
+141	Pokazuj ukryte pliki
+142	Panel boczny
+143	Otwieraj pojedynczym kliknięciem
+144	Pasek stanu
+145	Tylko dla plików mniejszych niż (MB)
+146	Pokazuj miniatury
+147	Preferencje
+148	Widoki
+149	Ostatni dostęp
+150	Podstawowe
+151	Zawartość
+152	Wolne miejsce
+153	Cel dowiązania
+154	Folder nadrzędny
+155	Zmodyfikowano
+156	Nazwa
+157	Otwórz za pomocą
+158	Uprawnienia
+159	Rozmiar
+160	Typ
+161	{n} element, razem {size}
+162	{n} elementy, razem {size}
+163	{n} elementów, razem {size}
+164	{n} elementów, razem {size}
+165	Właściwości „{name}”
+166	Właściwości {n} elementu
+167	Właściwości {n} elementów
+168	Właściwości {n} elementów
+169	Właściwości {n} elementów
+170	Zmień nazwę
+171	Nie udało się zmienić nazwy
+172	Zmień nazwę
+173	Szukaj w tym folderze i podfolderach
+174	Szukaj: {query}
+175	Zakładki
+176	Mój komputer
+177	Urządzenia
+178	Wysuń
+179	Nie udało się wysunąć
+180	Sieć
+181	Usuń
+182	Zmień nazwę…
+183	Zmień nazwę zakładki
+184	{n} bajt
+185	{n} bajty
+186	{n} bajtów
+187	{n} bajtów
+188	,
+189	Foldery najpierw
+190	Według daty modyfikacji
+191	Według nazwy
+192	Odwrotna kolejność
+193	Według rozmiaru
+194	Uporządkuj elementy
+195	Według typu
+196	{n} plik ({size})
+197	{n} pliki ({size})
+198	{n} plików ({size})
+199	{n} plików ({size})
+200	{n} folder
+201	{n} foldery
+202	{n} folderów
+203	{n} folderów
+204	{n} element
+205	{n} elementy
+206	{n} elementów
+207	{n} elementów
+208	{items}, wolne miejsce: {free}
+209	Zaznaczono „{name}” ({size})
+210	Zaznaczono „{name}”
+211	Elementy w koszu
+212	Opróżnij kosz
+213	Opróżnić kosz?
+214	Wszystkie elementy w koszu zostaną usunięte na zawsze.
+215	Przywróć
+216	Przenieść do kosza?
+217	Przenieść „{name}” do kosza?
+218	Przenieść {n} element do kosza?
+219	Przenieść {n} elementy do kosza?
+220	Przenieść {n} elementów do kosza?
+221	Przenieść {n} elementów do kosza?
+222	Nie można przenieść do kosza
+223	To miejsce nie ma kosza. Usunąć na zawsze?
+224	Kompaktowy
+225	Pokaż ukryte pliki
+226	Ikony
+227	Lista
+228	Położenie…
+229	Pasek menu
+230	Panel boczny
+231	Dodatkowy panel
+232	Pasek stanu
+233	Powiększenie
+234	Powiększ
+235	Normalny rozmiar
+236	Pomniejsz
+237	Nie można otworzyć „{name}”

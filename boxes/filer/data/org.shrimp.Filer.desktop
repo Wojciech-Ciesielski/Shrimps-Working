@@ -1,0 +1,22 @@
+[Desktop Entry]
+Type=Application
+Name=Filer
+Name[pl]=Filer
+GenericName=File Manager
+GenericName[pl]=Menedżer plików
+Comment=Browse and organize files
+Comment[pl]=Przeglądaj i porządkuj pliki
+Keywords=folder;manager;explore;disk;filesystem;files;
+Keywords[pl]=folder;menedżer;pliki;dysk;katalog;przeglądarka plików;
+Exec=filer %U
+Icon=org.shrimp.Filer
+Terminal=false
+Categories=GNOME;GTK;Utility;Core;FileManager;
+MimeType=inode/directory;application/x-gnome-saved-search;
+StartupNotify=true
+Actions=new-window;
+
+[Desktop Action new-window]
+Name=New Window
+Name[pl]=Nowe okno
+Exec=filer --new-window
