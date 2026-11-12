@@ -11,5 +11,6 @@ if [ "${SHRIMP_PREBUILT:-0}" != 1 ]; then
 fi
 install -Dm755 target/release/shrimp-apps "$DEST$PREFIX/bin/shrimp-apps"
 install -Dm644 data/org.shrimp.Apps.desktop "$DEST$PREFIX/share/applications/org.shrimp.Apps.desktop"
+install -Dm644 data/org.shrimp.Apps.svg "$DEST$PREFIX/share/icons/hicolor/scalable/apps/org.shrimp.Apps.svg"
 install -Dm644 data/org.shrimp.Apps.metainfo.xml "$DEST$PREFIX/share/metainfo/org.shrimp.Apps.metainfo.xml"
 install -Dm644 data/base-apps.json "$DEST$PREFIX/share/shrimp/base-apps.json"

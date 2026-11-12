@@ -14,4 +14,5 @@ install -Dm755 "$HERE/system/libexec/cocktail-helper" "$D/usr/libexec/cocktail-h
 install -Dm755 "$HERE/system/libexec/cocktail-query" "$D/usr/libexec/cocktail-query"
 install -Dm644 "$HERE/system/polkit/org.shrimp.cocktail.policy" "$D/usr/share/polkit-1/actions/org.shrimp.cocktail.policy"
 install -Dm644 "$HERE/system/applications/org.shrimp.Cocktail.desktop" "$D/usr/share/applications/org.shrimp.Cocktail.desktop"
+install -Dm644 "$HERE/system/applications/org.shrimp.Cocktail.svg" "$D/usr/share/icons/hicolor/scalable/apps/org.shrimp.Cocktail.svg"
 echo "Cocktail zainstalowany w $D"
