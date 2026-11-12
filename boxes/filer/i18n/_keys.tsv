@@ -236,3 +236,9 @@
 235	view.zoom_normal	Normal Size
 236	view.zoom_out	Zoom Out
 237	view.error_title	Cannot open “{name}”
+238	search.short	Search
+239	menu.main	Main Menu
+240	menu.edit_plain	Edit
+241	menu.view_plain	View
+242	menu.go_plain	Go
+243	menu.bookmarks_plain	Bookmarks

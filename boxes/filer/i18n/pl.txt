@@ -235,3 +235,9 @@
 235	Normalny rozmiar
 236	Pomniejsz
 237	Nie można otworzyć „{name}”
+238	Szukaj
+239	Menu główne
+240	Edycja
+241	Widok
+242	Przejdź
+243	Zakładki
