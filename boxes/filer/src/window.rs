@@ -23,14 +23,13 @@ pub struct Win {
     panes: RefCell<Vec<Rc<Pane>>>,
     active: Cell<usize>,
     split: gtk::Paned,
-    side_paned: gtk::Paned,
+    split_view: adw::OverlaySplitView,
     sidebar: Rc<Sidebar>,
     pathbar: Rc<PathBar>,
     menubar: gtk::PopoverMenuBar,
     statusbar: gtk::Box,
     status: gtk::Label,
     zoom: gtk::Scale,
-    search_bar: gtk::SearchBar,
     search: gtk::SearchEntry,
     back: gtk::Button,
     forward: gtk::Button,
@@ -112,7 +111,7 @@ fn list_dir(p: &std::path::Path, exec_only: bool) -> Vec<PathBuf> {
 impl Win {
     pub fn new(app: &adw::Application, location: Option<gio::File>) -> Rc<Win> {
         let s = settings::get();
-        let window = adw::ApplicationWindow::builder().application(app).default_width(s.window.0).default_height(s.window.1).icon_name("org.shrimp.Filer").build();
+        let window = adw::ApplicationWindow::builder().application(app).width_request(360).height_request(300).default_width(s.window.0).default_height(s.window.1).icon_name("org.shrimp.Filer").build();
 
         let back = button("go-previous-symbolic", tr("go.back"), "win.back");
         let forward = button("go-next-symbolic", tr("go.forward"), "win.forward");
@@ -155,69 +154,83 @@ impl Win {
         );
         sidebar.set_parent(window.upcast_ref());
 
-        let header = adw::HeaderBar::new();
+        // Układ Shrimp (jak Cocktail i Panko): pasek boczny z nazwą programu i wyszukiwaniem na dole,
+        // treść z paskiem tytułu (nawigacja, ścieżka, widoki, menu ☰). Układ i funkcje Nemo zostają.
+        let side_header = adw::HeaderBar::builder().title_widget(&gtk::Label::builder().label("Filer").css_classes(["heading"]).build()).build();
+        let search = gtk::SearchEntry::builder().placeholder_text(tr("search.short")).tooltip_text(tr("search.placeholder")).build();
+        let search_box = gtk::Box::builder().margin_start(8).margin_end(8).margin_top(8).margin_bottom(8).build();
+        search.set_hexpand(true);
+        search_box.append(&search);
+        let side_tv = adw::ToolbarView::new();
+        side_tv.add_top_bar(&side_header);
+        side_tv.set_content(Some(&sidebar.root));
+        side_tv.add_bottom_bar(&search_box);
+
+        // Pasek tytułu treści: własny wiersz (adw::HeaderBar daje ścieżce tylko środek), wygląd jak pasek tytułu.
+        let side_btn = gtk::ToggleButton::builder().icon_name("sidebar-show-symbolic").tooltip_text(tr("view.sidebar")).css_classes(["flat"]).build();
         let nav = gtk::Box::builder().css_classes(["linked"]).build();
+        for b in [&back, &forward, &up, &reload, &home_b] {
+            b.add_css_class("flat");
+        }
         nav.append(&back);
         nav.append(&forward);
-        header.pack_start(&nav);
-        header.pack_start(&up);
-        header.pack_start(&reload);
-        header.pack_start(&home_b);
-        header.set_title_widget(Some(&pathbar.root));
+        let row = gtk::Box::builder().spacing(6).margin_start(6).margin_end(6).margin_top(6).margin_bottom(6).build();
+        row.append(&gtk::WindowControls::new(gtk::PackType::Start));
+        row.append(&side_btn);
+        row.append(&nav);
+        row.append(&up);
+        row.append(&reload);
+        row.append(&home_b);
+        pathbar.root.set_hexpand(true);
+        row.append(&pathbar.root);
         let views = gtk::Box::builder().css_classes(["linked"]).build();
         for (v, icon, tip) in [("icons", "view-grid-symbolic", tr("view.icons")), ("list", "view-list-symbolic", tr("view.list")), ("compact", "view-list-bullet-symbolic", tr("view.compact"))] {
-            let b = gtk::ToggleButton::builder().icon_name(icon).tooltip_text(tip).action_name("win.view").action_target(&v.to_variant()).build();
+            let b = gtk::ToggleButton::builder().icon_name(icon).tooltip_text(tip).action_name("win.view").action_target(&v.to_variant()).css_classes(["flat"]).build();
             views.append(&b);
         }
-        header.pack_end(&views);
-        let search_btn = gtk::ToggleButton::builder().icon_name("system-search-symbolic").tooltip_text(tr("go.search")).build();
-        header.pack_end(&search_btn);
+        row.append(&views);
+        let menu = gtk::MenuButton::builder().icon_name("open-menu-symbolic").tooltip_text(tr("menu.main")).primary(true).menu_model(&Self::main_menu()).css_classes(["flat"]).build();
+        row.append(&menu);
+        row.append(&gtk::WindowControls::new(gtk::PackType::End));
+        let header = gtk::WindowHandle::builder().child(&row).build();
 
         let menubar = gtk::PopoverMenuBar::from_model(Some(&Self::menu_model()));
-        let search = gtk::SearchEntry::builder().placeholder_text(tr("search.placeholder")).hexpand(true).build();
-        let search_bar = gtk::SearchBar::builder().child(&gtk::Box::builder().hexpand(true).build()).show_close_button(true).build();
-        let sb_box = gtk::Box::new(gtk::Orientation::Horizontal, 0);
-        let clamp = adw::Clamp::builder().maximum_size(600).child(&search).hexpand(true).build();
-        sb_box.append(&clamp);
-        search_bar.set_child(Some(&sb_box));
-        search_bar.connect_entry(&search);
-        search_btn.bind_property("active", &search_bar, "search-mode-enabled").bidirectional().build();
-
         let split = gtk::Paned::builder().orientation(gtk::Orientation::Horizontal).wide_handle(true).shrink_start_child(false).shrink_end_child(false).build();
-        let side_paned = gtk::Paned::builder().orientation(gtk::Orientation::Horizontal).start_child(&sidebar.root).end_child(&split).position(s.sidebar_width).shrink_start_child(false).resize_start_child(false).build();
 
-        let status = gtk::Label::builder().hexpand(true).ellipsize(gtk::pango::EllipsizeMode::Middle).css_classes(["caption"]).build();
+        let status = gtk::Label::builder().hexpand(true).xalign(0.0).ellipsize(gtk::pango::EllipsizeMode::Middle).css_classes(["caption", "dim-label"]).build();
         let zoom = gtk::Scale::with_range(gtk::Orientation::Horizontal, 0.0, 6.0, 1.0);
         zoom.set_draw_value(false);
         zoom.set_width_request(120);
         zoom.set_tooltip_text(Some(tr("view.zoom")));
-        let side_toggle = gtk::Button::builder().icon_name("sidebar-show-symbolic").tooltip_text(tr("view.sidebar")).action_name("win.show-sidebar").css_classes(["flat"]).build();
-        let statusbar = gtk::Box::builder().spacing(6).margin_start(6).margin_end(6).margin_top(2).margin_bottom(2).build();
-        statusbar.append(&side_toggle);
+        let statusbar = gtk::Box::builder().spacing(6).margin_start(18).margin_end(12).margin_top(4).margin_bottom(4).build();
         statusbar.append(&status);
         statusbar.append(&zoom);
 
-        let tv = adw::ToolbarView::new();
-        tv.add_top_bar(&header);
-        tv.add_top_bar(&menubar);
-        tv.add_top_bar(&search_bar);
-        tv.set_content(Some(&side_paned));
-        tv.add_bottom_bar(&statusbar);
-        window.set_content(Some(&tv));
+        let content = adw::ToolbarView::new();
+        content.add_top_bar(&header);
+        content.add_top_bar(&menubar);
+        content.set_content(Some(&split));
+        content.add_bottom_bar(&statusbar);
+        let split_view = adw::OverlaySplitView::builder().sidebar(&side_tv).content(&content).min_sidebar_width(180.0).max_sidebar_width(s.sidebar_width.max(180) as f64).build();
+        split_view.bind_property("show-sidebar", &side_btn, "active").bidirectional().sync_create().build();
+        // Wąskie okno: panel boczny nad treścią (jak w innych aplikacjach Shrimp).
+        let bp = adw::Breakpoint::new(adw::BreakpointCondition::new_length(adw::BreakpointConditionLengthType::MaxWidth, 640.0, adw::LengthUnit::Sp));
+        bp.add_setter(&split_view, "collapsed", Some(&true.to_value()));
+        window.add_breakpoint(bp);
+        window.set_content(Some(&split_view));
 
         let w = Rc::new(Win {
             window,
             panes: RefCell::new(vec![]),
             active: Cell::new(0),
             split,
-            side_paned,
+            split_view,
             sidebar,
             pathbar,
             menubar,
             statusbar,
             status,
             zoom,
-            search_bar,
             search,
             back,
             forward,
@@ -412,7 +425,7 @@ impl Win {
         if let Some(a) = self.window.lookup_action("view") {
             a.change_state(&t.view().to_variant());
         }
-        if t.searching().is_none() && self.search_bar.is_search_mode() && !self.search.has_focus() {
+        if t.searching().is_none() && !self.search.has_focus() && !self.search.text().is_empty() {
             self.search.set_text("");
         }
         self.refreshing.set(false);
@@ -670,6 +683,29 @@ impl Win {
     }
 
     // ---------- menu ----------
+
+    /// Menu ☰ (styl Shrimp): to samo co pasek menu Nemo, w jednym przycisku.
+    fn main_menu() -> gio::Menu {
+        let bar = Self::menu_model();
+        let m = gio::Menu::new();
+        let a = gio::Menu::new();
+        a.append(Some(tr("menu.new_window")), Some("win.new-window"));
+        a.append(Some(tr("menu.new_tab")), Some("win.new-tab"));
+        a.append(Some(tr("menu.connect")), Some("win.connect"));
+        m.append_section(None, &a);
+        let b = gio::Menu::new();
+        for (i, label) in [(1, tr("menu.edit_plain")), (2, tr("menu.view_plain")), (3, tr("menu.go_plain")), (4, tr("menu.bookmarks_plain"))] {
+            if let Some(sub) = bar.item_link(i, "submenu").and_downcast::<gio::Menu>() {
+                b.append_submenu(Some(label), &sub);
+            }
+        }
+        m.append_section(None, &b);
+        let c = gio::Menu::new();
+        c.append(Some(tr("menu.preferences")), Some("win.preferences"));
+        c.append(Some(tr("menu.about")), Some("win.about"));
+        m.append_section(None, &c);
+        m
+    }
 
     fn menu_model() -> gio::Menu {
         let item = |m: &gio::Menu, label: &str, action: &str| m.append(Some(label), Some(action));
@@ -965,7 +1001,7 @@ impl Win {
         let s = settings::get();
         self.menubar.set_visible(s.show_menubar);
         self.statusbar.set_visible(s.show_statusbar);
-        self.sidebar.root.set_visible(s.show_sidebar);
+        self.split_view.set_show_sidebar(s.show_sidebar);
         for (name, v) in [
             ("show-hidden", s.show_hidden),
             ("show-menubar", s.show_menubar),
@@ -1077,11 +1113,8 @@ impl Win {
         add_s("go", Box::new(|w, u| w.tab().navigate(&gio::File::for_uri(&u))));
         add("location", Box::new(|w| w.pathbar.show_entry(true)));
         add("search", Box::new(|w| {
-            let on = !w.search_bar.is_search_mode();
-            w.search_bar.set_search_mode(on);
-            if on {
-                w.search.grab_focus();
-            }
+            w.split_view.set_show_sidebar(true);
+            w.search.grab_focus();
         }));
         add("new-tab", Box::new(|w| {
             let loc = w.tab().location();
@@ -1360,12 +1393,12 @@ impl Win {
             }
         });
         let me = self.weak();
-        self.search_bar.connect_search_mode_enabled_notify(move |b| {
+        self.search.connect_stop_search(move |e| {
+            e.set_text("");
             if let Some(w) = me.upgrade() {
-                if !b.is_search_mode() {
-                    w.tab().stop_search();
-                    w.tab_changed(&w.tab());
-                }
+                w.tab().stop_search();
+                w.tab_changed(&w.tab());
+                w.tab().focus_view();
             }
         });
         let me = self.weak();
@@ -1407,13 +1440,13 @@ impl Win {
         let me = self.weak();
         self.window.connect_close_request(move |win| {
             let (wd, ht) = (win.width(), win.height());
-            let side = me.upgrade().map(|w| w.side_paned.position());
+            let side = me.upgrade().map(|w| w.split_view.shows_sidebar());
             settings::update(|s| {
                 if wd > 0 && ht > 0 && !win.is_maximized() {
                     s.window = (wd, ht);
                 }
-                if let Some(p) = side.filter(|p| *p > 0) {
-                    s.sidebar_width = p;
+                if let Some(v) = side {
+                    s.show_sidebar = v;
                 }
             });
             glib::Propagation::Proceed

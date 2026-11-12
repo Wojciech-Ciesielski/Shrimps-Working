@@ -34,10 +34,31 @@ pub const SOURCES: &[(&str, &str)] = &[
     ("window.rs", include_str!("window.rs")),
 ];
 
+/// Styl Shrimp (jak Panko i Cocktail): wiersze naprzemiennie jaśniejsze i ciemniejsze, bez obrysów,
+/// zaokrąglone zaznaczenie w siatce, spokojne nagłówki kolumn. Kolory tylko z nazwanych kolorów libadwaita.
+const CSS: &str = "
+.filer-list, .filer-grid { background: transparent; }
+.filer-list > listview > row { min-height: 36px; }
+.filer-list > listview > row:nth-child(even):not(:selected) { background-color: alpha(currentColor, 0.04); }
+.filer-list > header > button { font-weight: normal; color: alpha(currentColor, 0.6); border: none; box-shadow: none; padding: 6px 12px; }
+.filer-list > listview > row > cell { padding: 0 12px; }
+.filer-grid > child { border-radius: 10px; margin: 4px; padding: 6px; }
+.filer-grid > child:hover:not(:selected) { background-color: alpha(currentColor, 0.05); }
+";
+
+fn style() {
+    let p = gtk::CssProvider::new();
+    p.load_from_string(CSS);
+    if let Some(d) = gtk::gdk::Display::default() {
+        gtk::style_context_add_provider_for_display(&d, &p, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
+    }
+}
+
 fn main() -> glib::ExitCode {
     let app = adw::Application::builder().application_id(APP_ID).flags(gio::ApplicationFlags::HANDLES_OPEN).build();
     app.connect_startup(|app| {
         window::accels(app);
+        style();
         let quit = gio::SimpleAction::new("quit", None);
         let a = app.clone();
         quit.connect_activate(move |_, _| a.quit());

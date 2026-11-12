@@ -20,8 +20,19 @@ pub type OnDrop = Rc<dyn Fn(Vec<gio::File>, gio::File, gdk::DragAction)>;
 impl PathBar {
     pub fn new(on_go: OnGo, on_drop: OnDrop) -> Rc<PathBar> {
         let stack = gtk::Stack::builder().hexpand(true).transition_type(gtk::StackTransitionType::Crossfade).build();
-        let crumbs = gtk::Box::builder().css_classes(["linked"]).build();
-        let scroller = gtk::ScrolledWindow::builder().child(&crumbs).vscrollbar_policy(gtk::PolicyType::Never).hscrollbar_policy(gtk::PolicyType::External).hexpand(true).build();
+        let crumbs = gtk::Box::builder().spacing(0).valign(gtk::Align::Center).build();
+        let scroller = gtk::ScrolledWindow::builder()
+            .child(&crumbs)
+            .vscrollbar_policy(gtk::PolicyType::Never)
+            .hscrollbar_policy(gtk::PolicyType::External)
+            .hexpand(true)
+            .min_content_width(120)
+            .build();
+        // Długa ścieżka: zawsze widać koniec (bieżący folder), początek się chowa.
+        scroller.hadjustment().connect_changed(|a| {
+            let a = a.clone();
+            glib::idle_add_local_once(move || a.set_value(a.upper() - a.page_size()));
+        });
         let entry = gtk::Entry::builder().hexpand(true).placeholder_text(tr("pathbar.placeholder")).build();
         stack.add_named(&scroller, Some("crumbs"));
         stack.add_named(&entry, Some("entry"));
@@ -93,7 +104,11 @@ impl PathBar {
         chain.reverse();
         let last = chain.len() - 1;
         for (i, d) in chain.into_iter().enumerate() {
-            let b = gtk::Button::new();
+            if i > 0 {
+                // Separator jak „›” w ścieżce, bez obrysów (styl Shrimp).
+                self.crumbs.append(&gtk::Image::builder().icon_name("go-next-symbolic").pixel_size(12).css_classes(["dim-label"]).build());
+            }
+            let b = gtk::Button::builder().css_classes(["flat"]).build();
             let inner = gtk::Box::new(gtk::Orientation::Horizontal, 4);
             if i == 0 {
                 inner.append(&gtk::Image::from_icon_name(util::place_icon(&d)));
@@ -103,7 +118,10 @@ impl PathBar {
             }
             b.set_child(Some(&inner));
             if i == last {
-                b.add_css_class("suggested-action");
+                // Bieżący folder pogrubiony (akcent zostaje tylko dla zaznaczenia).
+                if let Some(l) = inner.last_child().and_downcast::<gtk::Label>() {
+                    l.add_css_class("heading");
+                }
             }
             {
                 let go = go.clone();

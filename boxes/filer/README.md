@@ -3,6 +3,11 @@
 Menedżer plików Shrimp. Odwzorowuje funkcje i układ Nemo jeden do jednego, ale jest napisany od nowa
 w Rust na GTK4 + libadwaita. Ikony bierze z motywu, w Shrimp z MoreWaity.
 
+Wygląd jak inne aplikacje Shrimps (Cocktail, Panko): pasek boczny z nazwą programu i wyszukiwaniem
+na dole, treść z paskiem tytułu (nawigacja, ścieżka, widoki, menu ☰), wiersze listy naprzemiennie
+jaśniejsze i ciemniejsze, bez obrysów, kolory tylko z libadwaita. Klasyczny pasek menu Nemo można
+włączyć w Preferencjach.
+
 Dlaczego nie port kodu Nemo: Nemo to GTK3 w C. Przeniesienie go na GTK4 oznacza przepisanie widoków
 (GtkIconView/GtkTreeView nie istnieją w GTK4 tak samo), panelu bocznego, okien i rozszerzeń.
 Własny kod w Rust wychodzi taniej i pasuje do reszty aplikacji Shrimps (Cocktail, Panko, Cherry).
