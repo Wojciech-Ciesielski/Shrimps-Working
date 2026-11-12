@@ -1,0 +1,27 @@
+1	Veb ilovalarni qidirish
+2	Yaratish
+3	Ochish
+4	Veb ilovani olib tashlash
+5	{name} ilovalaringizga qo‘shildi
+6	{name} olib tashlandi
+7	{name} yaratib bo‘lmadi: {error}
+8	Yangi veb ilova
+9	Istalgan veb-saytning manzilini kiriting. U ilova kabi o‘z oynasida ochiladi.
+10	Manzil
+11	Nomi
+12	Bekor qilish
+13	Natija yo‘q
+14	Boshqa nom sinab ko‘ring yoki o‘z veb ilovangizni yarating.
+15	O‘zingiznikini yaratish
+16	Grafika
+17	Video
+18	Musiqa
+19	O‘yinlar
+20	Ofis
+21	Internet
+22	Dasturlash
+23	Yordamchi dasturlar
+24	Veb ilovalaringiz
+25	Veb ilovalarni sandboksdan yaratish hozircha qo‘llab-quvvatlanmaydi
+26	Bu to‘g‘ri veb manzil emas
+27	Veb ilovalar

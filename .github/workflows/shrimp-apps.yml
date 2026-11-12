@@ -1,0 +1,85 @@
+name: Shrimp Apps
+
+on:
+  push:
+    paths: ["boxes/shrimp-apps/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/web-apps/**", "boxes/help-links/**", ".github/workflows/shrimp-apps.yml"]
+  pull_request:
+    paths: ["boxes/shrimp-apps/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/web-apps/**", "boxes/help-links/**", ".github/workflows/shrimp-apps.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apps:
+    runs-on: ubuntu-24.04
+    # Testy po polsku (LANGUAGE czyta i18n Shrimp i Web Apps)
+    env: { LANGUAGE: pl }
+    defaults: { run: { working-directory: boxes/shrimp-apps } }
+    steps:
+      - uses: actions/checkout@v7
+      - name: Zależności
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libgtk-4-dev libadwaita-1-dev libflatpak-dev \
+            flatpak ostree imagemagick xvfb xdotool dbus-x11 adwaita-icon-theme fonts-cantarell fonts-dejavu-core
+      - run: cargo test --locked
+      - run: cargo build --locked
+
+      - name: Lokalne repozytorium testowe (instalacja, aktualizacja, usuwanie)
+        run: |
+          set -e
+          tests/test-repo.py build "$RUNNER_TEMP/trepo" > "$RUNNER_TEMP/trepo.log"
+          flatpak remote-add --user --no-gpg-verify flathub "file://$RUNNER_TEMP/trepo/repo"
+          export SHRIMP_APPS_INSTALLATION=user
+          ./target/debug/shrimp-apps --self-test org.shrimp.test.Paint
+          # Aktualizacja: zainstaluj, wydaj wersję 1.1, sprawdź
+          flatpak install --user -y --noninteractive flathub org.shrimp.test.Music
+          tests/test-repo.py bump "$RUNNER_TEMP/trepo" org.shrimp.test.Music > /dev/null
+          ./target/debug/shrimp-apps --self-test org.shrimp.test.Music | tee "$RUNNER_TEMP/upd.log"
+          grep -q 'po aktualizacji: Some("1.1")' "$RUNNER_TEMP/upd.log"
+          flatpak uninstall --user -y --all
+          # Instalacja bez okna (zestaw podstawowy, Setup): manifest z dwiema aplikacjami testowymi
+          printf '{"apps":[{"id":"org.shrimp.test.Paint"},{"id":"org.shrimp.test.Music"}]}' > "$RUNNER_TEMP/base.json"
+          ./target/debug/shrimp-apps --install --manifest "$RUNNER_TEMP/base.json" | tee "$RUNNER_TEMP/inst.log"
+          grep -q '"done":true,"id":"org.shrimp.test.Paint"}' "$RUNNER_TEMP/inst.log"
+          flatpak info --user org.shrimp.test.Music > /dev/null
+          # druga instalacja nic nie pobiera, ale kończy się powodzeniem
+          ./target/debug/shrimp-apps --install org.shrimp.test.Paint | grep -q '"skipped":true'
+          # nieistniejąca aplikacja daje błąd, ale reszta się instaluje
+          ! ./target/debug/shrimp-apps --install org.shrimp.test.Nope > /dev/null
+          ! ./target/debug/shrimp-apps --install "nie ma kropki" > /dev/null 2>&1
+          flatpak uninstall --user -y --all
+          flatpak remote-delete --user flathub
+
+      - name: Prawdziwy Flathub (katalog, wyszukiwanie, instalacja, usuwanie)
+        run: |
+          sudo flatpak remote-add --system --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          sudo -E ./target/debug/shrimp-apps --self-test com.github.tchx84.Flatseal
+
+  # Steam z Flathub tak, jak instaluje go Setup (shrimp-apps --install). Sprawdza, czy razem z nim
+  # przychodzą 32-bitowe GL (org.freedesktop.Platform.GL32.*) i kodeki (ffmpeg-full), bez których gry
+  # się nie uruchamiają. Steam i jego środowiska to kilka GB, więc tylko przy zmianach tego pliku i ręcznie.
+  steam:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[steam]')
+    runs-on: ubuntu-24.04
+    defaults: { run: { working-directory: boxes/shrimp-apps } }
+    steps:
+      - uses: actions/checkout@v7
+      - name: Zależności
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libgtk-4-dev libadwaita-1-dev libflatpak-dev flatpak ostree
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      - run: cargo build --locked
+      - name: Instalacja Steam przez sklep Shrimp
+        run: |
+          sudo flatpak remote-add --system --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          sudo -E ./target/debug/shrimp-apps --install com.valvesoftware.Steam | tail -n 5
+          flatpak list --system --columns=ref | tee "$RUNNER_TEMP/refs.txt"
+          # --columns=ref wypisuje refy bez „app/” i „runtime/”
+          grep -q '^com.valvesoftware.Steam/' "$RUNNER_TEMP/refs.txt"
+          grep -q '^org.freedesktop.Platform.GL32.default/' "$RUNNER_TEMP/refs.txt"   # 32-bitowe GL dla gier
+          grep -q '^org.freedesktop.Platform.Compat.i386/' "$RUNNER_TEMP/refs.txt"
+          grep -q 'codecs' "$RUNNER_TEMP/refs.txt"   # kodeki (od 25.08 codecs-extra zamiast ffmpeg-full)
+          flatpak info --system --show-metadata com.valvesoftware.Steam | sed -n '/Extension/,$p' | head -40

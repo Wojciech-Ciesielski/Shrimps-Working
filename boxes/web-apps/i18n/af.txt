@@ -1,0 +1,27 @@
+1	Soek webtoepassings
+2	Skep
+3	Maak oop
+4	Verwyder webtoepassing
+5	{name} is by jou toepassings gevoeg
+6	{name} is verwyder
+7	Kon nie {name} skep nie: {error}
+8	Nuwe webtoepassing
+9	Voer die adres van enige webwerf in. Dit sal in sy eie venster oopmaak, soos 'n toepassing.
+10	Adres
+11	Naam
+12	Kanselleer
+13	Geen resultate nie
+14	Probeer 'n ander naam of skep jou eie webtoepassing.
+15	Skep jou eie
+16	Grafika
+17	Video
+18	Musiek
+19	Speletjies
+20	Kantoor
+21	Internet
+22	Ontwikkeling
+23	Nutsprogramme
+24	Jou webtoepassings
+25	Om webtoepassings vanuit 'n sandbak te skep word nog nie ondersteun nie
+26	Dit is nie 'n geldige webadres nie
+27	Webtoepassings

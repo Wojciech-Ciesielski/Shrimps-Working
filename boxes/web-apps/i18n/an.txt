@@ -1,0 +1,27 @@
+1	Mirar aplicacions web
+2	Creyar
+3	Ubrir
+4	Sacar l'aplicación web
+5	S'ha anyadiu {name} a las tuyas aplicacions
+6	S'ha sacau {name}
+7	No s'ha puesto creyar {name}: {error}
+8	Aplicación web nueva
+9	Escribe l'adreza de qualsequier puesto web. S'ubrirá en a suya propia finestra, como una aplicación.
+10	Adreza
+11	Nombre
+12	Cancelar
+13	Sin resultaus
+14	Preba con unatro nombre u creya la tuya propia aplicación web.
+15	Creyar a tuya
+16	Graficos
+17	Video
+18	Musica
+19	Chuegos
+20	Ofimatica
+21	Internet
+22	Desembolique
+23	Utilidatz
+24	As tuyas aplicacions web
+25	Encara no se pueden creyar aplicacions web dende un espacio aislau
+26	Ista no ye una adreza web valida
+27	Aplicacions web

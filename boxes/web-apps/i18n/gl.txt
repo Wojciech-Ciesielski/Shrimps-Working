@@ -1,0 +1,27 @@
+1	Buscar aplicacións web
+2	Crear
+3	Abrir
+4	Quitar a aplicación web
+5	Engadiuse {name} ás túas aplicacións
+6	Quitouse {name}
+7	Non se puido crear {name}: {error}
+8	Nova aplicación web
+9	Escribe o enderezo de calquera sitio web. Abrirase na súa propia xanela, como unha aplicación.
+10	Enderezo
+11	Nome
+12	Cancelar
+13	Sen resultados
+14	Proba con outro nome ou crea a túa propia aplicación web.
+15	Crear a túa
+16	Gráficos
+17	Vídeo
+18	Música
+19	Xogos
+20	Ofimática
+21	Internet
+22	Desenvolvemento
+23	Utilidades
+24	As túas aplicacións web
+25	Aínda non se poden crear aplicacións web desde un illamento
+26	Este non é un enderezo web válido
+27	Aplicacións web

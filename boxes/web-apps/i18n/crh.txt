@@ -1,0 +1,27 @@
+1	Web ilovelerini qıdır
+2	Yarat
+3	Aç
+4	Web ilovesini çetleştir
+5	{name} ilovelerinize qoşuldı
+6	{name} çetleştirildi
+7	{name} yaratılıp olamadı: {error}
+8	Yañı web ilovesi
+9	İstegen bir web saytınıñ adresini kiritiñiz. O, ilove kibi öz penceresinde açılır.
+10	Adres
+11	Ad
+12	Vazgeç
+13	Netice yoq
+14	Başqa bir ad deneñiz ya da öz web ilovelerinizni yaratıñız.
+15	Özünikini yarat
+16	Grafika
+17	Video
+18	Muzıka
+19	Oyunlar
+20	Ofis
+21	İnternet
+22	İnkişaf
+23	Yardımcı programmalar
+24	Web ilovelerıñız
+25	Web ilovelerini qum sandığından yaratmaq daa desteklenmey
+26	Bu doğru web adresi degil
+27	Web iloveler

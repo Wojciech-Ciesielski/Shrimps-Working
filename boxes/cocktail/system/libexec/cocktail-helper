@@ -1,0 +1,79 @@
+#!/bin/bash
+# Pomocnik Cocktail uruchamiany przez pkexec (akcja org.shrimp.cocktail.manage, hasło administratora).
+#   cocktail-helper install PAKIET...
+#   cocktail-helper remove PAKIET...
+#   cocktail-helper update
+# Na niezmiennym systemie każda zmiana idzie przez transactional-update do nowej migawki
+# (--continue: kolejne zmiany przed restartem trafiają do tej samej, najnowszej migawki).
+# Wypisuje „reboot”, gdy zmiana zadziała dopiero po ponownym uruchomieniu.
+set -euo pipefail
+
+# Pakiety, bez których system nie wstanie albo nie da się go naprawić z Cocktail.
+PROTECTED="kernel-default glibc systemd zypper libzypp rpm transactional-update snapper btrfs-progs
+grub2 shim dracut gnome-shell gdm mutter NetworkManager polkit sudo bash coreutils filesystem
+cocktail shrimp-release"
+
+die() { echo "cocktail-helper: $*" >&2; exit 2; }
+
+# Tryb: transactional (system tylko do odczytu) albo zypper (zwykły system, np. podczas prac).
+mode() {
+  if [ -n "${COCKTAIL_MODE:-}" ]; then echo "$COCKTAIL_MODE"; return; fi
+  if command -v transactional-update >/dev/null 2>&1 \
+     && findmnt -n -o OPTIONS / 2>/dev/null | tr ',' '\n' | grep -qx ro; then
+    echo transactional
+  else
+    echo zypper
+  fi
+}
+
+check_names() {
+  [ $# -gt 0 ] || die "brak nazw pakietów"
+  local p
+  for p in "$@"; do
+    [[ "$p" =~ ^[A-Za-z0-9][A-Za-z0-9+._-]*$ ]] || die "niedozwolona nazwa pakietu: $p"
+  done
+}
+
+check_removable() {
+  local p q
+  for p in "$@"; do
+    for q in $PROTECTED; do
+      [ "$p" = "$q" ] && die "pakietu $p nie można usunąć"
+    done
+  done
+  return 0
+}
+
+run_change() {
+  # $1: install|remove|update, reszta: pakiety
+  local op=$1; shift
+  if [ "$(mode)" = transactional ]; then
+    case "$op" in
+      install) transactional-update --non-interactive --continue pkg install --auto-agree-with-licenses "$@" ;;
+      remove)  transactional-update --non-interactive --continue pkg remove "$@" ;;
+      update)  transactional-update --non-interactive --continue up ;;
+    esac
+    echo reboot
+  else
+    case "$op" in
+      install) zypper --non-interactive install --auto-agree-with-licenses "$@" ;;
+      remove)  zypper --non-interactive remove "$@" ;;
+      update)  zypper --non-interactive update --auto-agree-with-licenses ;;
+    esac
+    # Nowe jądro działa dopiero po restarcie także na zwykłym systemie (kod 102 = trzeba restartu).
+    if [ "$op" = update ]; then
+      local rc=0
+      zypper needs-rebooting >/dev/null 2>&1 || rc=$?
+      [ "$rc" -eq 102 ] && echo reboot
+    fi
+  fi
+}
+
+[ $# -ge 1 ] || die "użycie: cocktail-helper install|remove|update [PAKIET...]"
+cmd=$1; shift
+case "$cmd" in
+  install) check_names "$@"; run_change install "$@" ;;
+  remove)  check_names "$@"; check_removable "$@"; run_change remove "$@" ;;
+  update)  [ $# -eq 0 ] || die "update nie przyjmuje argumentów"; run_change update ;;
+  *) die "nieznane polecenie: $cmd" ;;
+esac

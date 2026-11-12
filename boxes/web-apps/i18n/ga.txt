@@ -1,0 +1,27 @@
+1	Cuardaigh aipeanna gréasáin
+2	Cruthaigh
+3	Oscail
+4	Bain aip ghréasáin
+5	Cuireadh {name} le d’aipeanna
+6	Baineadh {name}
+7	Níorbh fhéidir {name} a chruthú: {error}
+8	Aip ghréasáin nua
+9	Cuir isteach seoladh aon suímh ghréasáin. Osclóidh sé ina fhuinneog féin, cosúil le haip.
+10	Seoladh
+11	Ainm
+12	Cealaigh
+13	Gan torthaí
+14	Triail ainm eile nó cruthaigh d’aip ghréasáin féin.
+15	Cruthaigh ceann ar leith
+16	Grafaic
+17	Físeán
+18	Ceol
+19	Cluichí
+20	Oifig
+21	Idirlíon
+22	Forbairt
+23	Áiseanna
+24	Do chuid aipeanna gréasáin
+25	Ní thacaítear go fóill le haipeanna gréasáin a chruthú ó bhosca gainimh
+26	Ní seoladh gréasáin bailí é seo
+27	Aipeanna gréasáin

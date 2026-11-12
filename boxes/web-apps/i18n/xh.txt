@@ -1,0 +1,27 @@
+1	Khangela ii-app zewebhu
+2	Yenza
+3	Vula
+4	Susa i-app yewebhu
+5	{name} yongezwe kwii-app zakho
+6	{name} isusiwe
+7	Ayikwazanga ukwenza {name}: {error}
+8	I-app entsha yewebhu
+9	Faka idilesi yawo nawuphi na umnatha. Iya kuvuleka kwifestile yayo, njenge-app.
+10	Idilesi
+11	Igama
+12	Rhoxisa
+13	Akukho ziphumo
+14	Zama elinye igama okanye wenze i-app yakho yewebhu.
+15	Yenza eyakho
+16	Imizobo
+17	Ividiyo
+18	Umculo
+19	Imidlalo
+20	Ibhunga
+21	I-intanethi
+22	Uphuhliso
+23	Izixhobo
+24	Ii-app zakho zewebhu
+25	Ukwenza ii-app zewebhu kwi-sandbox akukaxhaswa
+26	Eli asilo idilesi yewebhu esebenzayo
+27	Ii-app zewebhu

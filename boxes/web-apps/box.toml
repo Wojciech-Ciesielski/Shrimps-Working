@@ -1,0 +1,7 @@
+[box]
+id = "web-apps"
+version = "0.1.0"
+kind = "lib"
+summary = "Katalog 150 aplikacji internetowych (PWA) z ikonami i tekstami"
+build_depends = ["i18n-core"]
+ci = "web-apps"

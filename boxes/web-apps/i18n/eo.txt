@@ -1,0 +1,27 @@
+1	Serĉi TTT-aplikaĵojn
+2	Krei
+3	Malfermi
+4	Forigi TTT-aplikaĵon
+5	{name} estis aldonita al viaj aplikaĵoj
+6	{name} estis forigita
+7	Ne eblis krei {name}: {error}
+8	Nova TTT-aplikaĵo
+9	Enigu la adreson de iu ajn retejo. Ĝi malfermiĝos en propra fenestro, kiel aplikaĵo.
+10	Adreso
+11	Nomo
+12	Nuligi
+13	Neniuj rezultoj
+14	Provu alian nomon aŭ kreu vian propran TTT-aplikaĵon.
+15	Krei vian propran
+16	Grafikaĵo
+17	Videaĵo
+18	Muziko
+19	Ludoj
+20	Oficejo
+21	Interreto
+22	Programado
+23	Iloj
+24	Viaj TTT-aplikaĵoj
+25	Krei TTT-aplikaĵojn el sablokesto ankoraŭ ne estas subtenata
+26	Tio ne estas valida TTT-adreso
+27	TTT-aplikaĵoj

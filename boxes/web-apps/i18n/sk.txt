@@ -1,0 +1,27 @@
+1	Hľadať webové aplikácie
+2	Vytvoriť
+3	Otvoriť
+4	Odstrániť webovú aplikáciu
+5	Aplikácia {name} bola pridaná medzi vaše aplikácie
+6	Aplikácia {name} bola odstránená
+7	Aplikáciu {name} sa nepodarilo vytvoriť: {error}
+8	Nová webová aplikácia
+9	Zadajte adresu ľubovoľnej webovej stránky. Otvorí sa vo vlastnom okne ako aplikácia.
+10	Adresa
+11	Názov
+12	Zrušiť
+13	Žiadne výsledky
+14	Skúste iný názov alebo vytvorte vlastnú webovú aplikáciu.
+15	Vytvoriť vlastnú
+16	Grafika
+17	Video
+18	Hudba
+19	Hry
+20	Kancelária
+21	Internet
+22	Vývoj
+23	Nástroje
+24	Vaše webové aplikácie
+25	Vytváranie webových aplikácií z izolovaného prostredia zatiaľ nie je podporované
+26	Toto nie je platná webová adresa
+27	Webové aplikácie

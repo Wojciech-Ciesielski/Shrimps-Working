@@ -1,0 +1,48 @@
+name: Release
+
+# Wydanie Shrimps: tag na sprawdzonym commicie. CoreOS-Working przypina ten tag w tools/shrimps.ref
+# i buduje z niego aplikacje w chroocie Leap razem z obrazem (te same biblioteki co ISO), więc wydanie
+# nie ma plików binarnych: to stan kodu, z którego powstaje Shrimp.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag wydania (musi być nowy)"
+        required: true
+        default: "shrimps-beta"
+      title:
+        description: "Nazwa wydania"
+        required: true
+        default: "Shrimps Beta"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Tag jest nowy, CI tego commita zielone
+        run: |
+          if gh api "repos/$REPO/git/ref/tags/$TAG" >/dev/null 2>&1; then echo "::error::Tag $TAG już istnieje"; exit 1; fi
+          bad=$(gh run list -R "$REPO" -c "$GITHUB_SHA" --json name,conclusion -q '.[] | select(.conclusion=="failure") | .name')
+          if [ -n "$bad" ]; then echo "::error::Czerwone CI dla $GITHUB_SHA: $bad"; exit 1; fi
+      - name: Utwórz wydanie
+        run: |
+          {
+            echo "${{ inputs.title }}: aplikacje Shrimps w wersji testowej."
+            echo
+            for b in shrimp-apps cocktail panko; do
+              v=$(grep -m1 '^version' "boxes/$b/box.toml" | cut -d'"' -f2)
+              s=$(grep -m1 '^summary' "boxes/$b/box.toml" | cut -d'"' -f2)
+              echo "- \`$b\` $v: $s"
+            done
+            echo
+            echo "Aplikacje trafiają do ISO przez CoreOS-Working (tools/shrimps.ref = \`$REPO@$TAG\`)."
+          } > notes.md
+          gh release create "$TAG" --repo "$REPO" --target "$GITHUB_SHA" --title "${{ inputs.title }}" --notes-file notes.md --prerelease

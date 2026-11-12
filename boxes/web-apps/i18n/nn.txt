@@ -1,0 +1,27 @@
+1	Søk etter nettappar
+2	Opprett
+3	Opne
+4	Fjern nettapp
+5	{name} vart lagd til i appane dine
+6	{name} vart fjerna
+7	Kunne ikkje opprette {name}: {error}
+8	Ny nettapp
+9	Skriv inn adressa til eit kva som helst nettstad. Han opnar i sitt eige vindauge, som ein app.
+10	Adresse
+11	Namn
+12	Avbryt
+13	Ingen resultat
+14	Prøv eit anna namn eller lag di eiga nettapp.
+15	Lag di eiga
+16	Grafikk
+17	Video
+18	Musikk
+19	Spel
+20	Kontor
+21	Internett
+22	Utvikling
+23	Verktøy
+24	Nettappane dine
+25	Det vert ikkje støtta enno å opprette nettappar frå ein sandkasse
+26	Dette er ikkje ei gyldig nettadresse
+27	Nettappar

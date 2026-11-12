@@ -1,0 +1,68 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	category.graphics	Graphics
+2	category.video	Video
+3	category.music	Music
+4	category.games	Games
+5	category.office	Office
+6	category.internet	Internet
+7	category.development	Development
+8	category.tools	Tools
+9	details.verified	Verified developer
+10	button.remove	Remove
+11	button.cancel	Cancel
+12	details.version	Version
+13	details.size	Size
+14	details.category	Category
+15	details.license	License
+16	details.developer	Developer
+17	button.open	Open
+18	details.website	Website
+19	details.download-size	{size} to download
+20	license.proprietary	Proprietary
+21	license.and	and
+22	license.or	or
+23	details.previous	Previous
+24	details.next	Next
+25	remove.title	Remove “{name}”?
+26	remove.body	The app will be removed from the computer. Your files will stay.
+27	status.get	Get
+28	status.update	Update
+29	status.queued	Waiting
+30	status.removing	Removing
+31	status.adding-flathub	Adding Flathub…
+32	status.downloading-catalog	Downloading the catalog…
+33	about.comments	Apps from Flathub
+34	page.discover	Discover
+35	page.installed	Installed
+36	page.web	Web apps
+37	sidebar.categories	Categories
+38	search.placeholder	Search apps
+39	help	Help
+40	status.loading-catalog	Loading the catalog…
+41	error.refresh	Could not refresh the catalog
+42	error.install	Could not install “{name}”
+43	error.update	Could not update “{name}”
+44	error.remove	Could not remove “{name}”
+45	toast.installed	“{name}” was installed
+46	error.launch	Could not open “{name}”
+47	menu.refresh	Refresh catalog
+48	menu.about	About Shrimp Apps
+49	menu.main	Main menu
+50	offline.title	No internet connection
+51	offline.body	Connect to the internet to see apps.
+52	button.retry	Try again
+53	discover.kicker	PICK OF THE WEEK
+54	discover.previous	Previous
+55	discover.next	Next
+56	search.results	Results for “{query}”
+57	search.none	Nothing found
+58	search.none-body	Try a different name.
+59	installed.none	You have no apps yet
+60	installed.none-body	Apps you get will show up here.
+61	installed.version	Version {version}
+62	installed.updates	Updates ({count})
+63	installed.update-all	Update all
+64	installed.all	All
+65	error.no-remote	The {remote} repository is missing
+66	error.no-catalog	The app catalog is missing
+67	error.empty-catalog	The app catalog is empty

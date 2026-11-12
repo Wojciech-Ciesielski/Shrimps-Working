@@ -1,0 +1,93 @@
+1	Polecenie zakończyło się kodem {code}.
+2	Zamknij
+3	Anuluj
+4	Poczekaj, aż skończy się poprzednia zmiana
+5	Nie można usunąć: {name}
+6	Bez pakietu {package} system przestałby działać.
+7	Razem z nim zostaną usunięte: {list}.
+8	Razem z nim zostaną usunięte: {list} i {n} inny.
+9	Razem z nim zostaną usunięte: {list} i {n} innych.
+10	Razem z nim zostaną usunięte: {list} i {n} inne.
+11	Razem z nim zostaną usunięte: {list} i {n} innych.
+12	Usunąć: {name}?
+13	Usuń
+14	Nie udało się zainstalować: {name}
+15	Nie udało się usunąć: {name}
+16	Nie udało się zaktualizować systemu
+17	Multimedia
+18	Czcionki
+19	Środowiska uruchomieniowe
+20	Narzędzia programistyczne
+21	Sieć
+22	Drukowanie
+23	Firmware
+24	Zabezpieczenia
+25	Wirtualizacja
+26	Narzędzia systemowe
+27	Kodeki wideo
+28	Kodeki audio
+29	Czcionki Microsoft
+30	Samba (udziały Windows)
+31	Avahi (wykrywanie w sieci)
+32	Cockpit (panel systemu)
+33	Pakiety systemu
+34	Usunięte po ponownym uruchomieniu
+35	Gotowe po ponownym uruchomieniu
+36	Zainstalowano
+37	Dostępne do pobrania
+38	Zainstaluj
+39	Instalowanie…
+40	Wyniki wyszukiwania
+41	Baterie
+42	Procesory
+43	Karty graficzne
+44	Dźwięk
+45	Kamery
+46	Karty sieciowe
+47	Bluetooth
+48	Klawiatury
+49	Wskaźniki
+50	Dyski
+51	Urządzenia USB
+52	Biometria
+53	Nieznane urządzenia
+54	nouveau (otwarty)
+55	Wczytywanie…
+56	Nie udało się odczytać listy urządzeń.
+57	Używasz sterownika: {list}
+58	Używasz sterowników: {list}
+59	Używasz sterowników: {list}
+60	Używasz sterowników: {list}
+61	Zainstalowano: {name} {version}
+62	Zaktualizowano: {name} {old} → {version}
+63	Usunięto: {name} {version}
+64	Dziś
+65	Wczoraj
+66	Ostatni tydzień
+67	Wcześniej
+68	Nie udało się odczytać historii.
+69	Historia jest pusta.
+70	Nic nie pasuje do tego wyszukiwania.
+71	System jest aktualny
+72	Sprawdź aktualizacje
+73	Dostępne aktualizacje
+74	Zainstaluj aktualizacje
+75	Aktualizacje zainstalowane
+76	Uruchom ponownie, aby zakończyć
+77	Uruchom ponownie
+78	Sprawdzanie…
+79	Brak nowych aktualizacji
+80	Uruchamianie…
+81	Nie udało się sprawdzić aktualizacji
+82	{n} pakiet
+83	{n} pakiety
+84	{n} pakietów
+85	{n} pakietów
+86	Aktualizacje
+87	Urządzenia
+88	Pakiety
+89	Historia
+90	Szukaj
+91	O aplikacji Cocktail
+92	Menu główne
+93	Aktualizacje systemu, urządzenia i pakiety.

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>Shrimp</vendor>
+  <action id="org.shrimp.cocktail.manage">
+    <description>Install, remove and update system packages</description>
+    <description xml:lang="pl">Instalowanie, usuwanie i aktualizowanie pakietów systemu</description>
+    <message>Changing system packages requires administrator privileges.</message>
+    <message xml:lang="pl">Zmiana pakietów systemu wymaga uprawnień administratora.</message>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/cocktail-helper</annotate>
+  </action>
+  <action id="org.shrimp.cocktail.query">
+    <description>Check for system updates and read package history</description>
+    <description xml:lang="pl">Sprawdzanie aktualizacji systemu i odczyt historii pakietów</description>
+    <message xml:lang="pl">Sprawdzenie aktualizacji wymaga uprawnień administratora.</message>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/cocktail-query</annotate>
+  </action>
+</policyconfig>

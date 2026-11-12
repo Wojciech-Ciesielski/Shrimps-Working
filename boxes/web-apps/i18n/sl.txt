@@ -1,0 +1,27 @@
+1	Iskanje spletnih aplikacij
+2	Ustvari
+3	Odpri
+4	Odstrani spletno aplikacijo
+5	{name} je bila dodana med vaše aplikacije
+6	{name} je bila odstranjena
+7	Ustvarjanje aplikacije {name} ni uspelo: {error}
+8	Nova spletna aplikacija
+9	Vnesite naslov poljubnega spletnega mesta. Odprlo se bo v svojem oknu, kot aplikacija.
+10	Naslov
+11	Ime
+12	Prekliči
+13	Ni rezultatov
+14	Poskusite z drugim imenom ali ustvarite lastno spletno aplikacijo.
+15	Ustvari svojo
+16	Grafika
+17	Video
+18	Glasba
+19	Igre
+20	Pisarna
+21	Internet
+22	Razvoj
+23	Orodja
+24	Vaše spletne aplikacije
+25	Ustvarjanje spletnih aplikacij iz peskovnika še ni podprto
+26	To ni veljaven spletni naslov
+27	Spletne aplikacije

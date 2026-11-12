@@ -1,0 +1,27 @@
+1	Kërko aplikacione ueb
+2	Krijo
+3	Hap
+4	Hiq aplikacionin ueb
+5	{name} u shtua te aplikacionet e tua
+6	{name} u hoq
+7	{name} nuk mund të krijohej: {error}
+8	Aplikacion i ri ueb
+9	Shkruaj adresën e çdo faqeje interneti. Do të hapet në dritaren e vet, si një aplikacion.
+10	Adresa
+11	Emri
+12	Anulo
+13	Nuk ka rezultate
+14	Provo një emër tjetër ose krijo aplikacionin tënd ueb.
+15	Krijo të tuajin
+16	Grafikë
+17	Video
+18	Muzikë
+19	Lojëra
+20	Zyra
+21	Interneti
+22	Zhvillim
+23	Shërbime
+24	Aplikacionet e tua ueb
+25	Krijimi i aplikacioneve ueb nga një sandbox ende nuk mbështetet
+26	Kjo nuk është adresë ueb e vlefshme
+27	Aplikacione ueb

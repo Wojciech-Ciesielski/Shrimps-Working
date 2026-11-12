@@ -1,0 +1,10 @@
+[Unit]
+Description=Usuń stare migawki (Panko)
+ConditionPathExists=/etc/panko/panko.conf
+After=snapperd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/panko --cleanup
+Nice=19
+IOSchedulingClass=idle

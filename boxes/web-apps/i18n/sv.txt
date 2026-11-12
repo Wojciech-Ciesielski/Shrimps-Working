@@ -1,0 +1,27 @@
+1	Sök webbappar
+2	Skapa
+3	Öppna
+4	Ta bort webbapp
+5	{name} har lagts till bland dina appar
+6	{name} har tagits bort
+7	Det gick inte att skapa {name}: {error}
+8	Ny webbapp
+9	Ange adressen till en valfri webbplats. Den öppnas i ett eget fönster, som en app.
+10	Adress
+11	Namn
+12	Avbryt
+13	Inga resultat
+14	Prova ett annat namn eller skapa din egen webbapp.
+15	Skapa din egen
+16	Grafik
+17	Video
+18	Musik
+19	Spel
+20	Kontor
+21	Internet
+22	Utveckling
+23	Verktyg
+24	Dina webbappar
+25	Det går ännu inte att skapa webbappar från en sandlåda
+26	Det här är inte en giltig webbadress
+27	Webbappar

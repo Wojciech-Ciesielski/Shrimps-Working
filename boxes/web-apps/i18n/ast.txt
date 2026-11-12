@@ -1,0 +1,27 @@
+1	Guetar aplicaciones web
+2	Crear
+3	Abrir
+4	Quitar l'aplicación web
+5	Amestóse {name} a les tos aplicaciones
+6	Quitóse {name}
+7	Nun se pudo crear {name}: {error}
+8	Aplicación web nueva
+9	Escribi la direición de cualquier sitiu web. Abriráse na so propia ventana, como una aplicación.
+10	Direición
+11	Nome
+12	Encaboxar
+13	Ensin resultaos
+14	Prueba con otru nome o crea la to propia aplicación web.
+15	Crear la to
+16	Gráficos
+17	Videu
+18	Música
+19	Xuegos
+20	Ofimática
+21	Internet
+22	Desendolcu
+23	Utilidaes
+24	Les tos aplicaciones web
+25	Entá nun se pue crear aplicaciones web dende un espaciu aisláu
+26	Esta nun ye una direición web válida
+27	Aplicaciones web

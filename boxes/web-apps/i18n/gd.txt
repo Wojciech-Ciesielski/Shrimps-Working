@@ -1,0 +1,27 @@
+1	Lorg aplacaidean-lìn
+2	Cruthaich
+3	Fosgail
+4	Thoir air falbh an aplacaid-lìn
+5	Chaidh {name} a chur ris na h-aplacaidean agad
+6	Chaidh {name} a thoirt air falbh
+7	Cha b’ urrainn dhuinn {name} a chruthachadh: {error}
+8	Aplacaid-lìn ùr
+9	Cuir a-steach seòladh làrach-lìn sam bith. Fosglaidh i na h-uinneag fhèin, mar aplacaid.
+10	Seòladh
+11	Ainm
+12	Sguir dheth
+13	Gun toradh
+14	Feuch ainm eile no cruthaich an aplacaid-lìn agad fhèin.
+15	Cruthaich fear fhèin
+16	Grafaigeachd
+17	Video
+18	Ceòl
+19	Geamannan
+20	Oifis
+21	An t-eadar-lìon
+22	Leasachadh
+23	Goireasan
+24	Na h-aplacaidean-lìn agad
+25	Cha chuirear taic ri cruthachadh aplacaidean-lìn o bhogsa-gainmhich fhathast
+26	Chan e seòladh-lìn dligheach a th’ ann
+27	Aplacaidean-lìn

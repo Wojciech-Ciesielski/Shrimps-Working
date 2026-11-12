@@ -1,0 +1,27 @@
+1	Otsi veebirakendusi
+2	Loo
+3	Ava
+4	Eemalda veebirakendus
+5	{name} lisati teie rakendustesse
+6	{name} eemaldati
+7	Rakenduse {name} loomine ebaõnnestus: {error}
+8	Uus veebirakendus
+9	Sisestage mis tahes veebisaidi aadress. See avatakse oma aknas nagu rakendus.
+10	Aadress
+11	Nimi
+12	Loobu
+13	Tulemusi pole
+14	Proovige mõnda teist nime või looge oma veebirakendus.
+15	Loo oma
+16	Graafika
+17	Video
+18	Muusika
+19	Mängud
+20	Kontor
+21	Internet
+22	Arendus
+23	Tööriistad
+24	Teie veebirakendused
+25	Veebirakenduste loomist liivakastist ei toetata veel
+26	See pole kehtiv veebiaadress
+27	Veebirakendused

@@ -1,0 +1,7 @@
+# Każda aplikacja wbudowuje swoje teksty z <box>/i18n przez build.rs (shrimp_i18n::codegen).
+[box]
+id = "shrimp-i18n"
+version = "0.1.0"
+kind = "lib"
+summary = "Biblioteka Rust z tekstami aplikacji GTK (format i18n-core)"
+build_depends = ["i18n-core"]

@@ -1,0 +1,94 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	error.exit-code	The command ended with code {code}.
+2	button.close	Close
+3	button.cancel	Cancel
+4	toast.busy	Wait until the previous change finishes
+5	remove.cannot	Cannot remove: {name}
+6	remove.protected	Without the {package} package the system would stop working.
+7	remove.also	These will be removed along with it: {list}.
+8	remove.also-more.one	These will be removed along with it: {list} and {n} other.
+9	remove.also-more.other	These will be removed along with it: {list} and {n} others.
+10	remove.also-more.few	These will be removed along with it: {list} and {n} others.
+11	remove.also-more.many	These will be removed along with it: {list} and {n} others.
+12	remove.confirm	Remove {name}?
+13	button.remove	Remove
+14	error.install	Could not install: {name}
+15	error.remove	Could not remove: {name}
+16	error.update	Could not update the system
+17	cat.multimedia	Multimedia
+18	cat.fonts	Fonts
+19	cat.runtimes	Runtimes
+20	cat.dev	Developer tools
+21	cat.network	Network
+22	cat.printing	Printing
+23	cat.firmware	Firmware
+24	cat.security	Security
+25	cat.virtualization	Virtualization
+26	cat.system	System tools
+27	pkg.video-codecs	Video codecs
+28	pkg.audio-codecs	Audio codecs
+29	pkg.ms-fonts	Microsoft fonts
+30	pkg.samba	Samba (Windows shares)
+31	pkg.avahi	Avahi (network discovery)
+32	pkg.cockpit	Cockpit (system panel)
+33	packages.root	System packages
+34	pending.removed	Removed after restart
+35	pending.ready	Ready after restart
+36	state.installed	Installed
+37	state.available	Available to download
+38	button.install	Install
+39	state.installing	Installing…
+40	search.results	Search results
+41	device.batteries	Batteries
+42	device.processors	Processors
+43	device.graphics	Graphics cards
+44	device.sound	Sound
+45	device.cameras	Cameras
+46	device.network	Network adapters
+47	device.bluetooth	Bluetooth
+48	device.keyboards	Keyboards
+49	device.pointers	Pointing devices
+50	device.disks	Disks
+51	device.usb	USB devices
+52	device.biometrics	Biometrics
+53	device.other	Unknown devices
+54	driver.nouveau	nouveau (open source)
+55	state.loading	Loading…
+56	devices.error	Could not read the list of devices.
+57	devices.drivers.one	Driver in use: {list}
+58	devices.drivers.other	Drivers in use: {list}
+59	devices.drivers.few	Drivers in use: {list}
+60	devices.drivers.many	Drivers in use: {list}
+61	history.installed	Installed: {name} {version}
+62	history.updated	Updated: {name} {old} → {version}
+63	history.removed	Removed: {name} {version}
+64	history.today	Today
+65	history.yesterday	Yesterday
+66	history.week	Last week
+67	history.earlier	Earlier
+68	history.error	Could not read the history.
+69	history.empty	The history is empty.
+70	search.none	Nothing matches this search.
+71	updates.uptodate	The system is up to date
+72	updates.check	Check for updates
+73	updates.available	Updates available
+74	updates.install	Install updates
+75	updates.installed	Updates installed
+76	updates.restart-to-finish	Restart to finish
+77	button.restart	Restart
+78	state.checking	Checking…
+79	toast.no-updates	No new updates
+80	state.restarting	Restarting…
+81	updates.check-failed	Could not check for updates
+82	updates.packages.one	{n} package
+83	updates.packages.few	{n} packages
+84	updates.packages.many	{n} packages
+85	updates.packages.other	{n} packages
+86	section.updates	Updates
+87	section.devices	Devices
+88	section.packages	Packages
+89	section.history	History
+90	search.placeholder	Search
+91	menu.about	About Cocktail
+92	menu.main	Main menu
+93	about.comments	System updates, devices and packages.

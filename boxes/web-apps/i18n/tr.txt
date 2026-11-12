@@ -1,0 +1,27 @@
+1	Web uygulamalarını ara
+2	Oluştur
+3	Aç
+4	Web uygulamasını kaldır
+5	{name} uygulamalarınıza eklendi
+6	{name} kaldırıldı
+7	{name} oluşturulamadı: {error}
+8	Yeni web uygulaması
+9	Herhangi bir web sitesinin adresini girin. Kendi penceresinde, bir uygulama gibi açılır.
+10	Adres
+11	Ad
+12	İptal
+13	Sonuç yok
+14	Başka bir ad deneyin veya kendi web uygulamanızı oluşturun.
+15	Kendininkini oluştur
+16	Grafik
+17	Video
+18	Müzik
+19	Oyunlar
+20	Ofis
+21	İnternet
+22	Geliştirme
+23	Araçlar
+24	Web uygulamalarınız
+25	Korumalı alandan web uygulaması oluşturma henüz desteklenmiyor
+26	Bu geçerli bir web adresi değil
+27	Web uygulamaları

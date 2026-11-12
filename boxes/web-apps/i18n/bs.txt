@@ -1,0 +1,27 @@
+1	Traži web aplikacije
+2	Kreiraj
+3	Otvori
+4	Ukloni web aplikaciju
+5	{name} je dodana u vaše aplikacije
+6	{name} je uklonjena
+7	Nije moguće kreirati {name}: {error}
+8	Nova web aplikacija
+9	Unesite adresu bilo koje web stranice. Otvorit će se u vlastitom prozoru, kao aplikacija.
+10	Adresa
+11	Naziv
+12	Otkaži
+13	Nema rezultata
+14	Pokušajte s drugim nazivom ili kreirajte vlastitu web aplikaciju.
+15	Kreirajte vlastitu
+16	Grafika
+17	Video
+18	Muzika
+19	Igre
+20	Ured
+21	Internet
+22	Razvoj
+23	Alati
+24	Vaše web aplikacije
+25	Kreiranje web aplikacija iz izolovanog okruženja još nije podržano
+26	Ovo nije ispravna web adresa
+27	Web aplikacije

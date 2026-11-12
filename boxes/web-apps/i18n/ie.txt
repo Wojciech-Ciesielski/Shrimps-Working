@@ -1,0 +1,27 @@
+1	Serchar applicationes web
+2	Crear
+3	Aperir
+4	Remover li application web
+5	{name} ha esset adjuntet a tui applicationes
+6	{name} ha esset removet
+7	Ne successat crear {name}: {error}
+8	Nov application web
+9	Intra li adresse de qualcunc situe web. It va aperir se in su propri fenestre, quam un application.
+10	Adresse
+11	Nómine
+12	Anullar
+13	Null resultates
+14	Prova un altri nómine o crea tui propri application web.
+15	Crear tui propri
+16	Grafica
+17	Video
+18	Musica
+19	Ludes
+20	Officie
+21	Internet
+22	Developation
+23	Utensiles
+24	Tui applicationes web
+25	Crear applicationes web ex un sandbox ne es ancor suportat
+26	It ne es un valid adresse web
+27	Applicationes web

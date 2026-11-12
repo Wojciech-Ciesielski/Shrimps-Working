@@ -1,0 +1,28 @@
+[box]
+id = "cocktail"
+version = "0.1.0"
+kind = "app"
+summary = "Aktualizacje, sterowniki, pakiety i historia zmian (GTK4 + libadwaita, Rust)"
+build_depends = ["shrimp-i18n"]
+ci = "cocktail"
+
+[packages]
+image = ["libgtk-4-1", "libadwaita-1-0", "polkit"]
+build = [
+    "bash",
+    "coreutils",
+    "findutils",
+    "gawk",
+    "gcc",
+    "pkg-config",
+    "rustup",
+    "ca-certificates",
+    "ca-certificates-mozilla",
+    "pkgconfig(gtk4)",
+    "pkgconfig(libadwaita-1)",
+]
+
+[build]
+chroot = "cargo build --release --locked"
+outputs = ["target/release/cocktail"]
+install = "install.sh"

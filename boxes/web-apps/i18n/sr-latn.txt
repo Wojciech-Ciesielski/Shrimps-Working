@@ -1,0 +1,27 @@
+1	Pretraži veb aplikacije
+2	Napravi
+3	Otvori
+4	Ukloni veb aplikaciju
+5	{name} je dodata u vaše aplikacije
+6	{name} je uklonjena
+7	Nije moguće napraviti {name}: {error}
+8	Nova veb aplikacija
+9	Unesite adresu bilo kog veb sajta. Otvoriće se u sopstvenom prozoru, kao aplikacija.
+10	Adresa
+11	Naziv
+12	Otkaži
+13	Nema rezultata
+14	Pokušajte sa drugim nazivom ili napravite sopstvenu veb aplikaciju.
+15	Napravite svoju
+16	Grafika
+17	Video
+18	Muzika
+19	Igre
+20	Kancelarija
+21	Internet
+22	Razvoj
+23	Alati
+24	Vaše veb aplikacije
+25	Pravljenje veb aplikacija iz izolovanog okruženja još nije podržano
+26	Ovo nije ispravna veb adresa
+27	Veb aplikacije

@@ -1,0 +1,27 @@
+[package]
+name = "shrimp-apps"
+version = "0.1.0"
+edition = "2021"
+description = "Shrimp Apps: aplikacje z Flathub"
+license = "GPL-3.0-or-later"
+
+[build-dependencies]
+# teksty z i18n/ wbudowuje build.rs (shrimp_i18n::codegen)
+shrimp-i18n = { path = "../shrimp-i18n" }
+
+[dependencies]
+shrimp-i18n = { path = "../shrimp-i18n" }
+gtk = { package = "gtk4", version = "0.10", features = ["v4_14"] }
+adw = { package = "libadwaita", version = "0.8", features = ["v1_5"] }
+libflatpak = "0.7"
+async-channel = "2"
+quick-xml = "0.42"
+flate2 = "1"
+ureq = "3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+shrimp-webapps = { path = "../web-apps" }
+
+[profile.release]
+lto = true
+strip = true

@@ -1,0 +1,27 @@
+1	Webapps sykje
+2	Oanmeitsje
+3	Iepenje
+4	Webapp fuortsmite
+5	{name} is tafoege oan jo apps
+6	{name} is fuortsmiten
+7	{name} koe net oanmakke wurde: {error}
+8	Nije webapp
+9	Fier it adres fan in willekeurige webside yn. Dy giet iepen yn in eigen finster, as in app.
+10	Adres
+11	Namme
+12	Annulearje
+13	Gjin resultaten
+14	Probearje in oare namme of meitsje jo eigen webapp.
+15	Meitsje jo eigen
+16	Grafysk
+17	Fideo
+18	Muzyk
+19	Spultsjes
+20	Kantoar
+21	Ynternet
+22	Untwikkeling
+23	Helpmiddels
+24	Jo webapps
+25	Webapps oanmeitsje fanút in sânbak wurdt noch net stipe
+26	Dit is gjin jildich webadres
+27	Webapps

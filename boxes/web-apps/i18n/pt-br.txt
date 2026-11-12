@@ -1,0 +1,27 @@
+1	Pesquisar aplicativos web
+2	Criar
+3	Abrir
+4	Remover aplicativo web
+5	{name} foi adicionado aos seus aplicativos
+6	{name} foi removido
+7	Não foi possível criar {name}: {error}
+8	Novo aplicativo web
+9	Digite o endereço de qualquer site. Ele será aberto em uma janela própria, como um aplicativo.
+10	Endereço
+11	Nome
+12	Cancelar
+13	Nenhum resultado
+14	Tente outro nome ou crie seu próprio aplicativo web.
+15	Criar o seu
+16	Gráficos
+17	Vídeo
+18	Música
+19	Jogos
+20	Escritório
+21	Internet
+22	Desenvolvimento
+23	Utilitários
+24	Seus aplicativos web
+25	Ainda não é possível criar aplicativos web a partir de uma sandbox
+26	Este não é um endereço web válido
+27	Aplicativos web

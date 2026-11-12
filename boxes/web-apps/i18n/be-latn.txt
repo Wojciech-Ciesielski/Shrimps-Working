@@ -1,0 +1,27 @@
+1	Pošuk veb-prahram
+2	Stvaryć
+3	Adkryć
+4	Vydalić veb-prahramu
+5	{name} dadadziena ŭ vašy prahramy
+6	{name} vydalena
+7	Nie ŭdałosia stvaryć {name}: {error}
+8	Novaja veb-prahrama
+9	Uviadzicie adras luboha veb-sajta. Jon adkryjecca ŭ asobnym aknie, jak prahrama.
+10	Adras
+11	Nazva
+12	Skasavać
+13	Ničoha nie znojdziena
+14	Pasprabujcie inšuju nazvu abo stvarycie ŭłasnuju veb-prahramu.
+15	Stvaryć svaju
+16	Hrafika
+17	Videa
+18	Muzyka
+19	Hulni
+20	Ofis
+21	Internet
+22	Raspracoŭka
+23	Utylity
+24	Vašy veb-prahramy
+25	Stvarennie veb-prahram z piasočnicy pakul nie padtrymlivajecca
+26	Heta nie sapraŭdny veb-adras
+27	Veb-prahramy

@@ -1,0 +1,27 @@
+1	Cerca app web
+2	Crea
+3	Apri
+4	Rimuovi app web
+5	{name} è stata aggiunta alle tue app
+6	{name} è stata rimossa
+7	Impossibile creare {name}: {error}
+8	Nuova app web
+9	Inserisci l’indirizzo di un sito qualsiasi. Si aprirà in una finestra tutta sua, come un’app.
+10	Indirizzo
+11	Nome
+12	Annulla
+13	Nessun risultato
+14	Prova con un altro nome o crea la tua app web.
+15	Crea la tua
+16	Grafica
+17	Video
+18	Musica
+19	Giochi
+20	Ufficio
+21	Internet
+22	Sviluppo
+23	Utilità
+24	Le tue app web
+25	La creazione di app web da una sandbox non è ancora supportata
+26	Non è un indirizzo web valido
+27	App web

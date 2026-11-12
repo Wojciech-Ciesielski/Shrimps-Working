@@ -1,0 +1,27 @@
+1	Søg efter webapps
+2	Opret
+3	Åbn
+4	Fjern webapp
+5	{name} er føjet til dine apps
+6	{name} er fjernet
+7	Kunne ikke oprette {name}: {error}
+8	Ny webapp
+9	Indtast adressen på et vilkårligt websted. Det åbnes i sit eget vindue, som en app.
+10	Adresse
+11	Navn
+12	Annuller
+13	Ingen resultater
+14	Prøv et andet navn, eller opret din egen webapp.
+15	Opret din egen
+16	Grafik
+17	Video
+18	Musik
+19	Spil
+20	Kontor
+21	Internet
+22	Udvikling
+23	Værktøjer
+24	Dine webapps
+25	Det understøttes endnu ikke at oprette webapps fra en sandkasse
+26	Det er ikke en gyldig webadresse
+27	Webapps

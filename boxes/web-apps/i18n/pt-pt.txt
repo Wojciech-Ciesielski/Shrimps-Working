@@ -1,0 +1,27 @@
+1	Pesquisar aplicações web
+2	Criar
+3	Abrir
+4	Remover aplicação web
+5	{name} foi adicionada às suas aplicações
+6	{name} foi removida
+7	Não foi possível criar {name}: {error}
+8	Nova aplicação web
+9	Introduza o endereço de qualquer site. Será aberto numa janela própria, como uma aplicação.
+10	Endereço
+11	Nome
+12	Cancelar
+13	Sem resultados
+14	Tente outro nome ou crie a sua própria aplicação web.
+15	Criar a sua
+16	Gráficos
+17	Vídeo
+18	Música
+19	Jogos
+20	Escritório
+21	Internet
+22	Desenvolvimento
+23	Utilitários
+24	As suas aplicações web
+25	Ainda não é possível criar aplicações web a partir de uma sandbox
+26	Este não é um endereço web válido
+27	Aplicações web

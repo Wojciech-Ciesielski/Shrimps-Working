@@ -1,0 +1,27 @@
+1	Web-Apps durchsuchen
+2	Erstellen
+3	Öffnen
+4	Web-App entfernen
+5	{name} wurde zu Ihren Apps hinzugefügt
+6	{name} wurde entfernt
+7	{name} konnte nicht erstellt werden: {error}
+8	Neue Web-App
+9	Geben Sie die Adresse einer beliebigen Website ein. Sie wird wie eine App in einem eigenen Fenster geöffnet.
+10	Adresse
+11	Name
+12	Abbrechen
+13	Keine Ergebnisse
+14	Versuchen Sie einen anderen Namen oder erstellen Sie eine eigene Web-App.
+15	Eigene erstellen
+16	Grafik
+17	Video
+18	Musik
+19	Spiele
+20	Büro
+21	Internet
+22	Entwicklung
+23	Werkzeuge
+24	Ihre Web-Apps
+25	Das Erstellen von Web-Apps aus einer Sandbox wird noch nicht unterstützt
+26	Das ist keine gültige Webadresse
+27	Web-Apps

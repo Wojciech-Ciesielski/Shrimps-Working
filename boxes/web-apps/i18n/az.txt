@@ -1,0 +1,27 @@
+1	Veb tətbiqlərini axtar
+2	Yarat
+3	Aç
+4	Veb tətbiqini sil
+5	{name} tətbiqlərinizə əlavə edildi
+6	{name} silindi
+7	{name} yaradıla bilmədi: {error}
+8	Yeni veb tətbiq
+9	İstənilən saytın ünvanını daxil edin. O, tətbiq kimi öz pəncərəsində açılacaq.
+10	Ünvan
+11	Ad
+12	Ləğv et
+13	Nəticə yoxdur
+14	Başqa ad sınayın və ya öz veb tətbiqinizi yaradın.
+15	Özünüzünkünü yaradın
+16	Qrafika
+17	Video
+18	Musiqi
+19	Oyunlar
+20	Ofis
+21	İnternet
+22	Tərtibat
+23	Alətlər
+24	Veb tətbiqləriniz
+25	Veb tətbiqlərin qum qutusundan yaradılması hələ dəstəklənmir
+26	Bu, etibarlı veb ünvanı deyil
+27	Veb tətbiqlər
