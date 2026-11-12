@@ -2,5 +2,5 @@
 # (tools/fetch-shrimps.sh pobiera boxy z wydania tego repozytorium, wersja w tools/shrimps.ref tam).
 [container]
 id = "shrimps"
-summary = "Aplikacje Shrimps: Shrimp Apps, Cocktail, Panko"
-boxes = ["shrimp-apps", "cocktail", "panko"]
+summary = "Aplikacje Shrimps: Shrimp Apps, Cocktail, Panko, Cherry"
+boxes = ["shrimp-apps", "cocktail", "panko", "cherry"]

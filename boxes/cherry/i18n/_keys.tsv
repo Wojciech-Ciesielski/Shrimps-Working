@@ -1,0 +1,192 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	help	Help
+2	settings	Settings
+3	tab.new	New tab
+4	tab.home	Home
+5	tab.close	Close tab
+6	tool.explain	How does it work?
+7	tool.notes	Notes
+8	tool.keys	Shortcuts
+9	tool.history	History
+10	explain.empty	Type a command and its parts will be explained here.
+11	explain.parts	What it is made of
+12	note.new	New note
+13	note.cmd	Command
+14	note.text	What it does
+15	note.refresh	Refresh the list of available updates
+16	note.lsla	Show all files with details
+17	note.cdup	Go to the parent folder
+18	short.new	New shortcut
+19	short.keys	Keys
+20	short.abbr	Abbreviations
+21	short.key.hint	Press keys, e.g. Alt+G
+22	short.abbr.hint	Abbreviation, e.g. gs
+23	hist.clear	Clear history
+24	hist.search	Search history
+25	hist.empty	No commands yet
+26	hist.none	Nothing found
+27	delete	Delete
+28	cancel	Cancel
+29	save	Save
+30	set.tabs	Tab position
+31	set.tabs.top	Tabs on top
+32	set.tabs.right	Tabs on the right
+33	set.history	Delete history
+34	set.history.never	Never
+35	set.history.days.one	After {n} day
+36	set.history.days.few	After {n} days
+37	set.history.days.many	After {n} days
+38	set.history.days.other	After {n} days
+39	status.git	Branch {branch}
+40	arg.generic	Argument passed to the command
+41	arg.path	File or folder
+42	arg.dir	Folder
+43	arg.file	File
+44	arg.pattern	Text to search for
+45	arg.text	Text to print
+46	arg.cmd	Name of a command
+47	arg.mode	New permissions, e.g. +x or 755
+48	arg.owner	New owner (user:group)
+49	arg.pid	Process number (PID)
+50	arg.url	Internet address
+51	arg.host	Computer name or address
+52	arg.up	One folder up
+53	arg.home	Your home folder
+54	arg.back	The previous folder
+55	cmd.sudo	Runs the rest as administrator. Asks for your password; be careful.
+56	cmd.unknown	A program or command
+57	flag.unknown	An option of this command
+58	sub.unknown	What the command should do
+59	long.help	Shows help for the command
+60	long.version	Shows the program version
+61	warn.rmrf	Deletes everything inside, permanently and without asking. Nothing goes to the trash.
+62	hint.cocktail	Cocktail does this without typing commands.
+63	hint.apps	Shrimp Apps does this without typing commands.
+64	hint.panko	Panko does this without typing commands.
+65	op.pipe	Passes the output to the next command
+66	op.and	Runs the next command only if this one succeeded
+67	op.or	Runs the next command only if this one failed
+68	op.seq	Then runs the next command
+69	op.write	Writes the output to a file, replacing it
+70	op.append	Appends the output to the end of a file
+71	op.background	Runs in the background
+72	cmd.ls	Lists files in a folder
+73	flag.ls.l	As a list with details
+74	flag.ls.a	Including hidden files
+75	flag.ls.h	Sizes in KB, MB, GB
+76	flag.ls.t	Newest first
+77	flag.ls.R	Also everything in subfolders
+78	cmd.cd	Changes the current folder
+79	cmd.pwd	Shows the current folder
+80	cmd.cp	Copies files
+81	flag.recursive	Together with everything inside
+82	flag.ask	Asks before overwriting
+83	flag.verbose	Shows what it is doing
+84	flag.force	Without asking
+85	cmd.mv	Moves or renames files
+86	cmd.rm	Deletes files permanently (not to the trash)
+87	cmd.mkdir	Creates a folder
+88	flag.mkdir.p	Also creates missing parent folders
+89	cmd.rmdir	Deletes an empty folder
+90	cmd.touch	Creates an empty file or updates its date
+91	cmd.cat	Prints the content of a file
+92	cmd.less	Shows a file page by page (q quits)
+93	cmd.head	Shows the beginning of a file
+94	cmd.tail	Shows the end of a file
+95	flag.lines	How many lines
+96	flag.tail.f	Keeps showing new lines as they appear
+97	cmd.nano	Opens a file in a simple text editor
+98	cmd.grep	Finds lines containing text
+99	flag.grep.i	Ignores letter case
+100	flag.grep.n	Shows line numbers
+101	flag.grep.v	Shows lines that do NOT match
+102	cmd.find	Searches for files
+103	cmd.echo	Prints text
+104	cmd.man	Opens the manual of a command
+105	cmd.which	Shows where a program is
+106	cmd.whoami	Shows your user name
+107	cmd.uname	Shows system information
+108	flag.uname.a	Everything
+109	flag.uname.r	Kernel version
+110	cmd.clear	Clears the screen
+111	cmd.exit	Closes the terminal
+112	cmd.history	Shows previous commands
+113	cmd.chmod	Changes file permissions
+114	cmd.chown	Changes the file owner
+115	cmd.df	Shows free space on disks
+116	flag.human	In KB, MB, GB
+117	cmd.du	Shows how much space files take
+118	flag.du.s	Only the total
+119	cmd.free	Shows memory use
+120	cmd.top	Shows running programs and their load
+121	cmd.ps	Lists running processes
+122	flag.ps.a	Of all users
+123	flag.ps.u	With the owner and usage
+124	flag.ps.x	Also those without a terminal
+125	cmd.kill	Stops a process
+126	flag.kill.9	Immediately, without letting it save
+127	cmd.tar	Packs or unpacks archives
+128	flag.tar.x	Unpack
+129	flag.tar.c	Create an archive
+130	flag.tar.z	Compressed (gzip)
+131	flag.tar.f	Archive file name follows
+132	cmd.unzip	Unpacks a ZIP file
+133	cmd.curl	Downloads from the internet
+134	flag.curl.L	Follows redirects
+135	flag.curl.O	Saves under the original name
+136	flag.curl.o	Saves to the given file
+137	cmd.wget	Downloads a file from the internet
+138	cmd.ping	Checks the connection to a computer
+139	flag.ping.c	How many times
+140	cmd.ssh	Connects to another computer
+141	cmd.ip	Shows network settings
+142	sub.ip.addr	Addresses
+143	sub.ip.link	Network cards
+144	sub.ip.route	Routes
+145	cmd.journalctl	Shows system logs
+146	flag.journal.b	Since the last start
+147	flag.journal.u	Of one service
+148	cmd.systemctl	Manages system services
+149	sub.systemctl.start	Start a service
+150	sub.systemctl.stop	Stop a service
+151	sub.systemctl.restart	Restart a service
+152	sub.systemctl.status	Show the state of a service
+153	sub.systemctl.enable	Start with the system
+154	sub.systemctl.disable	Do not start with the system
+155	sub.systemctl.reboot	Restart the computer
+156	sub.systemctl.poweroff	Turn off the computer
+157	cmd.zypper	Installs and updates system packages
+158	sub.zypper.refresh	Refresh the list of packages
+159	sub.zypper.update	Update installed packages
+160	sub.zypper.install	Install a package
+161	sub.zypper.remove	Remove a package
+162	sub.zypper.search	Search for a package
+163	sub.zypper.dup	Upgrade the whole system
+164	sub.zypper.info	Show package information
+165	cmd.tu	Changes the system safely, applied after restart
+166	sub.tu.up	Update the system
+167	sub.tu.pkg	Install or remove packages
+168	sub.tu.rollback	Go back to the previous state
+169	cmd.flatpak	Installs and updates applications
+170	sub.flatpak.install	Install an application
+171	sub.flatpak.update	Update applications
+172	sub.flatpak.uninstall	Remove an application
+173	sub.flatpak.list	List installed applications
+174	sub.flatpak.run	Run an application
+175	sub.flatpak.search	Search for an application
+176	cmd.snapper	Manages system snapshots
+177	sub.snapper.list	List snapshots
+178	sub.snapper.create	Create a snapshot
+179	sub.snapper.undochange	Undo changes between snapshots
+180	cmd.git	Version control for projects
+181	sub.git.status	Show what changed
+182	sub.git.add	Mark changes to save
+183	sub.git.commit	Save marked changes
+184	sub.git.push	Send changes to the server
+185	sub.git.pull	Get changes from the server
+186	sub.git.clone	Copy a project to this computer
+187	sub.git.log	Show the history of changes
+188	sub.git.diff	Show differences
+189	sub.git.checkout	Switch to another branch
+190	sub.git.branch	List or create branches
+191	sub.git.init	Start a new project

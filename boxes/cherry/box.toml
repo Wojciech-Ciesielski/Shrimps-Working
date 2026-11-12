@@ -1,0 +1,29 @@
+[box]
+id = "cherry"
+version = "0.1.0"
+kind = "app"
+summary = "Terminal z zsh, który tłumaczy komendy (GTK4 + libadwaita + VTE, Rust)"
+build_depends = ["shrimp-i18n", "help-links"]
+ci = "cherry"
+
+[packages]
+image = ["libgtk-4-1", "libadwaita-1-0", "libvte-2_91-gtk4-0", "zsh"]
+build = [
+    "bash",
+    "coreutils",
+    "findutils",
+    "gawk",
+    "gcc",
+    "pkg-config",
+    "rustup",
+    "ca-certificates",
+    "ca-certificates-mozilla",
+    "pkgconfig(gtk4)",
+    "pkgconfig(libadwaita-1)",
+    "pkgconfig(vte-2.91-gtk4)",
+]
+
+[build]
+chroot = "cargo build --release --locked"
+outputs = ["target/release/cherry"]
+install = "install.sh"

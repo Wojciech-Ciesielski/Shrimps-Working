@@ -2,7 +2,7 @@
 version: 2
 updates:
   - package-ecosystem: cargo
-    directories: [/boxes/cocktail, /boxes/panko, /boxes/shrimp-i18n]
+    directories: [/boxes/cocktail, /boxes/panko, /boxes/cherry, /boxes/shrimp-i18n]
     schedule: { interval: weekly }
     open-pull-requests-limit: 5
     groups:

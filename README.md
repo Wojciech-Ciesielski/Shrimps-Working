@@ -7,6 +7,7 @@ Repozytorium robocze aplikacji **Shrimps**: natywnych programów Shrimp (GTK4 + 
 | `shrimp-apps` | sklep z aplikacjami Flathub i PWA | Shrimp Apps |
 | `cocktail` | aktualizacje i pakiety (zypper, transactional-update) | Cocktail |
 | `panko` | migawki i cofanie zmian (snapper) | Panko |
+| `cherry` | terminal z zsh, który tłumaczy komendy (VTE) | Cherry |
 | `shrimp-i18n`, `web-apps` | biblioteki tych aplikacji | Web Apps |
 | `i18n-core`, `help-links`, `shrimp-box` | kopie wspólnych boxów (patrz niżej) | Boxy |
 
