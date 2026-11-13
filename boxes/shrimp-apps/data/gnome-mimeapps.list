@@ -1,0 +1,16 @@
+# Shrimp: instalatory z innych systemów otwierają okienko Shrimp Apps („ten plik nie zadziała”, szukaj w sklepie).
+[Default Applications]
+application/x-ms-dos-executable=org.shrimp.Apps.Hint.desktop
+application/x-msdownload=org.shrimp.Apps.Hint.desktop
+application/x-msi=org.shrimp.Apps.Hint.desktop
+application/x-ms-installer=org.shrimp.Apps.Hint.desktop
+application/vnd.microsoft.portable-executable=org.shrimp.Apps.Hint.desktop
+application/x-msix=org.shrimp.Apps.Hint.desktop
+application/x-rpm=org.shrimp.Apps.Hint.desktop
+application/vnd.debian.binary-package=org.shrimp.Apps.Hint.desktop
+application/x-deb=org.shrimp.Apps.Hint.desktop
+application/x-apple-diskimage=org.shrimp.Apps.Hint.desktop
+application/vnd.appimage=org.shrimp.Apps.Hint.desktop
+application/x-iso9660-appimage=org.shrimp.Apps.Hint.desktop
+# Foldery otwiera Filer (menedżer plików Shrimp, przypięty w docku jako Pliki); bez niego GNOME weźmie Nautilusa.
+inode/directory=org.shrimp.Filer.desktop;org.gnome.Nautilus.desktop

@@ -65,3 +65,11 @@
 65	Le dépôt {remote} est manquant
 66	Le catalogue d'applications est manquant
 67	Le catalogue d'applications est vide
+68	Mieux vaut passer par la boutique
+69	Ce fichier ne fonctionnera pas dans Shrimp
+70	{file} est un programme d’installation pour Windows. Les programmes Windows ne fonctionnent pas dans Shrimp.
+71	{file} est un programme d’installation pour macOS. Les programmes Mac ne fonctionnent pas dans Shrimp.
+72	{file} n’est pas un Flatpak. Les programmes hors boutique peuvent ne pas fonctionner dans Shrimp et ne se mettent pas à jour seuls.
+73	Dans Shrimp, les programmes viennent de la boutique Shrimp Apps : vérifiés, sûrs et mis à jour automatiquement. On y trouve en général le même programme ou une bonne alternative.
+74	Chercher dans Shrimp Apps
+75	Fermer

@@ -2,9 +2,9 @@ name: Filer
 
 on:
   push:
-    paths: ["boxes/filer/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", ".github/workflows/filer.yml"]
+    paths: ["boxes/filer/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/help-links/**", ".github/workflows/filer.yml"]
   pull_request:
-    paths: ["boxes/filer/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", ".github/workflows/filer.yml"]
+    paths: ["boxes/filer/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/help-links/**", ".github/workflows/filer.yml"]
   workflow_dispatch:
 
 permissions:

@@ -2,9 +2,9 @@ name: Cocktail
 
 on:
   push:
-    paths: ["boxes/cocktail/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", ".github/workflows/cocktail.yml"]
+    paths: ["boxes/cocktail/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/help-links/**", ".github/workflows/cocktail.yml"]
   pull_request:
-    paths: ["boxes/cocktail/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", ".github/workflows/cocktail.yml"]
+    paths: ["boxes/cocktail/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", "boxes/help-links/**", ".github/workflows/cocktail.yml"]
   workflow_dispatch:
 
 jobs:

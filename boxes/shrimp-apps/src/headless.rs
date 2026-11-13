@@ -64,7 +64,21 @@ pub fn run(args: &[String]) -> glib::ExitCode {
         }
         i += 1;
     }
-    ids.dedup();
+    // Bez powtórzeń, w kolejności podania (dedup() usuwał tylko sąsiednie).
+    let mut seen = std::collections::HashSet::new();
+    ids.retain(|id| seen.insert(id.clone()));
+    // Zestaw podstawowy: aplikacja, którą system ma już z pakietu RPM (np. Monitor systemu, Dziennik),
+    // nie wchodzi drugi raz jako Flatpak (dwie takie same ikony w siatce).
+    ids.retain(|id| {
+        let host = host_desktop(id);
+        if let Some(f) = &host {
+            json_line(serde_json::json!({ "id": id, "done": true, "skipped": true, "host": f }));
+        }
+        host.is_none()
+    });
+    if ids.is_empty() {
+        return glib::ExitCode::SUCCESS;
+    }
     if ids.is_empty() || ids.iter().any(|id| !valid_id(id)) {
         eprintln!("użycie: shrimp-apps --install [--base | --manifest PLIK] [ID_APLIKACJI...]");
         return glib::ExitCode::from(2);
@@ -91,6 +105,7 @@ pub fn run(args: &[String]) -> glib::ExitCode {
     for id in &ids {
         if installed.iter().any(|a| &a.id == id) {
             json_line(serde_json::json!({ "id": id, "done": true, "skipped": true }));
+            extras(&backend, &rx, id);
             continue;
         }
         backend.send(Cmd::Run {
@@ -111,7 +126,10 @@ pub fn run(args: &[String]) -> glib::ExitCode {
                 }
                 Ok(Event::Done { app_id, error, .. }) if &app_id == id => {
                     match error {
-                        None => json_line(serde_json::json!({ "id": id, "done": true })),
+                        None => {
+                            json_line(serde_json::json!({ "id": id, "done": true }));
+                            extras(&backend, &rx, id);
+                        }
                         Some(e) => {
                             failed += 1;
                             if is_network_error(&e) {
@@ -136,6 +154,73 @@ pub fn run(args: &[String]) -> glib::ExitCode {
     }
 }
 
+/// Plik .desktop aplikacji z pakietu systemowego o tym samym identyfikatorze (albo jej starej nazwie).
+fn host_desktop(id: &str) -> Option<String> {
+    let alias = match id {
+        "org.gnome.SystemMonitor" => Some("gnome-system-monitor.desktop"),
+        "org.gnome.DiskUtility" => Some("gnome-disks.desktop"),
+        _ => None,
+    };
+    let dir = std::env::var("SHRIMP_APPS_HOST_APPS").unwrap_or_else(|_| "/usr/share/applications".into());
+    [format!("{id}.desktop")].into_iter().chain(alias.map(str::to_string)).map(|f| format!("{dir}/{f}")).find(|p| std::path::Path::new(p).exists())
+}
+
+/// Dodatki, bez których Flatpak aplikacji nie ruszy albo nie odtwarza wideo. Steam: 32-bitowe biblioteki
+/// (GL32, Compat.i386) i kodeki (ffmpeg-full w obu architekturach) dla gałęzi jego środowiska (np. 24.08).
+pub fn extra_refs(id: &str, branch: &str, arch: &str) -> Vec<String> {
+    match id {
+        "com.valvesoftware.Steam" => [
+            "org.freedesktop.Platform.GL32.default",
+            "org.freedesktop.Platform.Compat.i386",
+            "org.freedesktop.Platform.ffmpeg-full",
+            "org.freedesktop.Platform.ffmpeg_full.i386",
+        ]
+        .iter()
+        .map(|n| format!("runtime/{n}/{arch}/{branch}"))
+        .collect(),
+        _ => Vec::new(),
+    }
+}
+
+/// Gałąź środowiska zainstalowanej aplikacji (`runtime=org.freedesktop.Platform/x86_64/24.08` → 24.08).
+fn runtime_branch(id: &str) -> Option<String> {
+    use libflatpak::prelude::*;
+    let inst = if std::env::var("SHRIMP_APPS_INSTALLATION").as_deref() == Ok("user") {
+        libflatpak::Installation::new_user(gio::Cancellable::NONE)
+    } else {
+        libflatpak::Installation::new_system(gio::Cancellable::NONE)
+    }
+    .ok()?;
+    let r = inst.installed_ref(libflatpak::RefKind::App, id, None, None, gio::Cancellable::NONE).ok()?;
+    let meta = r.load_metadata(gio::Cancellable::NONE).ok()?;
+    let text = String::from_utf8_lossy(&meta).to_string();
+    text.lines().find_map(|l| l.strip_prefix("runtime=")).and_then(|r| r.rsplit('/').next()).map(str::to_string)
+}
+
+/// Doinstalowuje dodatki aplikacji; błąd dodatku nie jest błędem aplikacji (tylko wpis w wyjściu).
+fn extras(backend: &Backend, rx: &async_channel::Receiver<Event>, id: &str) {
+    let arch = libflatpak::functions::default_arch().map(|a| a.to_string()).unwrap_or_else(|| "x86_64".into());
+    let Some(branch) = (if extra_refs(id, "x", &arch).is_empty() { None } else { runtime_branch(id) }) else { return };
+    for r in extra_refs(id, &branch, &arch) {
+        let key = format!("{id}+{r}");
+        backend.send(Cmd::Run { kind: OpKind::Install, app_id: key.clone(), flatpak_ref: r.clone(), cancel: gio::Cancellable::new() });
+        loop {
+            match rx.recv_blocking() {
+                Ok(Event::Done { app_id, error, .. }) if app_id == key => {
+                    let already = error.as_deref().is_some_and(|e| e.contains("already installed"));
+                    match error.filter(|_| !already) {
+                        None => json_line(serde_json::json!({ "id": id, "extra": r, "done": true })),
+                        Some(e) => json_line(serde_json::json!({ "id": id, "extra": r, "error": e })),
+                    }
+                    break;
+                }
+                Ok(_) => {}
+                Err(_) => return,
+            }
+        }
+    }
+}
+
 fn is_network_error(e: &str) -> bool {
     let e = e.to_lowercase();
     ["resolve", "network", "connection", "unreachable", "timed out", "could not connect"].iter().any(|k| e.contains(k))
@@ -151,6 +236,25 @@ mod tests {
         assert!(!valid_id("Loupe"));
         assert!(!valid_id("org/gnome/Loupe"));
         assert!(!valid_id("org.gnome.Loupe --system"));
+    }
+
+    #[test]
+    fn steam_extras() {
+        let r = extra_refs("com.valvesoftware.Steam", "24.08", "x86_64");
+        assert!(r.contains(&"runtime/org.freedesktop.Platform.GL32.default/x86_64/24.08".to_string()));
+        assert!(r.iter().any(|x| x.contains("Compat.i386")));
+        assert!(extra_refs("org.gnome.Loupe", "48", "x86_64").is_empty());
+    }
+
+    #[test]
+    fn host_apps_are_skipped() {
+        let d = std::env::temp_dir().join(format!("shrimp-apps-host-{}", std::process::id()));
+        std::fs::create_dir_all(&d).unwrap();
+        std::fs::write(d.join("gnome-system-monitor.desktop"), "").unwrap();
+        std::env::set_var("SHRIMP_APPS_HOST_APPS", &d);
+        assert!(host_desktop("org.gnome.SystemMonitor").is_some());
+        assert!(host_desktop("org.gnome.Loupe").is_none());
+        std::fs::remove_dir_all(&d).ok();
     }
 
     #[test]

@@ -81,17 +81,6 @@ pub fn parse_remove_preview(xml: &str) -> Result<Vec<String>, String> {
     Ok(out)
 }
 
-/// Wynik `rpm -q --qf '%{NAME}\n' a b c`: nazwy zainstalowanych pakietów.
-/// Dla brakujących rpm wypisuje „package X is not installed” (po angielsku przy LC_ALL=C).
-pub fn parse_rpm_installed(stdout: &str) -> Vec<String> {
-    stdout
-        .lines()
-        .map(str::trim)
-        .filter(|l| !l.is_empty() && !l.contains(' '))
-        .map(str::to_string)
-        .collect()
-}
-
 /// Pakiety, bez których system nie wstanie. Ta sama lista jest w `cocktail-helper`.
 pub const PROTECTED: &[&str] = &[
     "kernel-default", "glibc", "systemd", "zypper", "libzypp", "rpm", "transactional-update",
@@ -109,6 +98,27 @@ pub fn valid_name(name: &str) -> bool {
     let mut chars = name.chars();
     matches!(chars.next(), Some(c) if c.is_ascii_alphanumeric())
         && chars.all(|c| c.is_ascii_alphanumeric() || "+._-".contains(c))
+}
+
+/// Pakiet sterownika (ta sama lista co `driver_updates` w `cocktail-helper`): jądro, firmware,
+/// mikrokod, NVIDIA, moduły KMP, fwupd.
+pub fn is_driver(name: &str) -> bool {
+    name == "kernel-default"
+        || name.starts_with("kernel-firmware")
+        || name.starts_with("ucode-")
+        || name.starts_with("nvidia-")
+        || name.starts_with("libnvidia")
+        || name.starts_with("fwupd")
+        || name.contains("-kmp-")
+}
+
+/// Liczba urządzeń z nowszym oprogramowaniem układowym w `fwupdmgr get-updates --json`.
+pub fn fwupd_updates(json: &str) -> usize {
+    let Ok(v) = serde_json::from_str::<serde_json::Value>(json) else { return 0 };
+    v.get("Devices")
+        .and_then(|d| d.as_array())
+        .map(|d| d.iter().filter(|x| x.get("Releases").and_then(|r| r.as_array()).is_some_and(|r| !r.is_empty())).count())
+        .unwrap_or(0)
 }
 
 /// Nazwa systemu do wyświetlenia z `/etc/os-release`, np. „Shrimp 26”.
@@ -189,12 +199,6 @@ mod tests {
     }
 
     #[test]
-    fn rpm() {
-        let out = "vlc\npackage gcc is not installed\ngit\n";
-        assert_eq!(parse_rpm_installed(out), vec!["vlc", "git"]);
-    }
-
-    #[test]
     fn names() {
         assert!(valid_name("gstreamer-1.20-plugin-openh264"));
         assert!(valid_name("libstdc++6"));
@@ -215,6 +219,16 @@ mod tests {
         assert_eq!(p(12), "12 pakietów");
         assert_eq!(p(22), "22 pakiety");
         assert_eq!(p(0), "0 pakietów");
+    }
+
+    #[test]
+    fn drivers() {
+        assert!(is_driver("kernel-firmware-iwlwifi"));
+        assert!(is_driver("nvidia-open-driver-G06-signed-kmp-default"));
+        assert!(is_driver("ucode-intel"));
+        assert!(!is_driver("vlc"));
+        assert_eq!(fwupd_updates(r#"{"Devices":[{"Name":"BIOS","Releases":[{"Version":"2"}]},{"Name":"SSD","Releases":[]}]}"#), 1);
+        assert_eq!(fwupd_updates("No updatable devices"), 0);
     }
 
     #[test]

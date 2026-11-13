@@ -91,3 +91,23 @@
 91	À propos de Cocktail
 92	Menu principal
 93	Mises à jour du système, périphériques et paquets.
+94	Terminal
+95	Aide
+96	Mises à jour automatiques
+97	Installées discrètement en arrière-plan, actives après le prochain redémarrage
+98	Pilotes et micrologiciels
+99	À jour
+100	{n} mise à jour
+101	{n} mises à jour
+102	{n} mises à jour
+103	{n} mises à jour
+104	Mettre à jour
+105	Impossible de mettre à jour les pilotes
+106	Impossible de modifier les mises à jour automatiques
+107	Nouvelle version {version}
+108	nom du paquet
+109	Saisissez un nom de paquet et appuyez sur Entrée. Cocktail l’installe dans un nouvel instantané du système.
+110	Nom de paquet non valide : {name}
+111	Terminé.
+112	Cela n’a pas fonctionné (code {code}).
+113	Le paquet sera prêt après un redémarrage.

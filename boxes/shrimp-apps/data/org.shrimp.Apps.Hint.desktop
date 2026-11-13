@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Shrimp Apps
+Comment=Programs from outside the store
+Comment[pl]=Programy spoza sklepu
+Icon=org.shrimp.Apps
+Exec=shrimp-apps --hint file %f
+NoDisplay=true
+Terminal=false
+MimeType=application/x-ms-dos-executable;application/x-msdownload;application/x-msi;application/x-ms-installer;application/vnd.microsoft.portable-executable;application/x-msix;application/x-rpm;application/vnd.debian.binary-package;application/x-deb;application/x-apple-diskimage;application/vnd.appimage;application/x-iso9660-appimage;

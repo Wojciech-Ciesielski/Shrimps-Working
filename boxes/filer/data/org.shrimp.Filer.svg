@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <!-- Filer: niebieski folder w stylu Adwaita (bez cienia). -->
+<defs><filter id="shrimp-depth" x="-5%" y="-5%" width="110%" height="115%" color-interpolation-filters="sRGB"><feComponentTransfer in="SourceGraphic" result="dark"><feFuncR type="linear" slope="0.6"/><feFuncG type="linear" slope="0.6"/><feFuncB type="linear" slope="0.6"/></feComponentTransfer><feOffset in="dark" dy="1" result="o1"/><feOffset in="dark" dy="2" result="o2"/><feOffset in="dark" dy="3" result="o3"/><feOffset in="dark" dy="4" result="o4"/><feOffset in="dark" dy="5" result="o5"/><feOffset in="dark" dy="6" result="o6"/><feMerge><feMergeNode in="o6"/><feMergeNode in="o5"/><feMergeNode in="o4"/><feMergeNode in="o3"/><feMergeNode in="o2"/><feMergeNode in="o1"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<g filter="url(#shrimp-depth)"><g transform="translate(-8.73 -12.73) scale(1.1364)"><!-- Filer: niebieski folder w stylu Adwaita (bez cienia). -->
   <path d="M16 28a8 8 0 0 1 8-8h26l10 10h44a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H24a8 8 0 0 1-8-8z" fill="#1a5fb4"/>
   <path d="M16 44a8 8 0 0 1 8-8h80a8 8 0 0 1 8 8v56a8 8 0 0 1-8 8H24a8 8 0 0 1-8-8z" fill="#62a0ea"/>
   <path d="M16 44a8 8 0 0 1 8-8h80a8 8 0 0 1 8 8v4H16z" fill="#99c1f1"/>
   <rect x="40" y="62" width="48" height="6" rx="3" fill="#fff" opacity=".9"/>
-  <rect x="40" y="76" width="34" height="6" rx="3" fill="#fff" opacity=".9"/>
+  <rect x="40" y="76" width="34" height="6" rx="3" fill="#fff" opacity=".9"/></g></g>
 </svg>

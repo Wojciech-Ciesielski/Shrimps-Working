@@ -189,3 +189,6 @@
 189	Zu einem anderen Zweig wechseln
 190	Zweige anzeigen oder erstellen
 191	Neues Projekt beginnen
+192	Kopieren
+193	Einfügen
+194	Alles auswählen

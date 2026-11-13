@@ -190,3 +190,6 @@
 189	sub.git.checkout	Switch to another branch
 190	sub.git.branch	List or create branches
 191	sub.git.init	Start a new project
+192	menu.copy	Copy
+193	menu.paste	Paste
+194	menu.select-all	Select all

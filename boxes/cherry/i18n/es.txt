@@ -189,3 +189,6 @@
 189	Cambiar a otra rama
 190	Listar o crear ramas
 191	Empezar un proyecto nuevo
+192	Copiar
+193	Pegar
+194	Seleccionar todo

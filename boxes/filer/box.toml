@@ -3,7 +3,7 @@ id = "filer"
 version = "0.1.0"
 kind = "app"
 summary = "Menedżer plików: funkcje i układ 1:1 z Nemo (GTK4 + libadwaita + ikony MoreWaita, Rust)"
-build_depends = ["shrimp-i18n"]
+build_depends = ["shrimp-i18n", "help-links"]
 ci = "filer"
 
 [packages]

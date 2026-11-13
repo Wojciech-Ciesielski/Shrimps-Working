@@ -193,9 +193,30 @@ impl Shell {
             });
         }
 
-        shell.select_row(Page::Discover);
-        shell.show(Page::Discover);
+        // SHRIMP_APPS_PAGE=<klucz kategorii> otwiera kategorię na starcie (praca nad kodem, testy wyglądu).
+        let start = std::env::var("SHRIMP_APPS_PAGE")
+            .ok()
+            .and_then(|k| Category::ALL.into_iter().find(|c| c.key() == k))
+            .map(Page::Category)
+            .unwrap_or(Page::Discover);
+        shell.select_row(start);
+        shell.show(start);
+        // Okno trzyma stan sklepu (for_window); żyje tyle co aplikacja.
+        unsafe {
+            shell.window.set_data("shrimp-shell", shell.clone());
+        }
         shell
+    }
+
+    /// Wyszukiwanie z zewnątrz (okienko przy instalatorze z internetu).
+    pub fn search_for(&self, q: &str) {
+        self.search.set_text(q);
+        self.focus_search();
+    }
+
+    /// Stan sklepu przypięty do okna (drugie wywołanie programu przy otwartym oknie).
+    pub fn for_window(w: &gtk::Window) -> Option<Rc<Shell>> {
+        unsafe { w.data::<Rc<Shell>>("shrimp-shell").map(|p| p.as_ref().clone()) }
     }
 
     pub fn focus_search(&self) {
@@ -663,12 +684,12 @@ impl Shell {
             .max_columns(3)
             .build();
         grid.add_css_class("app-grid");
-        let clamp = adw::Clamp::builder().maximum_size(1200).tightening_threshold(900).child(&grid).build();
-        // GridView przewija się sam (wirtualizacja), więc Clamp trzymamy w środku ScrolledWindow.
+        // GridView musi być bezpośrednio w ScrolledWindow: w Clamp (przez GtkViewport) nie dostaje
+        // przewijania, tworzy wiersze tylko z szacunku wysokości i zostawia wielkie przerwy między rzędami.
         gtk::ScrolledWindow::builder()
             .hscrollbar_policy(gtk::PolicyType::Never)
             .vexpand(true)
-            .child(&clamp)
+            .child(&grid)
             .build()
             .upcast()
     }

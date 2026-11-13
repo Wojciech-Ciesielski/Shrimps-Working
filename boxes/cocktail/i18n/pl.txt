@@ -91,3 +91,23 @@
 91	O aplikacji Cocktail
 92	Menu główne
 93	Aktualizacje systemu, urządzenia i pakiety.
+94	Terminal
+95	Pomoc
+96	Aktualizacje automatyczne
+97	Instalowane po cichu w tle, działają po następnym uruchomieniu
+98	Sterowniki i oprogramowanie układowe
+99	Aktualne
+100	{n} aktualizacja
+101	{n} aktualizacje
+102	{n} aktualizacji
+103	{n} aktualizacji
+104	Zaktualizuj
+105	Nie udało się zaktualizować sterowników
+106	Nie udało się zmienić aktualizacji automatycznych
+107	Nowa wersja {version}
+108	nazwa pakietu
+109	Wpisz nazwę pakietu i naciśnij Enter. Cocktail zainstaluje go w nowej migawce systemu.
+110	Niepoprawna nazwa pakietu: {name}
+111	Gotowe.
+112	Nie udało się (kod {code}).
+113	Pakiet będzie gotowy po ponownym uruchomieniu.

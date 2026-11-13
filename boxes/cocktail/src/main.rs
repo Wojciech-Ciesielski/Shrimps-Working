@@ -2,8 +2,8 @@
 //! i transactional-update). GTK4 + libadwaita.
 
 mod app;
-mod catalog;
 mod devices;
+mod help;
 mod history;
 mod i18n;
 mod pages;
@@ -19,19 +19,28 @@ use std::rc::Rc;
 const APP_ID: &str = "org.shrimp.Cocktail";
 
 const CSS: &str = "
-.cocktail-tree { background: none; }
-.cocktail-tree > row { border-radius: 6px; padding: 0; }
-.cocktail-tree > row.st-b { background-color: alpha(@window_fg_color, 0.04); }
-.cocktail-tree > row:hover { background-color: alpha(@window_fg_color, 0.07); }
+.cocktail-side > headerbar, .cocktail-content > headerbar { background: transparent; box-shadow: none; }
+.cocktail-tree, .cocktail-list { background: none; }
+.cocktail-tree > row, .cocktail-list > row { border-radius: 0; padding: 0; }
+.cocktail-tree > row.st-b, .cocktail-list .st-b { background-color: shade(@window_bg_color, 1.07); }
+.cocktail-tree > row:hover { background-color: alpha(@window_fg_color, 0.05); }
+.cocktail-tree button, .cocktail-list button { min-height: 24px; padding: 0 10px; }
+.cocktail-pkg { min-height: 28px; padding: 1px 24px; }
+.cocktail-new { color: @accent_color; }
 .cocktail-main { min-width: 160px; min-height: 34px; padding-left: 20px; padding-right: 20px; }
+.cocktail-term { font-family: monospace; padding: 12px 24px; }
+.cocktail-term-line { padding: 8px 24px 12px 24px; }
+.cocktail-prefix { font-family: monospace; opacity: 0.7; }
+.cocktail-term-line entry { font-family: monospace; }
 ";
 
 /// Zakładki paska bocznego: identyfikator, ikona, nazwa (klucz tłumaczenia).
-const SECTIONS: [(&str, &str, &str); 4] = [
+const SECTIONS: [(&str, &str, &str); 5] = [
     ("aktualizacje", "emblem-synchronizing-symbolic", "section.updates"),
     ("urzadzenia", "computer-symbolic", "section.devices"),
     ("pakiety", "package-x-generic-symbolic", "section.packages"),
     ("historia", "document-open-recent-symbolic", "section.history"),
+    ("terminal", "utilities-terminal-symbolic", "section.terminal"),
 ];
 
 fn main() -> glib::ExitCode {
@@ -92,6 +101,7 @@ fn build(application: &adw::Application) {
     let devices = pages::devices::Devices::new();
     let packages = pages::packages::Packages::new(&app);
     let history = pages::history::History::new(&app);
+    let terminal = pages::terminal::Terminal::new(&app);
 
     let stack = gtk::Stack::new();
     stack.set_transition_type(gtk::StackTransitionType::Crossfade);
@@ -99,6 +109,7 @@ fn build(application: &adw::Application) {
     stack.add_named(&devices.widget, Some("urzadzenia"));
     stack.add_named(&packages.widget, Some("pakiety"));
     stack.add_named(&history.widget, Some("historia"));
+    stack.add_named(&terminal.widget, Some("terminal"));
 
     // Pasek boczny: zakładki i wyszukiwanie na dole (ukryte w Aktualizacjach, jak w makiecie).
     let nav = gtk::ListBox::new();
@@ -115,9 +126,23 @@ fn build(application: &adw::Application) {
     search.set_visible(false);
     search.set_key_capture_widget(Some(&window));
 
+    // Pasek boczny bez tytułu, pomoc w lewym górnym rogu (jak w Panko i Shrimp Apps).
     let sidebar_header = adw::HeaderBar::new();
-    sidebar_header.set_title_widget(Some(&adw::WindowTitle::new("Cocktail", "")));
+    sidebar_header.set_show_title(false);
+    let help = gtk::Button::from_icon_name("dialog-question-symbolic");
+    help.set_tooltip_text(Some(crate::i18n::tr("help")));
+    match help::url() {
+        Some(url) => {
+            help.connect_clicked(move |b| {
+                let root = b.root().and_downcast::<gtk::Window>();
+                gtk::UriLauncher::new(&url).launch(root.as_ref(), gio::Cancellable::NONE, |_| {});
+            });
+        }
+        None => help.set_sensitive(false),
+    }
+    sidebar_header.pack_start(&help);
     let sidebar_view = adw::ToolbarView::new();
+    sidebar_view.add_css_class("cocktail-side");
     sidebar_view.add_top_bar(&sidebar_header);
     let nav_scroll = gtk::ScrolledWindow::new();
     nav_scroll.set_hscrollbar_policy(gtk::PolicyType::Never);
@@ -137,6 +162,7 @@ fn build(application: &adw::Application) {
     content_header.set_title_widget(Some(&adw::Bin::new()));
     content_header.pack_end(&menu_button);
     let content_view = adw::ToolbarView::new();
+    content_view.add_css_class("cocktail-content");
     content_view.add_top_bar(&content_header);
     content_view.add_top_bar(&banner);
     toasts.set_child(Some(&stack));
@@ -162,19 +188,20 @@ fn build(application: &adw::Application) {
     {
         let (stack, search, split, content_page, current) =
             (stack.clone(), search.clone(), split.clone(), content_page.clone(), current.clone());
-        let (devices, packages, history) = (devices.clone(), packages.clone(), history.clone());
+        let (devices, packages, history, terminal) = (devices.clone(), packages.clone(), history.clone(), terminal.clone());
         nav.connect_row_selected(move |_, row| {
             let Some(row) = row else { return };
             let (id, _, title) = SECTIONS[row.index() as usize];
             *current.borrow_mut() = id.to_string();
             stack.set_visible_child_name(id);
             content_page.set_title(crate::i18n::tr(title));
-            search.set_visible(id != "aktualizacje");
+            search.set_visible(id != "aktualizacje" && id != "terminal");
             search.set_text("");
             match id {
                 "urzadzenia" => devices.load(),
                 "pakiety" => packages.load(),
                 "historia" => history.load(),
+                "terminal" => terminal.focus(),
                 _ => {}
             }
             split.set_show_content(true);

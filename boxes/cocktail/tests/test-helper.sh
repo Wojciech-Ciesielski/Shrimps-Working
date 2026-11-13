@@ -24,8 +24,19 @@ grep -q 'pkg remove vlc$' "$T/log" || fail "remove tu"
 : > "$T/log"; COCKTAIL_MODE=transactional "$H" update >/dev/null
 grep -q -- '--continue up$' "$T/log" || fail "update tu"
 
+: > "$T/log"; COCKTAIL_MODE=transactional "$H" update-pkg vlc >/dev/null
+grep -q -- '--continue pkg update --auto-agree-with-licenses vlc$' "$T/log" || fail "update-pkg tu"
+
+# Aktualizacje w tle: przez shrimp-auto-updates z CoreOS.
+printf '#!/bin/bash\necho "auto $*" >> "%s/log"\n' "$T" > "$T/bin/au"; chmod +x "$T/bin/au"
+: > "$T/log"; COCKTAIL_AUTO_UPDATES=$T/bin/au "$H" auto-updates on; grep -q '^auto on$' "$T/log" || fail "auto-updates on"
+if COCKTAIL_AUTO_UPDATES=$T/bin/au "$H" auto-updates maybe 2>/dev/null; then fail "auto-updates maybe"; fi
+# Sterowniki: atrapa nie ma aktualizacji sterowników ani fwupdmgr, więc nic nie zmienia.
+: > "$T/log"; OUT=$(COCKTAIL_MODE=transactional "$H" drivers); [ -z "$OUT" ] || fail "drivers bez aktualizacji"
+grep -q 'transactional-update' "$T/log" && fail "drivers: niepotrzebna migawka"
+
 # Odmowy: chronione pakiety, dziwne nazwy, nieznane polecenia.
-for bad in "remove glibc" "remove kernel-default" "install -rf" "install a;b" "install" "frobnicate x" "update x"; do
+for bad in "remove glibc" "remove kernel-default" "install -rf" "install a;b" "install" "frobnicate x" "update x" "drivers x" "auto-updates" "update-pkg" "update-pkg -x"; do
   : > "$T/log"
   # shellcheck disable=SC2086
   if "$H" $bad 2>/dev/null; then fail "przyjęto: $bad"; fi
