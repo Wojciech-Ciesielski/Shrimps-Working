@@ -2,7 +2,7 @@
 id = "cherry"
 version = "0.1.0"
 kind = "app"
-summary = "Terminal z zsh, który tłumaczy komendy (GTK4 + libadwaita + VTE, Rust)"
+summary = "Terminal z zsh, kartami w pionowym pasku i skrótami jak w Windows (GTK4 + libadwaita + VTE, Rust)"
 build_depends = ["shrimp-i18n", "help-links"]
 ci = "cherry"
 

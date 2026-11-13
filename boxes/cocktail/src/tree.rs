@@ -65,12 +65,12 @@ impl Tree {
 
     fn row_box(&self, parent: Option<usize>) -> gtk::Box {
         let b = gtk::Box::new(gtk::Orientation::Horizontal, 10);
-        b.set_margin_start(10 + INDENT * self.depth(parent));
-        b.set_margin_end(10);
-        b.set_margin_top(3);
-        b.set_margin_bottom(3);
-        // Ta sama wysokość wiersza z przyciskiem i bez.
-        b.set_size_request(-1, 34);
+        b.set_margin_start(24 + INDENT * self.depth(parent));
+        b.set_margin_end(24);
+        b.set_margin_top(1);
+        b.set_margin_bottom(1);
+        // Ta sama wysokość wiersza z przyciskiem i bez (jak w Panko).
+        b.set_size_request(-1, 28);
         b
     }
 

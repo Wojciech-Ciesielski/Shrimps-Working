@@ -3,6 +3,7 @@
 //! napisany od nowa w Rust na GTK4 + libadwaita, z ikonami motywu (MoreWaita w Shrimp).
 
 mod bookmarks;
+mod help;
 mod i18n;
 mod ops;
 mod pathbar;
@@ -38,8 +39,9 @@ pub const SOURCES: &[(&str, &str)] = &[
 /// zaokrąglone zaznaczenie w siatce, spokojne nagłówki kolumn. Kolory tylko z nazwanych kolorów libadwaita.
 const CSS: &str = "
 .filer-list, .filer-grid { background: transparent; }
-.filer-list > listview > row { min-height: 36px; }
-.filer-list > listview > row:nth-child(even):not(:selected) { background-color: alpha(currentColor, 0.04); }
+/* Wiersze jak w Panko i Cocktailu: niższe, co drugi jaśniejszy od tła (pasek boczny zostaje ciemniejszy). */
+.filer-list > listview > row { min-height: 30px; }
+.filer-list > listview > row:nth-child(even):not(:selected) { background-color: shade(@window_bg_color, 1.07); }
 .filer-list > header > button { font-weight: normal; color: alpha(currentColor, 0.6); border: none; box-shadow: none; padding: 6px 12px; }
 .filer-list > listview > row > cell { padding: 0 12px; }
 .filer-grid > child { border-radius: 10px; margin: 4px; padding: 6px; }

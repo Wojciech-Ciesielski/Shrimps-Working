@@ -91,3 +91,23 @@
 91	Acerca de Cocktail
 92	Menú principal
 93	Actualizaciones del sistema, dispositivos y paquetes.
+94	Terminal
+95	Ayuda
+96	Actualizaciones automáticas
+97	Se instalan en segundo plano y se activan tras el próximo reinicio
+98	Controladores y firmware
+99	Al día
+100	{n} actualización
+101	{n} actualizaciones
+102	{n} actualizaciones
+103	{n} actualizaciones
+104	Actualizar
+105	No se pudieron actualizar los controladores
+106	No se pudieron cambiar las actualizaciones automáticas
+107	Nueva versión {version}
+108	nombre del paquete
+109	Escribe el nombre de un paquete y pulsa Intro. Cocktail lo instala en una nueva instantánea del sistema.
+110	Nombre de paquete no válido: {name}
+111	Hecho.
+112	No ha funcionado (código {code}).
+113	El paquete estará listo después de reiniciar.

@@ -66,3 +66,11 @@
 65	error.no-remote	The {remote} repository is missing
 66	error.no-catalog	The app catalog is missing
 67	error.empty-catalog	The app catalog is empty
+68	hint.download.title	Better to get it from the store
+69	hint.file.title	This file won't work in Shrimp
+70	hint.windows	{file} is an installer for Windows. Windows programs don't run in Shrimp.
+71	hint.mac	{file} is an installer for macOS. Mac programs don't run in Shrimp.
+72	hint.linux	{file} isn't a Flatpak. Programs from outside the store may not work in Shrimp and don't update themselves.
+73	hint.store	In Shrimp, programs come from the Shrimp Apps store: they are checked, safe and update on their own. The same program or a good alternative is usually there.
+74	hint.search	Search in Shrimp Apps
+75	hint.close	Close

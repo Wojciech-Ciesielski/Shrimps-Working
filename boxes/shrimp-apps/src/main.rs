@@ -5,6 +5,7 @@ mod catalog;
 mod categories;
 mod details;
 mod headless;
+mod hint;
 mod i18n;
 mod net;
 mod selftest;
@@ -47,6 +48,11 @@ fn main() -> glib::ExitCode {
         return headless::run(&args[2..]);
     }
 
+    // Okienko przy instalatorze spoza sklepu: shrimp-apps --hint download|file PLIK
+    if args.get(1).map(String::as_str) == Some("--hint") {
+        return hint::run(&args[2..]);
+    }
+
     let app = adw::Application::builder()
         .application_id(APP_ID)
         .flags(gio::ApplicationFlags::HANDLES_OPEN)
@@ -69,12 +75,24 @@ fn main() -> glib::ExitCode {
         }
         build(app, None);
     });
-    // appstream://org.gimp.GIMP lub sam identyfikator: otwiera stronę aplikacji.
+    // appstream://org.gimp.GIMP lub sam identyfikator: otwiera stronę aplikacji;
+    // shrimp-search:nazwa (okienko przy instalatorze z internetu): wyszukiwanie w sklepie.
     app.connect_open(|app, files, _| {
         let id = files.first().map(|f| {
             let uri = f.uri().to_string();
+            if let Some(q) = uri.strip_prefix("shrimp-search:") {
+                return format!("shrimp-search:{}", glib::Uri::unescape_string(q, None::<&str>).map(|s| s.to_string()).unwrap_or_else(|| q.to_string()));
+            }
             uri.trim_start_matches("appstream://").trim_start_matches("appstream:").trim_end_matches('/').to_string()
         });
+        if let (Some(w), Some(q)) = (app.active_window(), id.as_deref().and_then(|i| i.strip_prefix("shrimp-search:"))) {
+            // Sklep już otwarty: tylko wyszukiwanie.
+            if let Some(shell) = window::Shell::for_window(&w) {
+                shell.search_for(q);
+            }
+            w.present();
+            return;
+        }
         build(app, id);
     });
     app.run()
@@ -97,8 +115,12 @@ fn build(app: &adw::Application, open_id: Option<String>) {
                 let catalog = matches!(ev, backend::Event::Catalog(_));
                 shell.handle(ev);
                 if catalog {
-                    if let Some(id) = pending.take() {
-                        shell.open_app(&id);
+                    match pending.take() {
+                        Some(id) => match id.strip_prefix("shrimp-search:") {
+                            Some(q) => shell.search_for(q),
+                            None => shell.open_app(&id),
+                        },
+                        None => {}
                     }
                 }
             }

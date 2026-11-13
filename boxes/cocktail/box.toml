@@ -3,7 +3,7 @@ id = "cocktail"
 version = "0.1.0"
 kind = "app"
 summary = "Aktualizacje, sterowniki, pakiety i historia zmian (GTK4 + libadwaita, Rust)"
-build_depends = ["shrimp-i18n"]
+build_depends = ["shrimp-i18n", "help-links"]
 ci = "cocktail"
 
 [packages]

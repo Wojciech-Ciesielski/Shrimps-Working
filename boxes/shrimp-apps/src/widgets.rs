@@ -20,7 +20,8 @@ pub fn pick_icon(names: &[&'static str]) -> &'static str {
 pub const ICON_DISCOVER: &[&str] = &["compass2-symbolic", "explore-symbolic", "starred-symbolic"];
 pub const ICON_INSTALLED: &[&str] = &["library-symbolic", "system-software-install-symbolic"];
 pub const ICON_WEB: &[&str] = &["globe-symbolic", "web-browser-symbolic"];
-pub const ICON_HELP: &[&str] = &["help-browser-symbolic", "help-about-symbolic"];
+// Ta sama ikona pomocy co w Panko i Cocktailu (znak zapytania), nie koło ratunkowe help-browser.
+pub const ICON_HELP: &[&str] = &["dialog-question-symbolic", "help-about-symbolic"];
 pub const ICON_VERIFIED: &[&str] = &["verified-checkmark-symbolic", "emblem-ok-symbolic"];
 
 /// Wczytuje obraz z dysku poza wątkiem GTK.

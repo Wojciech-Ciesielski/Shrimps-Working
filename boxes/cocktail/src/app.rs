@@ -115,7 +115,7 @@ impl App {
         self.banner.set_revealed(true);
     }
 
-    fn changed(&self) {
+    pub fn changed(&self) {
         for f in self.on_change.borrow().iter() {
             f();
         }
@@ -187,9 +187,10 @@ impl App {
             Op::Remove => "remove",
             Op::Update => "update",
         }];
-        if op != Op::Update {
-            a.extend_from_slice(&args);
+        if op == Op::Update && !args.is_empty() {
+            a[0] = "update-pkg";
         }
+        a.extend_from_slice(&args);
         let out = helper("cocktail-helper", &a).await;
         if out.cancelled() {
             return false;

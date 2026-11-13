@@ -1,0 +1,31 @@
+// fastfetch w Cherry: logo Shrimp i najważniejsze informacje o komputerze.
+// Własny ~/.config/fastfetch/config.jsonc ma pierwszeństwo (Cherry używa tego pliku tylko bez niego).
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "file",
+    "source": "/usr/share/cherry/fastfetch-logo.txt",
+    "color": { "1": "38;5;209" },
+    "padding": { "right": 2 }
+  },
+  "display": { "separator": "  ", "color": { "keys": "38;5;209" } },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "kernel",
+    "uptime",
+    "packages",
+    "shell",
+    "de",
+    "terminal",
+    "cpu",
+    "gpu",
+    "memory",
+    "disk",
+    "battery",
+    "locale",
+    "break",
+    "colors"
+  ]
+}

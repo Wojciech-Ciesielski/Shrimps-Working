@@ -3,6 +3,9 @@
 #   cocktail-helper install PAKIET...
 #   cocktail-helper remove PAKIET...
 #   cocktail-helper update
+#   cocktail-helper update-pkg PAKIET...  aktualizacja wybranych pakietów (zakładka Pakiety)
+#   cocktail-helper drivers              sterowniki: jądro, firmware, moduły NVIDIA/KMP + fwupd
+#   cocktail-helper auto-updates on|off  aktualizacje w tle (bez restartu, wchodzą przy następnym starcie)
 # Na niezmiennym systemie każda zmiana idzie przez transactional-update do nowej migawki
 # (--continue: kolejne zmiany przed restartem trafiają do tej samej, najnowszej migawki).
 # Wypisuje „reboot”, gdy zmiana zadziała dopiero po ponownym uruchomieniu.
@@ -52,6 +55,7 @@ run_change() {
       install) transactional-update --non-interactive --continue pkg install --auto-agree-with-licenses "$@" ;;
       remove)  transactional-update --non-interactive --continue pkg remove "$@" ;;
       update)  transactional-update --non-interactive --continue up ;;
+      driverup) transactional-update --non-interactive --continue pkg update --auto-agree-with-licenses "$@" ;;
     esac
     echo reboot
   else
@@ -59,9 +63,10 @@ run_change() {
       install) zypper --non-interactive install --auto-agree-with-licenses "$@" ;;
       remove)  zypper --non-interactive remove "$@" ;;
       update)  zypper --non-interactive update --auto-agree-with-licenses ;;
+      driverup) zypper --non-interactive update --auto-agree-with-licenses "$@" ;;
     esac
     # Nowe jądro działa dopiero po restarcie także na zwykłym systemie (kod 102 = trzeba restartu).
-    if [ "$op" = update ]; then
+    if [ "$op" = update ] || [ "$op" = driverup ]; then
       local rc=0
       zypper needs-rebooting >/dev/null 2>&1 || rc=$?
       [ "$rc" -eq 102 ] && echo reboot
@@ -69,11 +74,46 @@ run_change() {
   fi
 }
 
-[ $# -ge 1 ] || die "użycie: cocktail-helper install|remove|update [PAKIET...]"
+# Pakiety sterowników z listy aktualizacji (zypper list-updates): jądro, firmware, NVIDIA, moduły KMP.
+driver_updates() {
+  zypper --non-interactive --quiet --no-refresh list-updates 2>/dev/null \
+    | awk -F'|' 'NF>=5 {gsub(/ /,"",$3); print $3}' \
+    | grep -E '^(kernel-default|kernel-firmware.*|ucode-.*|nvidia-.*|.*-kmp-.*|libnvidia.*|fwupd.*)$' | sort -u || true
+}
+
+run_drivers() {
+  local pkgs
+  pkgs=$(driver_updates)
+  if [ -n "$pkgs" ]; then
+    # shellcheck disable=SC2086
+    run_change driverup $pkgs
+  fi
+  # Oprogramowanie układowe urządzeń (BIOS, dyski, czytniki): fwupd, zapis przy następnym starcie.
+  if command -v fwupdmgr >/dev/null 2>&1; then
+    fwupdmgr refresh --force >/dev/null 2>&1 || true
+    local rc=0
+    fwupdmgr update --assume-yes --no-reboot-check >&2 || rc=$?
+    # 2 = nic do zrobienia
+    if [ "$rc" -eq 0 ]; then echo reboot; elif [ "$rc" -ne 2 ]; then echo "cocktail-helper: fwupd zakończył się kodem $rc" >&2; fi
+  fi
+}
+
+auto_updates() {
+  case "${1:-}" in on|off) ;; *) die "auto-updates on|off" ;; esac
+  local au=${COCKTAIL_AUTO_UPDATES:-/usr/libexec/shrimp-auto-updates}
+  if [ -x "$au" ]; then exec "$au" "$1"; fi
+  # Bez Shrimp CoreOS (praca nad kodem): sam licznik transactional-update.
+  if [ "$1" = on ]; then systemctl enable --now transactional-update.timer; else systemctl disable --now transactional-update.timer; fi
+}
+
+[ $# -ge 1 ] || die "użycie: cocktail-helper install|remove|update|drivers|auto-updates [ARG...]"
 cmd=$1; shift
 case "$cmd" in
   install) check_names "$@"; run_change install "$@" ;;
   remove)  check_names "$@"; check_removable "$@"; run_change remove "$@" ;;
   update)  [ $# -eq 0 ] || die "update nie przyjmuje argumentów"; run_change update ;;
+  update-pkg) check_names "$@"; run_change driverup "$@" ;;
+  drivers) [ $# -eq 0 ] || die "drivers nie przyjmuje argumentów"; run_drivers ;;
+  auto-updates) [ $# -eq 1 ] || die "auto-updates on|off"; auto_updates "$1" ;;
   *) die "nieznane polecenie: $cmd" ;;
 esac

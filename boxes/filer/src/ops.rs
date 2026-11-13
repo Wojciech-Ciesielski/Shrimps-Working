@@ -319,6 +319,11 @@ impl Worker {
                 match kind {
                     Kind::Copy => {
                         let dir = dest.unwrap();
+                        // Folder do samego siebie albo do swojego podfolderu: kopia rosłaby bez końca.
+                        if dir.equal(s) || dir.has_prefix(s) {
+                            let e = glib::Error::new(gio::IOErrorEnum::WouldRecurse, tr("ops.into_itself"));
+                            return self.error(&e, s);
+                        }
                         let same = s.parent().is_some_and(|p| p.equal(dir));
                         // Wklejenie do tego samego folderu: „plik (kopia)”, bez pytania.
                         let target = if same { dir.child(util::free_name(dir, &name, true)) } else { dir.child(&name) };
@@ -723,6 +728,18 @@ mod tests {
         w.run(Kind::Delete, &[t.child("dest")], None);
         assert!(!p.join("dest").exists());
         let _ = std::fs::remove_dir_all(p);
+    }
+
+    #[test]
+    fn copy_into_itself_stops() {
+        let (mut w, _rx) = worker();
+        let src = tmp("filer-self");
+        let inner = src.child("w-srodku");
+        inner.make_directory(gio::Cancellable::NONE).unwrap();
+        let (_, created) = w.run(Kind::Copy, std::slice::from_ref(&src), Some(&inner));
+        assert!(created.is_empty());
+        assert!(!inner.child(src.basename().unwrap()).query_exists(gio::Cancellable::NONE));
+        let _ = std::fs::remove_dir_all(src.path().unwrap());
     }
 
     #[test]

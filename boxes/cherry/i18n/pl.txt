@@ -189,3 +189,6 @@
 189	Przełącz na inną gałąź
 190	Pokaż albo utwórz gałęzie
 191	Zacznij nowy projekt
+192	Kopiuj
+193	Wklej
+194	Zaznacz wszystko

@@ -40,6 +40,13 @@ exit 0
 Z
 cat > "$FAKE/bin/rpm" <<'Z'
 #!/bin/bash
+if [ "${1:-}" = -qa ]; then
+  printf '%s\t%s\t%s\n' bash 5.2.37-1.1 "The GNU Bourne-Again Shell" kernel-default 6.12.1-1.1 "The Standard Kernel" \
+    Mesa 25.2.1-1.1 "System for rendering 3-D graphics" git 2.51.0-1.1 "Fast, scalable, distributed revision control system" \
+    glibc 2.40-1.1 "Standard Shared Libraries" vlc 3.0.21-1.1 "Graphical media player" zypper 1.14.90-1.1 "Command line software manager" \
+    gpg-pubkey 29b700a4-62b07e22 "gpg(openSUSE Project Signing Key)"
+  exit 0
+fi
 for p in "$@"; do
   case "$p" in -q|--qf|%*) continue ;; esac
   case "$p" in vlc|git|python3|noto-sans-fonts|google-noto-coloremoji-fonts|cups|cups-filters|fwupd|cryptsetup|mokutil|rsync|gnome-disk-utility|openssh|avahi|gstreamer-plugins-base|gstreamer-plugins-good)

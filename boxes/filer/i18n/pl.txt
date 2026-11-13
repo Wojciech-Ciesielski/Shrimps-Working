@@ -241,3 +241,4 @@
 241	Widok
 242	Przejdź
 243	Zakładki
+244	Pomoc

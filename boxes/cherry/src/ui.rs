@@ -1,7 +1,8 @@
-//! Okno Cherry: karty z terminalem (VTE, zsh), po lewej pionowy pasek narzędzi bez podpisów
-//! (Jak to działa?, Notatki, Skróty, Historia) i panel wybranego narzędzia, pod terminalem pasek stanu.
-//! Zgodnie z Adwaita: ikony bez dodatkowych kształtów, bez linii oddzielających (panele rozdziela odcień tła),
-//! terminal najciemniejszy i bez zaokrągleń, dochodzi do krawędzi okna.
+//! Okno Cherry: jeden pionowy pasek po lewej (pomoc, nowa karta, ustawienia, lista kart, na dole notatki
+//! i historia), a obok terminal (VTE, zsh) na całą wysokość okna, bez paska u góry i bez kart poziomych.
+//! Skróty jak w Windows: Ctrl+C kopiuje zaznaczenie (bez zaznaczenia przerywa), Ctrl+V wkleja, menu pod
+//! prawym przyciskiem; edycję wpisywanej komendy (Shift+strzałki, Ctrl+A, Ctrl+Z…) dokłada .zshrc Cherry.
+//! Historię komend zapisuje sam zsh (dokładnie to, co wykonał), Cherry ją tylko pokazuje.
 
 use adw::prelude::*;
 use std::cell::{Cell, RefCell};
@@ -10,69 +11,85 @@ use std::path::PathBuf;
 use std::rc::{Rc, Weak};
 use vte::prelude::*;
 
-use crate::explain::{self, Kind};
 use crate::i18n::{tr, trf};
-use crate::store::{self, Abbrev, Data, KeyShortcut, Note, TabsPos};
+use crate::store::{self, Data, Note};
 
 const CSS: &str = r#"
-.cherry-tools { background: @headerbar_bg_color; padding: 6px 4px; }
-.cherry-panel { background: @sidebar_bg_color; }
-.cherry-panel .title-4 { margin: 12px 12px 4px 12px; }
-.cherry-cmd { font-family: monospace; font-size: 1.15em; font-weight: bold; }
+.cherry-side { background: @sidebar_bg_color; }
+.cherry-side headerbar { background: transparent; box-shadow: none; }
+.cherry-side .navigation-sidebar row { padding-top: 4px; padding-bottom: 4px; }
+.cherry-foot { padding: 6px; }
+.cherry-term { border-radius: 0; padding: 6px 10px; }
 .cherry-tok { font-family: monospace; font-weight: bold; }
-.cherry-status { background: @headerbar_bg_color; padding: 4px 10px; font-size: 0.9em; }
-.cherry-status label { font-family: monospace; }
-.cherry-term { border-radius: 0; }
-.cherry-sidetabs { background: @sidebar_bg_color; }
-row.cherry-warn .cherry-tok, row.cherry-warn .cherry-desc { color: @warning_color; }
-row.cherry-hint .cherry-tok { color: @accent_color; }
+.cherry-pop .title-4 { margin: 6px 6px 4px 6px; }
 "#;
 
-/// Narzędzia lewego paska: identyfikator strony panelu i ikona Adwaita.
-const TOOLS: [(&str, &str, &str); 4] = [
-    ("explain", "dialog-information-symbolic", "tool.explain"),
-    ("notes", "document-edit-symbolic", "tool.notes"),
-    (
-        "keys",
-        "preferences-desktop-keyboard-shortcuts-symbolic",
-        "tool.keys",
-    ),
-    ("history", "document-open-recent-symbolic", "tool.history"),
-];
+/// Szerokość paska z kartami.
+const SIDE_WIDTH: f64 = 260.0;
 
-/// Stan jednej karty: terminal, pasek stanu i ostatnio wykonana komenda.
+/// Stan jednej karty: terminal, podpis w pasku kart i wpisywana komenda.
 struct Tab {
     term: vte::Terminal,
-    status_path: gtk::Label,
-    status_git: gtk::Label,
-    git_box: gtk::Box,
-    current: RefCell<String>,
-    last: RefCell<String>,
+    /// Folder i gałąź gita pod tytułem karty.
+    subtitle: RefCell<String>,
+    dir: RefCell<PathBuf>,
 }
 
 pub struct App {
     data: RefCell<Data>,
     window: adw::ApplicationWindow,
     view: adw::TabView,
-    bar: adw::TabBar,
     side_tabs: gtk::ListBox,
-    side_rev: gtk::Revealer,
-    panel_rev: gtk::Revealer,
-    panel: gtk::Stack,
-    tool_btns: Vec<(&'static str, gtk::ToggleButton)>,
-    explain_cmd: gtk::Label,
-    explain_list: gtk::ListBox,
-    explain_empty: gtk::Label,
+    notes_btn: gtk::MenuButton,
     notes_list: gtk::ListBox,
-    keys_list: gtk::ListBox,
-    abbr_list: gtk::ListBox,
+    hist_btn: gtk::MenuButton,
     hist_list: gtk::ListBox,
     hist_search: gtk::SearchEntry,
-    shortcuts: gtk::ShortcutController,
     tabs: RefCell<HashMap<String, Rc<Tab>>>,
     next_id: Cell<u32>,
     zdotdir: PathBuf,
     me: RefCell<Weak<App>>,
+}
+
+thread_local! {
+    /// Otwarte okna Cherry (nowa karta z wiersza poleceń trafia do pierwszego z nich).
+    static WINDOWS: RefCell<Vec<Weak<App>>> = const { RefCell::new(Vec::new()) };
+}
+
+/// Folder z argumentów: `--working-directory DIR`, `--working-directory=DIR` albo jeden argument-folder.
+/// Ścieżka względna liczy się od `cwd` procesu, który uruchomił Cherry.
+pub fn dir_from_args(args: &[String], cwd: Option<&std::path::Path>) -> Option<PathBuf> {
+    let mut it = args.iter();
+    let mut raw = None;
+    while let Some(a) = it.next() {
+        if a == "--working-directory" || a == "-w" {
+            raw = it.next().cloned();
+        } else if let Some(d) = a.strip_prefix("--working-directory=") {
+            raw = Some(d.to_owned());
+        } else if !a.starts_with('-') {
+            raw = Some(a.clone());
+        }
+    }
+    let p = PathBuf::from(raw?);
+    let p = match (p.is_absolute(), cwd) {
+        (false, Some(c)) => c.join(p),
+        _ => p,
+    };
+    p.is_dir().then_some(p)
+}
+
+/// Nowa karta w `dir` w otwartym oknie albo nowe okno. Bez folderu: pokazuje otwarte okno.
+pub fn open(app: &adw::Application, dir: Option<PathBuf>) {
+    let win = WINDOWS.with(|w| w.borrow().iter().find_map(Weak::upgrade));
+    match win {
+        Some(a) => {
+            if let Some(d) = dir {
+                a.add_tab(d.to_str());
+            }
+            a.window.present();
+        }
+        None => build(app, dir),
+    }
 }
 
 fn now() -> i64 {
@@ -81,7 +98,7 @@ fn now() -> i64 {
         .unwrap_or(0)
 }
 
-pub fn build(app: &adw::Application) {
+fn build(app: &adw::Application, dir: Option<PathBuf>) {
     let provider = gtk::CssProvider::new();
     provider.load_from_string(CSS);
     if let Some(display) = gtk::gdk::Display::default() {
@@ -94,21 +111,24 @@ pub fn build(app: &adw::Application) {
 
     let mut data = store::load();
     data.prune(now());
-    let zdotdir = store::write_zsh(&data);
+    let zdotdir = store::write_zsh();
 
     let window = adw::ApplicationWindow::builder()
         .application(app)
         .default_width(1100)
         .default_height(680)
-        .title("Terminal")
+        .title("Cherry")
         .build();
     let view = adw::TabView::new();
-    let bar = adw::TabBar::builder().view(&view).autohide(false).build();
+    view.set_hexpand(true);
+    view.set_vexpand(true);
 
-    // Pasek tytułu: pomoc (znak zapytania) po lewej, nowa karta i menu ustawień po prawej.
+    // Pasek boczny: pomoc po lewej, nowa karta, ustawienia i przyciski okna po prawej (to jedyny pasek
+    // tytułu okna, terminal sięga od góry do dołu).
     let header = adw::HeaderBar::new();
+    header.set_show_title(false);
     let help = gtk::Button::builder()
-        .icon_name("help-about-symbolic")
+        .icon_name("dialog-question-symbolic")
         .tooltip_text(tr("help"))
         .build();
     help.set_sensitive(crate::help::url().is_some());
@@ -117,6 +137,9 @@ pub fn build(app: &adw::Application) {
         .icon_name("open-menu-symbolic")
         .tooltip_text(tr("settings"))
         .build();
+    // Przyciski okna: pasek tytułu w panelu bocznym sam ich nie pokazuje (obok jest treść).
+    header.set_show_end_title_buttons(false);
+    header.pack_end(&gtk::WindowControls::new(gtk::PackType::End));
     header.pack_end(&menu_btn);
     let new_tab = gtk::Button::builder()
         .icon_name("tab-new-symbolic")
@@ -124,155 +147,63 @@ pub fn build(app: &adw::Application) {
         .build();
     header.pack_end(&new_tab);
 
-    // Lewy pasek narzędzi (same ikony) i panel narzędzia.
-    let tools = gtk::Box::new(gtk::Orientation::Vertical, 4);
-    tools.add_css_class("cherry-tools");
-    let mut tool_btns = Vec::new();
-    for (id, icon, tip) in TOOLS {
-        let b = gtk::ToggleButton::builder()
-            .icon_name(icon)
-            .tooltip_text(tr(tip))
-            .build();
-        b.add_css_class("flat");
-        b.update_property(&[gtk::accessible::Property::Label(tr(tip))]);
-        tools.append(&b);
-        tool_btns.push((id, b));
-    }
-    let panel = gtk::Stack::builder()
-        .transition_type(gtk::StackTransitionType::Crossfade)
-        .build();
-    panel.set_size_request(300, -1);
-    panel.add_css_class("cherry-panel");
-    let panel_rev = gtk::Revealer::builder()
-        .transition_type(gtk::RevealerTransitionType::SlideRight)
-        .child(&panel)
-        .build();
-
-    // Jak to działa?
-    let explain_cmd = gtk::Label::builder()
-        .xalign(0.0)
-        .wrap(true)
-        .selectable(true)
-        .margin_start(12)
-        .margin_end(12)
-        .build();
-    explain_cmd.add_css_class("cherry-cmd");
-    let explain_list = gtk::ListBox::builder()
-        .selection_mode(gtk::SelectionMode::None)
-        .build();
-    explain_list.add_css_class("navigation-sidebar");
-    let explain_empty = gtk::Label::builder()
-        .label(tr("explain.empty"))
-        .wrap(true)
-        .xalign(0.0)
-        .margin_start(12)
-        .margin_end(12)
-        .build();
-    explain_empty.add_css_class("dim-label");
-    let parts_title = heading(tr("explain.parts"));
-    let ex_box = gtk::Box::new(gtk::Orientation::Vertical, 6);
-    ex_box.append(&heading(tr("tool.explain")));
-    ex_box.append(&explain_cmd);
-    ex_box.append(&parts_title);
-    ex_box.append(&explain_list);
-    ex_box.append(&explain_empty);
-    panel.add_named(&scroll(&ex_box), Some("explain"));
-
-    // Notatki: lista, plus w nagłówku otwiera okno nowej notatki.
-    let notes_list = list();
-    let notes_add = icon_button("list-add-symbolic", tr("note.new"));
-    let nb = gtk::Box::new(gtk::Orientation::Vertical, 6);
-    nb.append(&heading_with(tr("tool.notes"), &notes_add));
-    nb.append(&notes_list);
-    panel.add_named(&scroll(&nb), Some("notes"));
-
-    // Skróty: klawisze i skróty w zapisie (aliasy zsh).
-    let keys_list = list();
-    let abbr_list = list();
-    let keys_add = icon_button("list-add-symbolic", tr("short.new"));
-    let kb = gtk::Box::new(gtk::Orientation::Vertical, 6);
-    kb.append(&heading_with(tr("tool.keys"), &keys_add));
-    kb.append(&subheading(tr("short.keys")));
-    kb.append(&keys_list);
-    kb.append(&subheading(tr("short.abbr")));
-    kb.append(&abbr_list);
-    panel.add_named(&scroll(&kb), Some("keys"));
-
-    // Historia: kosz w nagłówku czyści całą, wyszukiwarka na dole.
-    let hist_list = list();
-    let hist_clear = icon_button("user-trash-symbolic", tr("hist.clear"));
-    let hist_search = gtk::SearchEntry::builder()
-        .placeholder_text(tr("hist.search"))
-        .margin_start(8)
-        .margin_end(8)
-        .margin_bottom(8)
-        .build();
-    let hb = gtk::Box::new(gtk::Orientation::Vertical, 6);
-    hb.append(&heading_with(tr("tool.history"), &hist_clear));
-    let hs = scroll(&hist_list);
-    hs.set_vexpand(true);
-    hb.append(&hs);
-    hb.append(&hist_search);
-    panel.add_named(&hb, Some("history"));
-
-    // Karty pionowo po prawej (opcja w ustawieniach).
     let side_tabs = gtk::ListBox::builder()
         .selection_mode(gtk::SelectionMode::Single)
         .build();
     side_tabs.add_css_class("navigation-sidebar");
-    let side_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
-    side_box.add_css_class("cherry-sidetabs");
-    side_box.set_size_request(200, -1);
-    side_box.append(&scroll(&side_tabs));
-    let side_new = icon_button("list-add-symbolic", tr("tab.new"));
-    side_new.set_halign(gtk::Align::Start);
-    side_new.set_margin_start(6);
-    side_new.set_margin_bottom(6);
-    side_box.append(&side_new);
-    let side_rev = gtk::Revealer::builder()
-        .transition_type(gtk::RevealerTransitionType::SlideLeft)
-        .child(&side_box)
+
+    // Na dole paska, po prawej: notatki i historia (okienka nad przyciskiem).
+    let notes_list = list();
+    let notes_add = icon_button("list-add-symbolic", tr("note.new"));
+    let nb = gtk::Box::new(gtk::Orientation::Vertical, 6);
+    nb.append(&heading_with(tr("tool.notes"), &notes_add));
+    nb.append(&scroll(&notes_list));
+    let notes_btn = pop_button("document-edit-symbolic", tr("tool.notes"), &nb);
+
+    let hist_list = list();
+    let hist_clear = icon_button("user-trash-symbolic", tr("hist.clear"));
+    let hist_search = gtk::SearchEntry::builder()
+        .placeholder_text(tr("hist.search"))
         .build();
+    let hb = gtk::Box::new(gtk::Orientation::Vertical, 6);
+    hb.append(&heading_with(tr("tool.history"), &hist_clear));
+    hb.append(&hist_search);
+    hb.append(&scroll(&hist_list));
+    let hist_btn = pop_button("document-open-recent-symbolic", tr("tool.history"), &hb);
 
-    let center = gtk::Box::new(gtk::Orientation::Vertical, 0);
-    center.append(&bar);
-    center.append(&view);
-    view.set_vexpand(true);
-    let body = gtk::Box::new(gtk::Orientation::Horizontal, 0);
-    body.append(&tools);
-    body.append(&panel_rev);
-    center.set_hexpand(true);
-    body.append(&center);
-    body.append(&side_rev);
+    let foot = gtk::Box::new(gtk::Orientation::Horizontal, 4);
+    foot.add_css_class("cherry-foot");
+    foot.set_halign(gtk::Align::End);
+    foot.append(&notes_btn);
+    foot.append(&hist_btn);
 
-    let tv = adw::ToolbarView::new();
-    tv.add_top_bar(&header);
-    tv.set_content(Some(&body));
-    window.set_content(Some(&tv));
+    let side = adw::ToolbarView::new();
+    side.add_css_class("cherry-side");
+    side.add_top_bar(&header);
+    side.set_content(Some(&scroll(&side_tabs)));
+    side.add_bottom_bar(&foot);
 
-    let shortcuts = gtk::ShortcutController::new();
-    shortcuts.set_scope(gtk::ShortcutScope::Global);
-    window.add_controller(shortcuts.clone());
+    // Pasek boczny o stałej szerokości (pasek tytułu sam z siebie chciałby więcej), terminal obok.
+    let body = adw::OverlaySplitView::builder()
+        .sidebar(&side)
+        .content(&view)
+        .min_sidebar_width(SIDE_WIDTH)
+        .max_sidebar_width(SIDE_WIDTH)
+        .collapsed(false)
+        .show_sidebar(true)
+        .build();
+    window.set_content(Some(&body));
 
     let me = Rc::new(App {
         data: RefCell::new(data),
         window: window.clone(),
         view: view.clone(),
-        bar,
         side_tabs: side_tabs.clone(),
-        side_rev,
-        panel_rev,
-        panel,
-        tool_btns,
-        explain_cmd,
-        explain_list,
-        explain_empty,
+        notes_btn,
         notes_list,
-        keys_list,
-        abbr_list,
+        hist_btn,
         hist_list,
         hist_search: hist_search.clone(),
-        shortcuts,
         tabs: RefCell::new(HashMap::new()),
         next_id: Cell::new(1),
         zdotdir,
@@ -280,7 +211,6 @@ pub fn build(app: &adw::Application) {
     });
     *me.me.borrow_mut() = Rc::downgrade(&me);
 
-    // Sygnały
     help.connect_clicked(move |b| {
         if let Some(u) = crate::help::url() {
             let root = b.root().and_downcast::<gtk::Window>();
@@ -291,34 +221,14 @@ pub fn build(app: &adw::Application) {
     let w = Rc::downgrade(&me);
     new_tab.connect_clicked(move |_| {
         if let Some(a) = w.upgrade() {
-            a.add_tab(None)
+            a.new_tab_here()
         }
     });
-    let w = Rc::downgrade(&me);
-    side_new.connect_clicked(move |_| {
-        if let Some(a) = w.upgrade() {
-            a.add_tab(None)
-        }
-    });
-    for (id, b) in &me.tool_btns {
-        let w = Rc::downgrade(&me);
-        let id = *id;
-        b.connect_toggled(move |b| {
-            if let Some(a) = w.upgrade() {
-                a.tool_toggled(id, b.is_active())
-            }
-        });
-    }
     let w = Rc::downgrade(&me);
     notes_add.connect_clicked(move |_| {
         if let Some(a) = w.upgrade() {
+            a.notes_btn.popdown();
             a.note_dialog()
-        }
-    });
-    let w = Rc::downgrade(&me);
-    keys_add.connect_clicked(move |_| {
-        if let Some(a) = w.upgrade() {
-            a.shortcut_dialog()
         }
     });
     let w = Rc::downgrade(&me);
@@ -338,7 +248,6 @@ pub fn build(app: &adw::Application) {
     let w = Rc::downgrade(&me);
     view.connect_selected_page_notify(move |_| {
         if let Some(a) = w.upgrade() {
-            a.refresh_explain();
             a.sync_side_selection();
             if let Some(t) = a.active() {
                 t.term.grab_focus();
@@ -372,15 +281,33 @@ pub fn build(app: &adw::Application) {
             }
         }
     });
+    // Kolory terminala za motywem (jasny/ciemny).
+    let w = Rc::downgrade(&me);
+    adw::StyleManager::default().connect_dark_notify(move |_| {
+        if let Some(a) = w.upgrade() {
+            for t in a.tabs.borrow().values() {
+                apply_colors(&t.term);
+            }
+        }
+    });
 
-    me.apply_tabs_pos();
-    me.refresh_notes();
-    me.refresh_shortcuts();
-    me.refresh_history();
-    me.add_tab(None);
-    if let Some((_, b)) = me.tool_btns.first() {
-        b.set_active(true);
+    let w = Rc::downgrade(&me);
+    if let Some(pop) = me.hist_btn.popover() {
+        pop.connect_show(move |_| {
+            if let Some(a) = w.upgrade() {
+                a.ingest_history();
+            }
+        });
     }
+
+    me.refresh_notes();
+    me.ingest_history();
+    me.add_tab(dir.as_deref().and_then(|d| d.to_str()));
+    WINDOWS.with(|w| {
+        let mut w = w.borrow_mut();
+        w.retain(|a| a.upgrade().is_some());
+        w.push(Rc::downgrade(&me));
+    });
     // Sygnały trzymają słabe odwołania; jedyne mocne żyje tak długo jak okno.
     let keep = RefCell::new(Some(me));
     window.connect_close_request(move |_| {
@@ -390,33 +317,18 @@ pub fn build(app: &adw::Application) {
     window.present();
 }
 
-fn heading(text: &str) -> gtk::Label {
-    let l = gtk::Label::builder().label(text).xalign(0.0).build();
-    l.add_css_class("title-4");
-    l
-}
-
 fn heading_with(text: &str, btn: &gtk::Button) -> gtk::Box {
     let b = gtk::Box::new(gtk::Orientation::Horizontal, 0);
-    let h = heading(text);
-    h.set_hexpand(true);
-    b.append(&h);
-    btn.set_valign(gtk::Align::Center);
-    btn.set_margin_end(8);
-    b.append(btn);
-    b
-}
-
-fn subheading(text: &str) -> gtk::Label {
-    let l = gtk::Label::builder()
+    let h = gtk::Label::builder()
         .label(text)
         .xalign(0.0)
-        .margin_start(12)
-        .margin_top(6)
+        .hexpand(true)
         .build();
-    l.add_css_class("heading");
-    l.add_css_class("dim-label");
-    l
+    h.add_css_class("title-4");
+    b.append(&h);
+    btn.set_valign(gtk::Align::Center);
+    b.append(btn);
+    b
 }
 
 fn list() -> gtk::ListBox {
@@ -441,10 +353,29 @@ fn icon_button(icon: &str, tip: &str) -> gtk::Button {
         .tooltip_text(tip)
         .build();
     b.add_css_class("flat");
+    b.update_property(&[gtk::accessible::Property::Label(tip)]);
     b
 }
 
-/// Wiersz listy: komenda (czcionka stała) i opis pod nią, opcjonalnie przycisk usuwania.
+/// Przycisk z ikoną otwierający okienko (notatki, historia) nad sobą.
+fn pop_button(icon: &str, tip: &str, content: &gtk::Box) -> gtk::MenuButton {
+    content.add_css_class("cherry-pop");
+    content.set_size_request(340, 420);
+    let pop = gtk::Popover::builder()
+        .child(content)
+        .position(gtk::PositionType::Top)
+        .build();
+    let b = gtk::MenuButton::builder()
+        .icon_name(icon)
+        .tooltip_text(tip)
+        .popover(&pop)
+        .build();
+    b.add_css_class("flat");
+    b.update_property(&[gtk::accessible::Property::Label(tip)]);
+    b
+}
+
+/// Wiersz listy: komenda (czcionka stała) i opis pod nią.
 fn two_line_row(cmd: &str, desc: &str) -> (gtk::ListBoxRow, gtk::Box) {
     let row = gtk::ListBoxRow::new();
     let hb = gtk::Box::new(gtk::Orientation::Horizontal, 6);
@@ -465,7 +396,6 @@ fn two_line_row(cmd: &str, desc: &str) -> (gtk::ListBoxRow, gtk::Box) {
             .wrap(true)
             .build();
         d.add_css_class("dim-label");
-        d.add_css_class("cherry-desc");
         vb.append(&d);
     }
     hb.append(&vb);
@@ -479,58 +409,19 @@ fn clear(l: &gtk::ListBox) {
     }
 }
 
+/// Ustawienia: jedna pionowa lista (dziś: jak długo trzymać historię).
 fn settings_popover(app: &Rc<App>) -> gtk::Popover {
-    let b = gtk::Box::new(gtk::Orientation::Vertical, 10);
+    let b = gtk::Box::new(gtk::Orientation::Vertical, 6);
     b.set_margin_top(10);
     b.set_margin_bottom(10);
     b.set_margin_start(10);
     b.set_margin_end(10);
-
-    // Położenie kart: same ikony, podpowiedź w dymku.
-    let tabs = gtk::Box::new(gtk::Orientation::Horizontal, 0);
-    tabs.add_css_class("linked");
-    let top = gtk::ToggleButton::builder()
-        .icon_name("go-top-symbolic")
-        .tooltip_text(tr("set.tabs.top"))
+    let title = gtk::Label::builder()
+        .label(tr("set.history"))
+        .xalign(0.0)
         .build();
-    let right = gtk::ToggleButton::builder()
-        .icon_name("sidebar-show-right-symbolic")
-        .tooltip_text(tr("set.tabs.right"))
-        .group(&top)
-        .build();
-    top.update_property(&[gtk::accessible::Property::Label(tr("set.tabs.top"))]);
-    right.update_property(&[gtk::accessible::Property::Label(tr("set.tabs.right"))]);
-    let pos = app.data.borrow().settings.tabs;
-    top.set_active(pos == TabsPos::Top);
-    right.set_active(pos == TabsPos::Right);
-    tabs.append(&top);
-    tabs.append(&right);
-    let row = gtk::Box::new(gtk::Orientation::Horizontal, 12);
-    let ti = gtk::Image::from_icon_name("view-paged-symbolic");
-    ti.set_tooltip_text(Some(tr("set.tabs")));
-    ti.set_hexpand(true);
-    ti.set_halign(gtk::Align::Start);
-    row.append(&ti);
-    row.append(&tabs);
-    b.append(&row);
-    let w = Rc::downgrade(app);
-    top.connect_toggled(move |t| {
-        if let (true, Some(a)) = (t.is_active(), w.upgrade()) {
-            a.set_tabs_pos(TabsPos::Top)
-        }
-    });
-    let w = Rc::downgrade(app);
-    right.connect_toggled(move |t| {
-        if let (true, Some(a)) = (t.is_active(), w.upgrade()) {
-            a.set_tabs_pos(TabsPos::Right)
-        }
-    });
-
-    // Usuwanie historii: nigdy, 1, 7, 30 dni.
-    let row = gtk::Box::new(gtk::Orientation::Horizontal, 12);
-    let hi = gtk::Image::from_icon_name("document-open-recent-symbolic");
-    hi.set_tooltip_text(Some(tr("set.history")));
-    row.append(&hi);
+    title.add_css_class("heading");
+    b.append(&title);
     let labels: Vec<String> = store::HISTORY_CHOICES
         .iter()
         .map(|c| match c {
@@ -542,7 +433,6 @@ fn settings_popover(app: &Rc<App>) -> gtk::Popover {
         .collect();
     let refs: Vec<&str> = labels.iter().map(String::as_str).collect();
     let dd = gtk::DropDown::from_strings(&refs);
-    dd.set_tooltip_text(Some(tr("set.history")));
     dd.update_property(&[gtk::accessible::Property::Label(tr("set.history"))]);
     let cur = app.data.borrow().settings.history_days;
     dd.set_selected(
@@ -551,9 +441,7 @@ fn settings_popover(app: &Rc<App>) -> gtk::Popover {
             .position(|c| *c == cur)
             .unwrap_or(0) as u32,
     );
-    dd.set_hexpand(true);
-    row.append(&dd);
-    b.append(&row);
+    b.append(&dd);
     let w = Rc::downgrade(app);
     dd.connect_selected_notify(move |d| {
         if let Some(a) = w.upgrade() {
@@ -565,8 +453,79 @@ fn settings_popover(app: &Rc<App>) -> gtk::Popover {
             a.refresh_history();
         }
     });
-
     gtk::Popover::builder().child(&b).build()
+}
+
+/// Terminal jest najciemniejszym elementem okna, w obu motywach.
+fn apply_colors(term: &vte::Terminal) {
+    let dark = adw::StyleManager::default().is_dark();
+    let (fg, bg) = if dark {
+        ("#ffffff", "#1d1d20")
+    } else {
+        ("#f6f5f4", "#241f31")
+    };
+    let rgba = |s: &str| gtk::gdk::RGBA::parse(s).unwrap();
+    let pal: Vec<gtk::gdk::RGBA> = [
+        "#241f31", "#c01c28", "#2ec27e", "#f5c211", "#1e78e4", "#9841bb", "#0ab9dc", "#c0bfbc",
+        "#5e5c64", "#ed333b", "#57e389", "#f8e45c", "#51a1ff", "#c061cb", "#4fd2fd", "#f6f5f4",
+    ]
+    .iter()
+    .map(|s| rgba(s))
+    .collect();
+    let refs: Vec<&gtk::gdk::RGBA> = pal.iter().collect();
+    term.set_colors(Some(&rgba(fg)), Some(&rgba(bg)), &refs);
+}
+
+/// Klawisz okna Cherry (nie trafia do programu w terminalu).
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub enum KeyAction {
+    /// Ctrl+C przy zaznaczeniu, Ctrl+Shift+C.
+    Copy,
+    /// Ctrl+V, Ctrl+Shift+V, Shift+Insert.
+    Paste,
+    /// Ctrl+Shift+A.
+    SelectAll,
+    /// Ctrl+Shift+T.
+    NewTab,
+    /// Ctrl+Shift+W.
+    CloseTab,
+    /// Ctrl+Tab, Ctrl+PageDown.
+    NextTab,
+    /// Ctrl+Shift+Tab, Ctrl+PageUp.
+    PrevTab,
+    ZoomIn,
+    ZoomOut,
+    ZoomReset,
+}
+
+/// Skróty okna jak w Windows Terminal. `selection`: czy w terminalu jest zaznaczony tekst; bez niego
+/// Ctrl+C idzie do programu (przerwanie albo kopiowanie zaznaczenia w wierszu komendy, zob. .zshrc).
+pub fn key_action(
+    key: gtk::gdk::Key,
+    mods: gtk::gdk::ModifierType,
+    selection: bool,
+) -> Option<KeyAction> {
+    use gtk::gdk::{Key, ModifierType as M};
+    let m = mods & (M::CONTROL_MASK | M::SHIFT_MASK | M::ALT_MASK | M::SUPER_MASK);
+    let ctrl = m == M::CONTROL_MASK;
+    let ctrl_shift = m == M::CONTROL_MASK | M::SHIFT_MASK;
+    let k = key.to_lower();
+    Some(match k {
+        Key::c if ctrl && selection => KeyAction::Copy,
+        Key::c if ctrl_shift => KeyAction::Copy,
+        Key::v if ctrl || ctrl_shift => KeyAction::Paste,
+        Key::Insert if m == M::SHIFT_MASK => KeyAction::Paste,
+        Key::a if ctrl_shift => KeyAction::SelectAll,
+        Key::t if ctrl_shift => KeyAction::NewTab,
+        Key::w if ctrl_shift => KeyAction::CloseTab,
+        Key::Tab | Key::Page_Down if ctrl => KeyAction::NextTab,
+        Key::ISO_Left_Tab | Key::Tab if ctrl_shift => KeyAction::PrevTab,
+        Key::Page_Up if ctrl => KeyAction::PrevTab,
+        Key::plus | Key::equal | Key::KP_Add if ctrl || ctrl_shift => KeyAction::ZoomIn,
+        Key::minus | Key::KP_Subtract if ctrl => KeyAction::ZoomOut,
+        Key::_0 | Key::KP_0 if ctrl => KeyAction::ZoomReset,
+        _ => return None,
+    })
 }
 
 impl App {
@@ -586,12 +545,19 @@ impl App {
             .cloned()
     }
 
+    /// Nowa karta w folderze bieżącej karty.
+    fn new_tab_here(&self) {
+        let dir = self.active().map(|t| t.dir.borrow().clone());
+        self.add_tab(dir.as_deref().and_then(|d| d.to_str()));
+    }
+
     /// Nowa karta z terminalem w podanym folderze (domyślnie folder domowy).
     fn add_tab(&self, dir: Option<&str>) {
         let id = format!("tab{}", self.next_id.get());
         self.next_id.set(self.next_id.get() + 1);
 
         let term = vte::Terminal::new();
+        term.set_widget_name(&id);
         term.add_css_class("cherry-term");
         term.set_scrollback_lines(10_000);
         term.set_vexpand(true);
@@ -599,62 +565,24 @@ impl App {
         term.set_font(Some(&gtk::pango::FontDescription::from_string(
             "Monospace 11",
         )));
-        self.apply_colors(&term);
-
-        let status = gtk::Box::new(gtk::Orientation::Horizontal, 16);
-        status.add_css_class("cherry-status");
-        let p_box = gtk::Box::new(gtk::Orientation::Horizontal, 6);
-        p_box.append(&gtk::Image::from_icon_name("folder-symbolic"));
-        let status_path = gtk::Label::builder()
-            .xalign(0.0)
-            .ellipsize(gtk::pango::EllipsizeMode::Start)
-            .build();
-        p_box.append(&status_path);
-        p_box.set_hexpand(true);
-        status.append(&p_box);
-        let git_box = gtk::Box::new(gtk::Orientation::Horizontal, 6);
-        git_box.append(&gtk::Image::from_icon_name(
-            "media-playlist-shuffle-symbolic",
-        ));
-        let status_git = gtk::Label::new(None);
-        git_box.append(&status_git);
-        git_box.set_visible(false);
-        status.append(&git_box);
-        let u_box = gtk::Box::new(gtk::Orientation::Horizontal, 6);
-        u_box.append(&gtk::Image::from_icon_name("avatar-default-symbolic"));
-        u_box.append(&gtk::Label::new(Some(&format!(
-            "{}@{}",
-            gtk::glib::user_name().to_string_lossy(),
-            gtk::glib::host_name()
-        ))));
-        status.append(&u_box);
-
-        let page_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
-        page_box.set_widget_name(&id);
-        page_box.append(&term);
-        page_box.append(&status);
-
-        let tab = Rc::new(Tab {
-            term: term.clone(),
-            status_path,
-            status_git,
-            git_box,
-            current: RefCell::new(String::new()),
-            last: RefCell::new(String::new()),
-        });
-        self.tabs.borrow_mut().insert(id.clone(), tab.clone());
-        let page = self.view.append(&page_box);
-        page.set_title(tr("tab.home"));
-        page.set_icon(Some(&gtk::gio::ThemedIcon::new(
-            "utilities-terminal-symbolic",
-        )));
+        apply_colors(&term);
+        self.add_context_menu(&term);
+        self.add_keys(&term);
 
         let home = gtk::glib::home_dir();
         let wd = dir.map(PathBuf::from).unwrap_or_else(|| home.clone());
-        self.update_status(&tab, &page, &wd);
+        let tab = Rc::new(Tab {
+            term: term.clone(),
+            subtitle: RefCell::new(String::new()),
+            dir: RefCell::new(wd.clone()),
+        });
+        self.tabs.borrow_mut().insert(id.clone(), tab.clone());
+        let page = self.view.append(&term);
+        page.set_title(tr("tab.home"));
+        self.update_dir(&tab, &page, &wd);
         self.spawn(&term, &wd);
 
-        // Bieżący folder (OSC 7 z .zshrc Cherry): pasek stanu, gałąź gita i tytuł karty.
+        // Bieżący folder (OSC 7 z .zshrc Cherry): tytuł karty, folder i gałąź gita pod nim.
         let w = Rc::downgrade(&self.me());
         let (t2, p2) = (Rc::downgrade(&tab), page.clone());
         term.connect_current_directory_uri_changed(move |t| {
@@ -663,37 +591,7 @@ impl App {
             };
             if let Some(uri) = t.current_directory_uri() {
                 if let Ok((path, _)) = gtk::glib::filename_from_uri(&uri) {
-                    a.update_status(&tab, &p2, &path);
-                }
-            }
-        });
-        // Wpisywana komenda: wiersz kursora po znaku zachęty „❯ ”.
-        let w = Rc::downgrade(&self.me());
-        let t2 = Rc::downgrade(&tab);
-        term.connect_cursor_moved(move |t| {
-            let (Some(a), Some(tab)) = (w.upgrade(), t2.upgrade()) else {
-                return;
-            };
-            let line = typed_line(t);
-            if *tab.current.borrow() != line {
-                *tab.current.borrow_mut() = line;
-                a.refresh_explain_for(&tab);
-            }
-        });
-        // Enter: zapis do historii i ostatniej komendy.
-        let w = Rc::downgrade(&self.me());
-        let t2 = Rc::downgrade(&tab);
-        term.connect_commit(move |_, text, _| {
-            let (Some(a), Some(tab)) = (w.upgrade(), t2.upgrade()) else {
-                return;
-            };
-            if text.contains('\r') {
-                let cmd = tab.current.borrow().trim().to_owned();
-                if !cmd.is_empty() {
-                    *tab.last.borrow_mut() = cmd.clone();
-                    a.data.borrow_mut().record(&cmd, now());
-                    a.save();
-                    a.refresh_history();
+                    a.update_dir(&tab, &p2, &path);
                 }
             }
         });
@@ -710,6 +608,97 @@ impl App {
         self.refresh_side_tabs();
     }
 
+    /// Menu pod prawym przyciskiem: Kopiuj, Wklej, Zaznacz wszystko.
+    fn add_context_menu(&self, term: &vte::Terminal) {
+        let group = gtk::gio::SimpleActionGroup::new();
+        let copy = gtk::gio::SimpleAction::new("copy", None);
+        let t = term.downgrade();
+        copy.connect_activate(move |_, _| {
+            if let Some(t) = t.upgrade() {
+                t.copy_clipboard_format(vte::Format::Text);
+            }
+        });
+        let t = term.downgrade();
+        let c2 = copy.clone();
+        term.connect_selection_changed(move |_| {
+            if let Some(t) = t.upgrade() {
+                c2.set_enabled(t.has_selection());
+            }
+        });
+        copy.set_enabled(false);
+        group.add_action(&copy);
+        let paste = gtk::gio::SimpleAction::new("paste", None);
+        let t = term.downgrade();
+        paste.connect_activate(move |_, _| {
+            if let Some(t) = t.upgrade() {
+                t.paste_clipboard();
+            }
+        });
+        group.add_action(&paste);
+        let all = gtk::gio::SimpleAction::new("select-all", None);
+        let t = term.downgrade();
+        all.connect_activate(move |_, _| {
+            if let Some(t) = t.upgrade() {
+                t.select_all();
+            }
+        });
+        group.add_action(&all);
+        term.insert_action_group("term", Some(&group));
+        let menu = gtk::gio::Menu::new();
+        menu.append(Some(tr("menu.copy")), Some("term.copy"));
+        menu.append(Some(tr("menu.paste")), Some("term.paste"));
+        menu.append(Some(tr("menu.select-all")), Some("term.select-all"));
+        term.set_context_menu_model(Some(&menu));
+    }
+
+    /// Skróty okna na terminalu (przed VTE, żeby Ctrl+V nie trafił do programu jako znak).
+    fn add_keys(&self, term: &vte::Terminal) {
+        let keys = gtk::EventControllerKey::new();
+        keys.set_propagation_phase(gtk::PropagationPhase::Capture);
+        let w = Rc::downgrade(&self.me());
+        let t = term.downgrade();
+        keys.connect_key_pressed(move |_, key, _, mods| {
+            let (Some(a), Some(t)) = (w.upgrade(), t.upgrade()) else {
+                return gtk::glib::Propagation::Proceed;
+            };
+            let Some(act) = key_action(key, mods, t.has_selection()) else {
+                return gtk::glib::Propagation::Proceed;
+            };
+            match act {
+                KeyAction::Copy => {
+                    if t.has_selection() {
+                        t.copy_clipboard_format(vte::Format::Text);
+                        t.unselect_all();
+                    }
+                }
+                KeyAction::Paste => t.paste_clipboard(),
+                KeyAction::SelectAll => t.select_all(),
+                KeyAction::NewTab => a.new_tab_here(),
+                KeyAction::CloseTab => {
+                    if let Some(p) = a.view.selected_page() {
+                        a.view.close_page(&p);
+                    }
+                }
+                KeyAction::NextTab => {
+                    if !a.view.select_next_page() && a.view.n_pages() > 1 {
+                        a.view.set_selected_page(&a.view.nth_page(0));
+                    }
+                }
+                KeyAction::PrevTab => {
+                    if !a.view.select_previous_page() && a.view.n_pages() > 1 {
+                        a.view
+                            .set_selected_page(&a.view.nth_page(a.view.n_pages() - 1));
+                    }
+                }
+                KeyAction::ZoomIn => t.set_font_scale((t.font_scale() + 0.1).min(3.0)),
+                KeyAction::ZoomOut => t.set_font_scale((t.font_scale() - 0.1).max(0.5)),
+                KeyAction::ZoomReset => t.set_font_scale(1.0),
+            }
+            gtk::glib::Propagation::Stop
+        });
+        term.add_controller(keys);
+    }
+
     fn spawn(&self, term: &vte::Terminal, wd: &std::path::Path) {
         let zsh = gtk::glib::find_program_in_path("zsh");
         let shell = zsh
@@ -718,9 +707,11 @@ impl App {
             .unwrap_or_else(|| PathBuf::from("/bin/bash"));
         let shell = shell.to_string_lossy().into_owned();
         let zdot = format!("ZDOTDIR={}", self.zdotdir.display());
+        let hist = format!("CHERRY_HISTORY={}", store::commands_file().display());
         let mut env = vec!["TERM_PROGRAM=Cherry", "COLORTERM=truecolor"];
         if zsh.is_some() {
             env.push(&zdot);
+            env.push(&hist);
         }
         let wd = wd.to_string_lossy().into_owned();
         term.spawn_async(
@@ -740,44 +731,14 @@ impl App {
         );
     }
 
-    fn apply_colors(&self, term: &vte::Terminal) {
-        // Terminal jest najciemniejszym elementem okna, w obu motywach.
-        let dark = adw::StyleManager::default().is_dark();
-        let (fg, bg) = if dark {
-            ("#ffffff", "#1d1d20")
-        } else {
-            ("#f6f5f4", "#241f31")
-        };
-        let rgba = |s: &str| gtk::gdk::RGBA::parse(s).unwrap();
-        let pal: Vec<gtk::gdk::RGBA> = [
-            "#241f31", "#c01c28", "#2ec27e", "#f5c211", "#1e78e4", "#9841bb", "#0ab9dc", "#c0bfbc",
-            "#5e5c64", "#ed333b", "#57e389", "#f8e45c", "#51a1ff", "#c061cb", "#4fd2fd", "#f6f5f4",
-        ]
-        .iter()
-        .map(|s| rgba(s))
-        .collect();
-        let refs: Vec<&gtk::gdk::RGBA> = pal.iter().collect();
-        term.set_colors(Some(&rgba(fg)), Some(&rgba(bg)), &refs);
-    }
-
-    fn update_status(&self, tab: &Tab, page: &adw::TabPage, path: &std::path::Path) {
+    fn update_dir(&self, tab: &Tab, page: &adw::TabPage, path: &std::path::Path) {
         let home = gtk::glib::home_dir();
-        let short = match path.strip_prefix(&home) {
-            Ok(r) if r.as_os_str().is_empty() => "~".to_owned(),
-            Ok(r) => format!("~/{}", r.display()),
-            Err(_) => path.display().to_string(),
-        };
-        tab.status_path.set_label(&short);
-        tab.status_path
-            .set_tooltip_text(Some(&path.display().to_string()));
-        match store::git_branch(path) {
-            Some(b) => {
-                tab.status_git
-                    .set_label(&trf("status.git", &[("branch", &b)]));
-                tab.git_box.set_visible(true);
-            }
-            None => tab.git_box.set_visible(false),
+        let mut sub = short_path(path, &home);
+        if let Some(b) = store::git_branch(path) {
+            sub = format!("{sub} · {}", trf("status.git", &[("branch", &b)]));
         }
+        *tab.subtitle.borrow_mut() = sub;
+        *tab.dir.borrow_mut() = path.to_path_buf();
         let title = if path == home {
             tr("tab.home").to_owned()
         } else {
@@ -786,61 +747,18 @@ impl App {
                 .unwrap_or_else(|| "/".into())
         };
         page.set_title(&title);
+        page.set_tooltip(&path.display().to_string());
         self.refresh_side_tabs();
     }
 
-    fn tool_toggled(&self, id: &str, on: bool) {
-        if on {
-            for (other, b) in &self.tool_btns {
-                if *other != id && b.is_active() {
-                    b.set_active(false);
-                }
-            }
-            self.panel.set_visible_child_name(id);
-            self.panel_rev.set_reveal_child(true);
-            if id == "explain" {
-                self.refresh_explain();
-            }
-        } else if !self.tool_btns.iter().any(|(_, b)| b.is_active()) {
-            self.panel_rev.set_reveal_child(false);
+    /// Komendy, które zsh zapisał od ostatniego razu (zshaddhistory w .zshrc Cherry), trafiają do historii.
+    fn ingest_history(&self) {
+        let text = store::take_commands();
+        if !text.is_empty() {
+            self.data.borrow_mut().ingest(&text, now());
+            self.save();
         }
-    }
-
-    fn refresh_explain(&self) {
-        if let Some(t) = self.active() {
-            self.refresh_explain_for(&t);
-        }
-    }
-
-    /// Panel pokazuje wpisywaną komendę, a przy pustym znaku zachęty ostatnio wykonaną.
-    fn refresh_explain_for(&self, tab: &Tab) {
-        if self.active().is_none_or(|a| !std::ptr::eq(a.as_ref(), tab)) {
-            return;
-        }
-        let cur = tab.current.borrow().trim().to_owned();
-        let src = if cur.is_empty() {
-            tab.last.borrow().clone()
-        } else {
-            cur
-        };
-        clear(&self.explain_list);
-        let parts = explain::analyze(&src);
-        self.explain_cmd.set_label(&src);
-        self.explain_cmd.set_visible(!src.is_empty());
-        self.explain_empty.set_visible(parts.is_empty());
-        if let Some(t) = self.explain_list.prev_sibling() {
-            t.set_visible(!parts.is_empty());
-        }
-        for p in parts {
-            let (row, _) = two_line_row(&p.tok, tr_key(p.key));
-            row.set_activatable(false);
-            match p.kind {
-                Kind::Warn => row.add_css_class("cherry-warn"),
-                Kind::Hint => row.add_css_class("cherry-hint"),
-                Kind::Normal => {}
-            }
-            self.explain_list.append(&row);
-        }
+        self.refresh_history();
     }
 
     /// Wpisuje tekst do aktywnego terminala (bez Entera) i oddaje mu fokus.
@@ -876,86 +794,9 @@ impl App {
             if let Some(a) = w.upgrade() {
                 let c = a.data.borrow().notes.get(i).map(|n| n.cmd.clone());
                 if let Some(c) = c {
+                    a.notes_btn.popdown();
                     a.insert(&c)
                 }
-            }
-        });
-    }
-
-    fn refresh_shortcuts(&self) {
-        clear(&self.keys_list);
-        clear(&self.abbr_list);
-        let d = self.data.borrow().clone();
-        // Skróty klawiszowe: kontroler okna wpisuje komendę do aktywnej karty.
-        while let Some(s) = gtk::gio::prelude::ListModelExt::item(&self.shortcuts, 0)
-            .and_downcast::<gtk::Shortcut>()
-        {
-            self.shortcuts.remove_shortcut(&s);
-        }
-        for (i, k) in d.keys.iter().enumerate() {
-            let label = gtk::accelerator_parse(&k.accel)
-                .map(|(key, m)| gtk::accelerator_get_label(key, m).to_string())
-                .unwrap_or_else(|| k.accel.clone());
-            let (row, hb) = two_line_row(&label, &k.cmd);
-            self.add_delete(&hb, move |d| {
-                if i < d.keys.len() {
-                    d.keys.remove(i);
-                }
-            });
-            self.keys_list.append(&row);
-            if let Some(trigger) = gtk::ShortcutTrigger::parse_string(&k.accel) {
-                let w = Rc::downgrade(&self.me());
-                let cmd = k.cmd.clone();
-                let action = gtk::CallbackAction::new(move |_, _| {
-                    if let Some(a) = w.upgrade() {
-                        a.insert(&cmd)
-                    }
-                    gtk::glib::Propagation::Stop
-                });
-                self.shortcuts
-                    .add_shortcut(gtk::Shortcut::new(Some(trigger), Some(action)));
-            }
-        }
-        for (i, ab) in d.abbrevs.iter().enumerate() {
-            let (row, hb) = two_line_row(&ab.abbr, &ab.cmd);
-            self.add_delete(&hb, move |d| {
-                if i < d.abbrevs.len() {
-                    d.abbrevs.remove(i);
-                }
-            });
-            self.abbr_list.append(&row);
-        }
-        let w = Rc::downgrade(&self.me());
-        reconnect_activate(&self.keys_list, move |i| {
-            if let Some(a) = w.upgrade() {
-                let c = a.data.borrow().keys.get(i).map(|k| k.cmd.clone());
-                if let Some(c) = c {
-                    a.insert(&c)
-                }
-            }
-        });
-        let w = Rc::downgrade(&self.me());
-        reconnect_activate(&self.abbr_list, move |i| {
-            if let Some(a) = w.upgrade() {
-                let c = a.data.borrow().abbrevs.get(i).map(|k| k.abbr.clone());
-                if let Some(c) = c {
-                    a.insert(&c)
-                }
-            }
-        });
-    }
-
-    fn add_delete(&self, hb: &gtk::Box, f: impl Fn(&mut Data) + 'static) {
-        let del = icon_button("user-trash-symbolic", tr("delete"));
-        del.set_valign(gtk::Align::Center);
-        hb.append(&del);
-        let w = Rc::downgrade(&self.me());
-        del.connect_clicked(move |_| {
-            if let Some(a) = w.upgrade() {
-                f(&mut a.data.borrow_mut());
-                a.save();
-                store::write_zsh(&a.data.borrow());
-                a.refresh_shortcuts();
             }
         });
     }
@@ -978,6 +819,7 @@ impl App {
                 } else {
                     tr("hist.none")
                 })
+                .wrap(true)
                 .margin_top(12)
                 .build();
             l.add_css_class("dim-label");
@@ -1000,6 +842,7 @@ impl App {
         let w = Rc::downgrade(&self.me());
         reconnect_activate(&self.hist_list, move |i| {
             if let (Some(a), Some((c, _))) = (w.upgrade(), items.get(i)) {
+                a.hist_btn.popdown();
                 a.insert(c)
             }
         });
@@ -1018,7 +861,7 @@ impl App {
         b.append(&cmd);
         b.append(&sugg);
         b.append(&text);
-        // Podpowiedzi: znane komendy i historia zawierające wpisany tekst.
+        // Podpowiedzi: komendy z historii zawierające wpisany tekst.
         let history: Vec<String> = self
             .data
             .borrow()
@@ -1034,11 +877,8 @@ impl App {
             if q.is_empty() {
                 return;
             }
-            let mut seen = Vec::new();
-            for s in explain::names()
-                .map(str::to_owned)
-                .chain(history.iter().cloned())
-            {
+            let mut seen: Vec<&String> = Vec::new();
+            for s in &history {
                 if s.to_lowercase().contains(&q) && s != e.text().trim() && !seen.contains(&s) {
                     seen.push(s);
                 }
@@ -1047,7 +887,7 @@ impl App {
                 }
             }
             for s in seen {
-                let l = gtk::Label::builder().label(&s).xalign(0.0).build();
+                let l = gtk::Label::builder().label(s).xalign(0.0).build();
                 l.add_css_class("cherry-tok");
                 let row = gtk::ListBoxRow::builder().child(&l).build();
                 let c3 = c2.clone();
@@ -1086,91 +926,48 @@ impl App {
         d.present(Some(&self.window));
     }
 
-    fn shortcut_dialog(&self) {
-        let kinds = gtk::DropDown::from_strings(&[tr("short.keys"), tr("short.abbr")]);
-        let key = gtk::Entry::builder()
-            .placeholder_text(tr("short.key.hint"))
-            .build();
-        let cmd = gtk::Entry::builder()
-            .placeholder_text(tr("note.cmd"))
-            .build();
-        cmd.add_css_class("cherry-tok");
-        let b = gtk::Box::new(gtk::Orientation::Vertical, 8);
-        b.append(&kinds);
-        b.append(&key);
-        b.append(&cmd);
-        let k2 = key.clone();
-        kinds.connect_selected_notify(move |d| {
-            k2.set_placeholder_text(Some(if d.selected() == 0 {
-                tr("short.key.hint")
-            } else {
-                tr("short.abbr.hint")
-            }));
-        });
-        let d = adw::AlertDialog::builder()
-            .heading(tr("short.new"))
-            .extra_child(&b)
-            .build();
-        d.add_responses(&[("cancel", tr("cancel")), ("save", tr("save"))]);
-        d.set_response_appearance("save", adw::ResponseAppearance::Suggested);
-        let w = Rc::downgrade(&self.me());
-        d.connect_response(None, move |_, r| {
-            let Some(a) = w.upgrade() else { return };
-            let (k, c) = (key.text().trim().to_owned(), cmd.text().trim().to_owned());
-            if r != "save" || k.is_empty() || c.is_empty() {
-                return;
-            }
-            if kinds.selected() == 0 {
-                let Some(accel) = parse_accel(&k) else { return };
-                a.data.borrow_mut().keys.push(KeyShortcut { accel, cmd: c });
-            } else {
-                let ab = Abbrev { abbr: k, cmd: c };
-                if store::alias_line(&ab).is_none() {
-                    return;
-                }
-                a.data.borrow_mut().abbrevs.push(ab);
-                store::write_zsh(&a.data.borrow());
-            }
-            a.save();
-            a.refresh_shortcuts();
-        });
-        d.present(Some(&self.window));
-    }
-
-    fn set_tabs_pos(&self, p: TabsPos) {
-        self.data.borrow_mut().settings.tabs = p;
-        self.save();
-        self.apply_tabs_pos();
-    }
-
-    fn apply_tabs_pos(&self) {
-        let right = self.data.borrow().settings.tabs == TabsPos::Right;
-        self.bar.set_visible(!right);
-        self.side_rev.set_reveal_child(right);
-        self.refresh_side_tabs();
-    }
-
-    /// Pionowa lista kart po prawej: tytuł i krzyżyk, jak karty u góry.
+    /// Pionowa lista kart: tytuł (folder), pod nim ścieżka i gałąź gita, krzyżyk.
     fn refresh_side_tabs(&self) {
         clear(&self.side_tabs);
         for i in 0..self.view.n_pages() {
             let page = self.view.nth_page(i);
-            let hb = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+            let sub = self
+                .tabs
+                .borrow()
+                .get(page.child().widget_name().as_str())
+                .map(|t| t.subtitle.borrow().clone())
+                .unwrap_or_default();
+            let hb = gtk::Box::new(gtk::Orientation::Horizontal, 8);
             hb.append(&gtk::Image::from_icon_name("utilities-terminal-symbolic"));
+            let vb = gtk::Box::new(gtk::Orientation::Vertical, 0);
+            vb.set_hexpand(true);
+            vb.set_valign(gtk::Align::Center);
             let l = gtk::Label::builder()
                 .label(page.title())
                 .xalign(0.0)
-                .hexpand(true)
                 .ellipsize(gtk::pango::EllipsizeMode::End)
                 .build();
-            hb.append(&l);
+            vb.append(&l);
+            if !sub.is_empty() {
+                let s = gtk::Label::builder()
+                    .label(&sub)
+                    .xalign(0.0)
+                    .ellipsize(gtk::pango::EllipsizeMode::Start)
+                    .build();
+                s.add_css_class("dim-label");
+                s.add_css_class("caption");
+                vb.append(&s);
+            }
+            hb.append(&vb);
             let close = icon_button("window-close-symbolic", tr("tab.close"));
+            close.set_valign(gtk::Align::Center);
             let v = self.view.clone();
             let p2 = page.clone();
             close.connect_clicked(move |_| v.close_page(&p2));
             hb.append(&close);
-            self.side_tabs
-                .append(&gtk::ListBoxRow::builder().child(&hb).build());
+            let row = gtk::ListBoxRow::builder().child(&hb).build();
+            row.set_tooltip_text(page.tooltip().as_deref());
+            self.side_tabs.append(&row);
         }
         self.sync_side_selection();
     }
@@ -1182,6 +979,15 @@ impl App {
                 self.side_tabs.select_row(Some(&r));
             }
         }
+    }
+}
+
+/// `~`, `~/Dokumenty` albo pełna ścieżka poza folderem domowym.
+pub fn short_path(path: &std::path::Path, home: &std::path::Path) -> String {
+    match path.strip_prefix(home) {
+        Ok(r) if r.as_os_str().is_empty() => "~".to_owned(),
+        Ok(r) => format!("~/{}", r.display()),
+        Err(_) => path.display().to_string(),
     }
 }
 
@@ -1199,65 +1005,56 @@ fn reconnect_activate(l: &gtk::ListBox, f: impl Fn(usize) + 'static) {
     unsafe { l.set_data("cherry-activate", id) };
 }
 
-/// Tekst w wierszu kursora po znaku zachęty Cherry („❯ ”). Bez znaku zachęty: pusty.
-fn typed_line(t: &vte::Terminal) -> String {
-    let (_, row) = t.cursor_position();
-    let (text, _) = t.text_range_format(vte::Format::Text, row, 0, row, t.column_count());
-    let text = text.map(|s| s.to_string()).unwrap_or_default();
-    after_prompt(&text)
-}
-
-pub fn after_prompt(line: &str) -> String {
-    match line.rfind("❯ ") {
-        Some(i) => line[i + "❯ ".len()..].trim_end().to_owned(),
-        None => String::new(),
-    }
-}
-
-/// „Alt+G”, „Ctrl+Shift+K” albo zapis GTK („<Alt>g”) → akcelerator GTK.
-pub fn parse_accel(s: &str) -> Option<String> {
-    let s = s.trim();
-    let candidate = if s.starts_with('<') {
-        s.to_owned()
-    } else {
-        let parts: Vec<&str> = s
-            .split('+')
-            .map(str::trim)
-            .filter(|p| !p.is_empty())
-            .collect();
-        let (key, mods) = parts.split_last()?;
-        let mut out = String::new();
-        for m in mods {
-            out.push_str(match m.to_lowercase().as_str() {
-                "ctrl" | "control" | "strg" => "<Control>",
-                "alt" => "<Alt>",
-                "shift" => "<Shift>",
-                "super" | "win" | "meta" => "<Super>",
-                _ => return None,
-            });
-        }
-        let k = if key.chars().count() == 1 {
-            key.to_lowercase()
-        } else {
-            (*key).to_owned()
-        };
-        out.push_str(&k);
-        out
-    };
-    gtk::accelerator_parse(&candidate).map(|_| candidate)
-}
-
-/// Klucz opisu z rozbioru (zawsze &'static, z tablic `explain`).
-fn tr_key(k: &'static str) -> &'static str {
-    tr(k)
-}
-
 #[cfg(test)]
 mod tests {
+    use super::{key_action, short_path, KeyAction};
+    use gtk::gdk::{Key, ModifierType as M};
+    use std::path::Path;
+
     #[test]
-    fn prompt_extraction() {
-        assert_eq!(super::after_prompt("~/Dokumenty ❯ ls -la   "), "ls -la");
-        assert_eq!(super::after_prompt("bez znaku"), "");
-        assert_eq!(super::after_prompt("~ ❯ echo ❯ x"), "x");
+    fn windows_keys() {
+        let c = M::CONTROL_MASK;
+        let cs = M::CONTROL_MASK | M::SHIFT_MASK;
+        // Ctrl+C kopiuje tylko zaznaczenie; bez niego idzie do programu (przerwanie).
+        assert_eq!(key_action(Key::c, c, true), Some(KeyAction::Copy));
+        assert_eq!(key_action(Key::c, c, false), None);
+        assert_eq!(key_action(Key::C, cs, false), Some(KeyAction::Copy));
+        assert_eq!(key_action(Key::v, c, false), Some(KeyAction::Paste));
+        assert_eq!(key_action(Key::V, cs, false), Some(KeyAction::Paste));
+        assert_eq!(key_action(Key::Insert, M::SHIFT_MASK, false), Some(KeyAction::Paste));
+        // Ctrl+A, Ctrl+Z, Ctrl+X zostają dla wiersza komendy (zsh) i programów.
+        assert_eq!(key_action(Key::a, c, false), None);
+        assert_eq!(key_action(Key::z, c, false), None);
+        assert_eq!(key_action(Key::x, c, true), None);
+        assert_eq!(key_action(Key::T, cs, false), Some(KeyAction::NewTab));
+        assert_eq!(key_action(Key::ISO_Left_Tab, cs, false), Some(KeyAction::PrevTab));
+        assert_eq!(key_action(Key::Tab, c, false), Some(KeyAction::NextTab));
+        // Caps Lock i NumLock nie przeszkadzają.
+        assert_eq!(key_action(Key::v, c | M::LOCK_MASK, false), Some(KeyAction::Paste));
+        assert_eq!(key_action(Key::v, M::ALT_MASK | c, false), None);
+    }
+
+    #[test]
+    fn folder_from_args() {
+        let tmp = std::env::temp_dir();
+        let t = tmp.to_string_lossy().into_owned();
+        let d = |a: &[&str]| {
+            let v: Vec<String> = a.iter().map(|s| s.to_string()).collect();
+            super::dir_from_args(&v, Some(Path::new("/")))
+        };
+        assert_eq!(d(&["--working-directory", &t]), Some(tmp.clone()));
+        assert_eq!(d(&[&format!("--working-directory={t}")]), Some(tmp.clone()));
+        assert_eq!(d(&[&t]), Some(tmp.clone()));
+        assert_eq!(d(&[]), None);
+        assert_eq!(d(&["/nie/ma/takiego/folderu"]), None);
+        assert_eq!(d(&["etc"]), Some(Path::new("/etc").to_path_buf()));
+    }
+
+    #[test]
+    fn paths() {
+        let home = Path::new("/home/ola");
+        assert_eq!(short_path(home, home), "~");
+        assert_eq!(short_path(Path::new("/home/ola/Dokumenty"), home), "~/Dokumenty");
+        assert_eq!(short_path(Path::new("/etc"), home), "/etc");
     }
 }

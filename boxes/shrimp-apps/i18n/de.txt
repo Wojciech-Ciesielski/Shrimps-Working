@@ -65,3 +65,11 @@
 65	Das Repository {remote} fehlt
 66	Der App-Katalog fehlt
 67	Der App-Katalog ist leer
+68	Besser aus dem Store holen
+69	Diese Datei funktioniert in Shrimp nicht
+70	{file} ist ein Installationsprogramm für Windows. Windows-Programme laufen in Shrimp nicht.
+71	{file} ist ein Installationsprogramm für macOS. Mac-Programme laufen in Shrimp nicht.
+72	{file} ist kein Flatpak. Programme außerhalb des Stores funktionieren in Shrimp eventuell nicht und aktualisieren sich nicht selbst.
+73	In Shrimp kommen Programme aus dem Store Shrimp Apps: geprüft, sicher und sie aktualisieren sich selbst. Meist gibt es dort dasselbe Programm oder eine gute Alternative.
+74	In Shrimp Apps suchen
+75	Schließen

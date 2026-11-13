@@ -2,7 +2,7 @@
 name = "cherry"
 version = "0.1.0"
 edition = "2021"
-description = "Cherry: terminal Shrimp, który tłumaczy komendy (GTK4 + libadwaita + VTE, zsh)"
+description = "Cherry: terminal Shrimp z zsh i skrótami jak w Windows (GTK4 + libadwaita + VTE)"
 license = "GPL-3.0-or-later"
 
 [build-dependencies]

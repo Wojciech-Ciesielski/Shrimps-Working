@@ -81,9 +81,16 @@ pub fn empty_trash(parent: &gtk::Window) {
     d.present(Some(parent));
 }
 
+/// „Otwórz w terminalu”: Cherry (i terminale GNOME) dostają folder jawnie, bo działający już terminal
+/// otwiera nową kartę w swoim procesie i nie widzi folderu roboczego Filera.
 fn terminal(dir: &std::path::Path) {
     for t in ["cherry", "kgx", "gnome-terminal", "xdg-terminal-exec", "xterm"] {
-        if std::process::Command::new(t).current_dir(dir).spawn().is_ok() {
+        let mut c = std::process::Command::new(t);
+        c.current_dir(dir);
+        if matches!(t, "cherry" | "kgx" | "gnome-terminal") {
+            c.arg("--working-directory").arg(dir);
+        }
+        if c.spawn().is_ok() {
             return;
         }
     }
@@ -154,9 +161,18 @@ impl Win {
         );
         sidebar.set_parent(window.upcast_ref());
 
-        // Układ Shrimp (jak Cocktail i Panko): pasek boczny z nazwą programu i wyszukiwaniem na dole,
-        // treść z paskiem tytułu (nawigacja, ścieżka, widoki, menu ☰). Układ i funkcje Nemo zostają.
-        let side_header = adw::HeaderBar::builder().title_widget(&gtk::Label::builder().label("Filer").css_classes(["heading"]).build()).build();
+        // Układ Shrimp (jak Cocktail i Panko): pasek boczny z pomocą (?) u góry i wyszukiwaniem na dole, bez
+        // nazwy programu; treść z paskiem tytułu (nawigacja, ścieżka, widoki, menu ☰). Funkcje Nemo zostają.
+        let side_header = adw::HeaderBar::builder().show_title(false).build();
+        let help = gtk::Button::builder().icon_name("dialog-question-symbolic").tooltip_text(tr("help")).css_classes(["flat"]).build();
+        help.set_sensitive(crate::help::url().is_some());
+        help.connect_clicked(|b| {
+            if let Some(u) = crate::help::url() {
+                let root = b.root().and_downcast::<gtk::Window>();
+                gtk::UriLauncher::new(&u).launch(root.as_ref(), gio::Cancellable::NONE, |_| {});
+            }
+        });
+        side_header.pack_start(&help);
         let search = gtk::SearchEntry::builder().placeholder_text(tr("search.short")).tooltip_text(tr("search.placeholder")).build();
         let search_box = gtk::Box::builder().margin_start(8).margin_end(8).margin_top(8).margin_bottom(8).build();
         search.set_hexpand(true);

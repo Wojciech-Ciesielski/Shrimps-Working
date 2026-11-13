@@ -1,4 +1,4 @@
-//! Dane Cherry: notatki, skróty, historia i ustawienia w jednym pliku JSON
+//! Dane Cherry: notatki, historia i ustawienia w jednym pliku JSON
 //! (`~/.local/share/cherry/cherry.json`) oraz pliki startowe zsh (`~/.config/cherry/zsh/`).
 
 use serde::{Deserialize, Serialize};
@@ -10,20 +10,6 @@ pub struct Note {
     pub text: String,
 }
 
-/// Skrót klawiszowy (akcelerator GTK, np. `<Alt>g`) wpisujący komendę.
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
-pub struct KeyShortcut {
-    pub accel: String,
-    pub cmd: String,
-}
-
-/// Skrót w zapisie: alias zsh (`gs` → `git status`).
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
-pub struct Abbrev {
-    pub abbr: String,
-    pub cmd: String,
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct HistEntry {
     pub cmd: String,
@@ -31,18 +17,9 @@ pub struct HistEntry {
     pub at: i64,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
-#[serde(rename_all = "lowercase")]
-pub enum TabsPos {
-    #[default]
-    Top,
-    Right,
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
 #[serde(default)]
 pub struct Settings {
-    pub tabs: TabsPos,
     /// Po ilu dniach usuwać historię; `None` = nigdy.
     pub history_days: Option<u32>,
 }
@@ -51,8 +28,6 @@ pub struct Settings {
 #[serde(default)]
 pub struct Data {
     pub notes: Vec<Note>,
-    pub keys: Vec<KeyShortcut>,
-    pub abbrevs: Vec<Abbrev>,
     pub history: Vec<HistEntry>,
     pub settings: Settings,
 }
@@ -74,14 +49,6 @@ impl Data {
                 n("ls -la", "note.lsla"),
                 n("cd ..", "note.cdup"),
             ],
-            abbrevs: vec![Abbrev {
-                abbr: "gs".into(),
-                cmd: "git status".into(),
-            }],
-            keys: vec![KeyShortcut {
-                accel: "<Alt>l".into(),
-                cmd: "ls -la".into(),
-            }],
             ..Data::default()
         }
     }
@@ -102,6 +69,18 @@ impl Data {
         self.prune(now);
     }
 
+    /// Wpisy z pliku komend zsh: `sekundy⇥komenda` w linii (starsze najpierw). Linia bez czasu dostaje `now`.
+    pub fn ingest(&mut self, text: &str, now: i64) {
+        for line in text.lines() {
+            let (at, cmd) = match line.split_once('\t') {
+                Some((t, c)) => (t.trim().parse().unwrap_or(now), c),
+                None => (now, line),
+            };
+            self.record(cmd, at);
+        }
+        self.prune(now);
+    }
+
     /// Usuwa wpisy starsze niż ustawienie i nadmiar ponad limit.
     pub fn prune(&mut self, now: i64) {
         if let Some(d) = self.settings.history_days {
@@ -116,6 +95,27 @@ fn data_file() -> PathBuf {
     gtk::glib::user_data_dir()
         .join("cherry")
         .join("cherry.json")
+}
+
+/// Plik, do którego zsh w Cherry dopisuje wykonane komendy (zmienna CHERRY_HISTORY).
+pub fn commands_file() -> PathBuf {
+    let p = data_file().with_file_name("commands.log");
+    if let Some(dir) = p.parent() {
+        let _ = std::fs::create_dir_all(dir);
+    }
+    p
+}
+
+/// Zabiera zawartość pliku komend (przeniesienie, potem odczyt: zsh w tym czasie zacznie nowy plik).
+pub fn take_commands() -> String {
+    let p = commands_file();
+    let tmp = p.with_extension(format!("{}.tmp", std::process::id()));
+    if std::fs::rename(&p, &tmp).is_err() {
+        return String::new();
+    }
+    let s = std::fs::read_to_string(&tmp).unwrap_or_default();
+    let _ = std::fs::remove_file(&tmp);
+    s
 }
 
 pub fn load() -> Data {
@@ -142,31 +142,16 @@ pub fn save(d: &Data) {
     }
 }
 
-/// Alias zsh w bezpiecznym cytowaniu: `alias -- 'gs'='git status'`. Nazwa tylko z bezpiecznych znaków.
-pub fn alias_line(a: &Abbrev) -> Option<String> {
-    let ok = !a.abbr.is_empty()
-        && a.abbr
-            .chars()
-            .all(|c| c.is_alphanumeric() || "_-.".contains(c));
-    if !ok || a.cmd.trim().is_empty() {
-        return None;
-    }
-    Some(format!(
-        "alias -- '{}'='{}'",
-        a.abbr,
-        a.cmd.replace('\'', "'\\''")
-    ))
-}
-
-/// Katalog ZDOTDIR Cherry: `.zshenv` i `.zshrc` wczytują pliki użytkownika, potem dokładają
-/// aliasy, znak zachęty i zgłaszanie bieżącego folderu (OSC 7) dla paska stanu.
-pub fn write_zsh(d: &Data) -> PathBuf {
+/// Katalog ZDOTDIR Cherry: `.zshenv` i `.zshrc` wczytują pliki użytkownika, potem dokładają narzędzia
+/// (starship, zoxide, fzf, atuin, eza, yazi), skróty jak w Windows, wtyczki zsh i zgłaszanie folderu (OSC 7).
+pub fn write_zsh() -> PathBuf {
     let dir = gtk::glib::user_config_dir().join("cherry").join("zsh");
     let _ = std::fs::create_dir_all(&dir);
-    let aliases: Vec<String> = d.abbrevs.iter().filter_map(alias_line).collect();
-    let _ = std::fs::write(dir.join("aliases.zsh"), aliases.join("\n") + "\n");
+    // Skróty w zapisie (aliasy) z poprzednich wersji Cherry nie są już wczytywane.
+    let _ = std::fs::remove_file(dir.join("aliases.zsh"));
     let _ = std::fs::write(dir.join(".zshenv"), ZSHENV);
-    let _ = std::fs::write(dir.join(".zshrc"), ZSHRC);
+    let _ = std::fs::write(dir.join(".zshrc"), ZSHRC.replace("@KEYS@", KEYS));
+    let _ = std::fs::write(dir.join("starship.toml"), STARSHIP);
     dir
 }
 
@@ -174,21 +159,148 @@ const ZSHENV: &str = r#"# Cherry: najpierw ustawienia użytkownika
 [[ -f "$HOME/.zshenv" ]] && source "$HOME/.zshenv"
 "#;
 
-const ZSHRC: &str = r#"# Cherry: plik użytkownika, potem dodatki Cherry (aliasy, znak zachęty, bieżący folder)
+const ZSHRC: &str = r#"# Cherry: plik użytkownika, potem dodatki Cherry
 CHERRY_DIR="$ZDOTDIR"
 ZDOTDIR="$HOME"
 [[ -f "$HOME/.zshrc" ]] && source "$HOME/.zshrc"
 : ${HISTFILE:=$HOME/.zsh_history}
 : ${HISTSIZE:=5000}
 : ${SAVEHIST:=5000}
-setopt INC_APPEND_HISTORY 2>/dev/null
-[[ -f "$CHERRY_DIR/aliases.zsh" ]] && source "$CHERRY_DIR/aliases.zsh"
+setopt INC_APPEND_HISTORY HIST_IGNORE_DUPS 2>/dev/null
 autoload -Uz compinit && compinit -u 2>/dev/null
-PROMPT='%F{blue}%~%f %F{magenta}❯%f '
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Znak zachęty: starship albo prosty folder i ❯.
+if (( $+commands[starship] )); then
+  [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/starship.toml" ]] || export STARSHIP_CONFIG="$CHERRY_DIR/starship.toml"
+  eval "$(starship init zsh)"
+else
+  PROMPT='%F{blue}%~%f %F{magenta}❯%f '
+fi
+
+# Narzędzia, jeśli są zainstalowane: z (zoxide), Ctrl+T i Alt+C (fzf), Ctrl+R (atuin), ls (eza), y (yazi).
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+if (( $+commands[fzf] )); then
+  if fzf --zsh >/dev/null 2>&1; then
+    source <(fzf --zsh)
+  else
+    for f in /usr/share/fzf/shell/key-bindings.zsh /usr/share/fzf/key-bindings.zsh; do
+      [[ -f $f ]] && { source $f; break }
+    done
+  fi
+fi
+(( $+commands[atuin] )) && eval "$(atuin init zsh --disable-up-arrow)"
+if (( $+commands[eza] )); then
+  alias ls='eza --group-directories-first'
+  alias ll='eza -l --group-directories-first --git'
+  alias la='eza -la --group-directories-first --git'
+fi
+(( $+commands[micro] )) && export EDITOR=${EDITOR:-micro}
+if (( $+commands[yazi] )); then
+  y() {
+    local tmp cwd
+    tmp=$(mktemp -t yazi-cwd.XXXXXX)
+    yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [[ -n $cwd && $cwd != $PWD ]] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+  }
+fi
+if (( $+commands[fastfetch] )) && [[ -f /usr/share/cherry/fastfetch.jsonc && ! -f ${XDG_CONFIG_HOME:-$HOME/.config}/fastfetch/config.jsonc ]]; then
+  alias fastfetch='fastfetch -c /usr/share/cherry/fastfetch.jsonc'
+fi
+
+# Skróty jak w Windows przy wpisywaniu komendy (programy uruchomione w terminalu dostają klawisze bez zmian):
+# Shift+strzałki/Home/End zaznaczają, pisanie, wklejanie, Backspace i Delete zastępują zaznaczenie,
+# Ctrl+A zaznacza całość, Ctrl+C kopiuje zaznaczenie (bez zaznaczenia przerywa jak zwykle), Ctrl+X wycina,
+# Ctrl+Z cofa, Ctrl+Y ponawia, Ctrl+strzałki skaczą o słowo, Ctrl+Backspace i Ctrl+Delete usuwają słowo.
+# Ctrl+V wkleja okno Cherry.
+@KEYS@
+# Wtyczki zsh (pakiety openSUSE i inne typowe miejsca); podświetlanie składni musi być ostatnie.
+for f in /usr/share/{zsh/plugins/,zsh-plugins/,}zsh-autosuggestions/zsh-autosuggestions.zsh(N); do
+  source $f
+  ZSH_AUTOSUGGEST_ACCEPT_WIDGETS+=(cherry-move-forward-char cherry-move-end-of-line)
+  ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(cherry-move-forward-word)
+  break
+done
+for f in /usr/share/{zsh/plugins/,zsh-plugins/,}zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N); do
+  source $f
+  break
+done
+
+# Historia Cherry: zsh dopisuje każdą wykonaną komendę (czas⇥komenda), okno ją pokazuje.
+zmodload zsh/datetime 2>/dev/null
+_cherry_history() {
+  local cmd=${1%%$'\n'}
+  [[ -n $CHERRY_HISTORY && -n ${cmd//[[:space:]]/} ]] && print -r -- "${EPOCHSECONDS:-0}"$'\t'"${cmd//$'\n'/ }" >> "$CHERRY_HISTORY"
+  return 0
+}
 _cherry_osc7() { printf '\e]7;file://%s%s\e\\' "${HOST}" "${PWD// /%20}" }
 autoload -Uz add-zsh-hook
+add-zsh-hook zshaddhistory _cherry_history
 add-zsh-hook chpwd _cherry_osc7
 add-zsh-hook precmd _cherry_osc7
+"#;
+
+const KEYS: &str = r#"_cherry_clip() { (( $+commands[wl-copy] )) && print -rn -- "$1" | wl-copy 2>/dev/null }
+_cherry_kill() { (( REGION_ACTIVE )) || return 1; zle .kill-region; REGION_ACTIVE=0 }
+_cherry_select() { (( REGION_ACTIVE )) || { MARK=$CURSOR; REGION_ACTIVE=1 }; zle .${WIDGET#cherry-select-} }
+_cherry_move() { REGION_ACTIVE=0; zle .${WIDGET#cherry-move-} }
+_cherry_erase() { _cherry_kill || zle .${WIDGET#cherry-erase-} }
+_cherry_insert() { _cherry_kill; zle .self-insert }
+_cherry_paste() { _cherry_kill; zle .bracketed-paste }
+_cherry_all() { MARK=0; CURSOR=$#BUFFER; REGION_ACTIVE=1 }
+_cherry_cut() { (( REGION_ACTIVE )) || return 0; zle .copy-region-as-kill; _cherry_clip "$CUTBUFFER"; _cherry_kill }
+_cherry_copy() { (( REGION_ACTIVE )) || return 1; zle .copy-region-as-kill; _cherry_clip "$CUTBUFFER"; REGION_ACTIVE=0 }
+zle -N self-insert _cherry_insert
+zle -N bracketed-paste _cherry_paste
+zle -N cherry-select-all _cherry_all
+zle -N cherry-cut _cherry_cut
+bindkey -rp '^X'
+bindkey '^A' cherry-select-all '^X' cherry-cut '^Z' undo '^Y' redo
+() {
+  local k w
+  for k w in \
+    '^[[1;2D' select-backward-char '^[[1;2C' select-forward-char \
+    '^[[1;2H' select-beginning-of-line '^[[1;2F' select-end-of-line \
+    '^[[1;6D' select-backward-word '^[[1;6C' select-forward-word \
+    '^[[D' move-backward-char '^[OD' move-backward-char '^[[C' move-forward-char '^[OC' move-forward-char \
+    '^[[H' move-beginning-of-line '^[OH' move-beginning-of-line '^[[1~' move-beginning-of-line \
+    '^[[F' move-end-of-line '^[OF' move-end-of-line '^[[4~' move-end-of-line \
+    '^[[1;5D' move-backward-word '^[[1;5C' move-forward-word \
+    '^?' erase-backward-delete-char '^[[3~' erase-delete-char \
+    '^H' erase-backward-kill-word '^[[3;5~' erase-kill-word
+  do
+    zle -N cherry-$w _cherry_${w%%-*}
+    bindkey -- $k cherry-$w
+  done
+}
+# Ctrl+C przy zaznaczonym tekście komendy kopiuje go zamiast przerywać.
+TRAPINT() {
+  if zle && _cherry_copy 2>/dev/null; then zle -R; return 0; fi
+  return $(( 128 + $1 ))
+}"#;
+
+/// starship w Cherry: jedna linia (folder, gałąź i stan gita, czas długiej komendy, ❯).
+/// Własny `~/.config/starship.toml` ma pierwszeństwo.
+const STARSHIP: &str = r#"add_newline = false
+format = "$directory$git_branch$git_status$container$cmd_duration$character"
+
+[directory]
+style = "bold blue"
+truncation_length = 4
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = ""
+
+[cmd_duration]
+format = "[$duration]($style) "
+
+[character]
+success_symbol = "[❯](bold purple)"
+error_symbol = "[❯](bold red)"
 "#;
 
 /// Gałąź gita dla folderu: szuka `.git/HEAD` w górę drzewa.
@@ -228,26 +340,21 @@ mod tests {
     }
 
     #[test]
-    fn alias_quoting() {
-        let a = Abbrev {
-            abbr: "say".into(),
-            cmd: "echo 'hi'".into(),
-        };
-        assert_eq!(
-            alias_line(&a).unwrap(),
-            r#"alias -- 'say'='echo '\''hi'\'''"#
-        );
-        assert!(alias_line(&Abbrev {
-            abbr: "a;b".into(),
-            cmd: "x".into()
-        })
-        .is_none());
+    fn commands_from_zsh() {
+        let mut d = Data::default();
+        d.ingest("100\tls -la\n101\tls -la\n102\tcd /etc\nbez czasu\n", 200);
+        let cmds: Vec<(&str, i64)> = d.history.iter().map(|h| (h.cmd.as_str(), h.at)).collect();
+        assert_eq!(cmds, vec![("bez czasu", 200), ("cd /etc", 102), ("ls -la", 100)]);
     }
 
     #[test]
     fn json_roundtrip_and_defaults() {
-        let d: Data = serde_json::from_str(r#"{"notes":[{"cmd":"ls","text":"x"}]}"#).unwrap();
-        assert_eq!(d.settings.tabs, TabsPos::Top);
+        // Pola starszych wersji (skróty, położenie kart) są pomijane.
+        let d: Data = serde_json::from_str(
+            r#"{"notes":[{"cmd":"ls","text":"x"}],"keys":[{"accel":"<Alt>l","cmd":"ls"}],"settings":{"tabs":"right"}}"#,
+        )
+        .unwrap();
+        assert_eq!(d.settings.history_days, None);
         let s = serde_json::to_string(&d).unwrap();
         assert_eq!(serde_json::from_str::<Data>(&s).unwrap(), d);
     }

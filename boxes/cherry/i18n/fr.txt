@@ -189,3 +189,6 @@
 189	Passer à une autre branche
 190	Lister ou créer des branches
 191	Démarrer un nouveau projet
+192	Copier
+193	Coller
+194	Tout sélectionner

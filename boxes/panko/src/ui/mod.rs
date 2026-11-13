@@ -69,18 +69,21 @@ pub fn run<T: Send + 'static>(
 }
 
 const CSS: &str = r#"
-.panko-side { background-color: @sidebar_bg_color; padding: 12px 8px; }
+.panko-side { background-color: @sidebar_bg_color; }
+.panko-side > headerbar, .panko-content > headerbar { background: transparent; box-shadow: none; }
+.panko-side-body { padding: 0 8px 12px 8px; }
 .panko-side .navigation-sidebar { background: transparent; }
 .panko-side .navigation-sidebar > row { min-height: 36px; font-weight: 600; }
 .panko-side .navigation-sidebar > row:selected { font-weight: 700; }
-.panko-toolbar { padding: 12px 12px 8px 24px; min-height: 34px; }
+.panko-content { background-color: @window_bg_color; }
+.panko-toolbar { padding: 0 12px 8px 24px; min-height: 34px; }
 .panko-main { min-width: 184px; }
 .panko-tree, .panko-tree > row { background: transparent; }
 .panko-tree > row { padding: 0; border-radius: 0; }
-.panko-node.st-a { background-color: alpha(currentColor, 0.05); }
+.panko-node.st-a { background-color: shade(@window_bg_color, 1.07); }
 .panko-node.sel { background-color: @accent_bg_color; color: @accent_fg_color; }
 .panko-node.sel .dim-label, .panko-node.sel .panko-time { color: @accent_fg_color; opacity: 1; }
-.panko-node { min-height: 30px; padding: 3px 24px; }
+.panko-node { min-height: 26px; padding: 1px 24px; }
 .panko-node.panko-child { padding-left: 44px; }
 .panko-time { opacity: 0.7; font-size: 0.93em; padding-left: 12px; }
 .mk-add { color: @success_color; }
@@ -110,9 +113,14 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
         .height_request(400)
         .build();
 
-    // Pasek tytułu: pomoc z lewej, menu główne z prawej, bez tytułu (jak w makiecie).
+    // Bez wspólnego paska tytułu: pasek boczny sięga od góry do dołu okna (pomoc w jego rogu),
+    // treść ma własny przezroczysty pasek z menu i przyciskami okna.
     let header = adw::HeaderBar::new();
     header.set_show_title(false);
+    header.set_show_end_title_buttons(false);
+    let content_header = adw::HeaderBar::new();
+    content_header.set_show_title(false);
+    content_header.set_show_start_title_buttons(false);
     let help = gtk::Button::from_icon_name("dialog-question-symbolic");
     help.set_tooltip_text(Some(crate::i18n::tr("help")));
     match crate::help::url() {
@@ -128,7 +136,7 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
     header.pack_start(&help);
 
     let (menu_button, menu_timeline, menu_days, menu_age_on, menu_about) = build_menu();
-    header.pack_end(&menu_button);
+    content_header.pack_end(&menu_button);
 
     // Pasek boczny.
     let sidebar = gtk::ListBox::new();
@@ -143,11 +151,16 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
     search.set_placeholder_text(Some(crate::i18n::tr("search.placeholder")));
     search.set_valign(gtk::Align::End);
     search.set_vexpand(true);
-    let side = gtk::Box::new(gtk::Orientation::Vertical, 2);
+    let side_body = gtk::Box::new(gtk::Orientation::Vertical, 2);
+    side_body.add_css_class("panko-side-body");
+    side_body.set_vexpand(true);
+    side_body.append(&sidebar);
+    side_body.append(&search);
+    let side = gtk::Box::new(gtk::Orientation::Vertical, 0);
     side.add_css_class("panko-side");
     side.set_size_request(200, -1);
-    side.append(&sidebar);
-    side.append(&search);
+    side.append(&header);
+    side.append(&side_body);
 
     let pages = gtk::Stack::new();
     pages.set_transition_type(gtk::StackTransitionType::Crossfade);
@@ -168,7 +181,6 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
     }
 
     let main = gtk::Box::new(gtk::Orientation::Horizontal, 0);
-    main.append(&side);
     main.append(&content);
 
     let status = adw::StatusPage::new();
@@ -188,13 +200,27 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
     body.add_named(&status, Some("status"));
     body.add_named(&loading, Some("loading"));
     body.set_visible_child_name("loading");
+    // Pasek boczny jest stale widoczny; bez stron (wczytywanie, brak dostępu) jest nieaktywny.
+    side_body.set_sensitive(false);
+    {
+        let side_body = side_body.clone();
+        body.connect_visible_child_name_notify(move |b| {
+            side_body.set_sensitive(b.visible_child_name().as_deref() == Some("main"));
+        });
+    }
 
     let toasts = adw::ToastOverlay::new();
     toasts.set_child(Some(&body));
-    let tv = adw::ToolbarView::new();
-    tv.add_top_bar(&header);
-    tv.set_content(Some(&toasts));
-    window.set_content(Some(&tv));
+    let right = gtk::Box::new(gtk::Orientation::Vertical, 0);
+    right.add_css_class("panko-content");
+    right.set_hexpand(true);
+    right.append(&content_header);
+    right.append(&toasts);
+    toasts.set_vexpand(true);
+    let window_box = gtk::Box::new(gtk::Orientation::Horizontal, 0);
+    window_box.append(&side);
+    window_box.append(&right);
+    window.set_content(Some(&window_box));
 
     let this = Rc::new(App {
         backend,

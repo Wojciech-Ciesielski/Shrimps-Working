@@ -1,0 +1,30 @@
+# Narzędzia wiersza poleceń w Cherry (lista właściciela z 2026-11-13).
+# Jedna grupa w linii: pierwsza dostępna nazwa z grupy trafia do obrazu (configure.sh) i do zainstalowanego
+# systemu (post-install.sh). Brak pakietu w repozytorium to ostrzeżenie, nie błąd budowy.
+# Bez: homebrew (drugi menedżer pakietów obok zypper i Flatpak, pobiera z sieci przy pierwszym użyciu),
+# zinit i fzf-tab (pobierają wtyczki z GitHuba przy starcie powłoki, nie ma ich w repozytoriach),
+# thefuck (nierozwijany, nie działa z nowym Pythonem).
+zsh
+git git-core
+curl
+btrfsprogs
+snapper
+transactional-update
+podman
+distrobox
+flatpak
+fzf
+ripgrep
+fd
+bat
+micro-editor micro
+starship
+zsh-autosuggestions
+zsh-syntax-highlighting
+zoxide
+eza
+tealdeer
+atuin
+yazi
+fastfetch
+wl-clipboard

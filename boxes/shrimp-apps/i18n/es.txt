@@ -65,3 +65,11 @@
 65	Falta el repositorio {remote}
 66	Falta el catálogo de aplicaciones
 67	El catálogo de aplicaciones está vacío
+68	Mejor descárgalo de la tienda
+69	Este archivo no funcionará en Shrimp
+70	{file} es un instalador para Windows. Los programas de Windows no funcionan en Shrimp.
+71	{file} es un instalador para macOS. Los programas de Mac no funcionan en Shrimp.
+72	{file} no es un Flatpak. Los programas de fuera de la tienda pueden no funcionar en Shrimp y no se actualizan solos.
+73	En Shrimp, los programas vienen de la tienda Shrimp Apps: están revisados, son seguros y se actualizan solos. Normalmente allí está el mismo programa o una buena alternativa.
+74	Buscar en Shrimp Apps
+75	Cerrar

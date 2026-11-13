@@ -13,4 +13,8 @@ fi
 install -Dm755 "$HERE/target/release/cherry" "$D/usr/bin/cherry"
 install -Dm644 "$HERE/data/org.shrimp.Cherry.desktop" "$D/usr/share/applications/org.shrimp.Cherry.desktop"
 install -Dm644 "$HERE/data/org.shrimp.Cherry.svg" "$D/usr/share/icons/hicolor/scalable/apps/org.shrimp.Cherry.svg"
+# Narzędzia (configure.sh w obrazie, post-install.sh w zainstalowanym systemie) i fastfetch z logo Shrimp.
+install -Dm644 "$HERE/data/tools.txt" "$D/usr/share/cherry/tools.txt"
+install -Dm644 "$HERE/data/fastfetch.jsonc" "$D/usr/share/cherry/fastfetch.jsonc"
+install -Dm644 "$HERE/data/fastfetch-logo.txt" "$D/usr/share/cherry/fastfetch-logo.txt"
 echo "Cherry zainstalowany w $D"

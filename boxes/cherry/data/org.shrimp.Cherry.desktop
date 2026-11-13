@@ -2,8 +2,8 @@
 Type=Application
 Name=Cherry
 Name[pl]=Cherry
-Comment=Terminal that explains commands
-Comment[pl]=Terminal, który tłumaczy komendy
+Comment=Terminal with zsh and Windows-style shortcuts
+Comment[pl]=Terminal z zsh i skrótami jak w Windows
 Keywords=terminal;shell;zsh;command;console;
 Keywords[pl]=terminal;powłoka;konsola;komenda;wiersz poleceń;
 Exec=cherry

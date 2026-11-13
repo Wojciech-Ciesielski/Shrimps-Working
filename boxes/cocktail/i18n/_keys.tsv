@@ -92,3 +92,23 @@
 91	menu.about	About Cocktail
 92	menu.main	Main menu
 93	about.comments	System updates, devices and packages.
+94	section.terminal	Terminal
+95	help	Help
+96	auto.title	Automatic updates
+97	auto.sub	Installed quietly in the background, active after the next restart
+98	drivers.title	Drivers and firmware
+99	drivers.uptodate	Up to date
+100	drivers.available.one	{n} update
+101	drivers.available.few	{n} updates
+102	drivers.available.many	{n} updates
+103	drivers.available.other	{n} updates
+104	button.update	Update
+105	error.drivers	Could not update the drivers
+106	error.auto	Could not change automatic updates
+107	packages.update-to	New version {version}
+108	terminal.placeholder	package name
+109	terminal.hint	Type a package name and press Enter. Cocktail installs it into a new snapshot of the system.
+110	terminal.bad-name	Not a valid package name: {name}
+111	terminal.done	Done.
+112	terminal.failed	It didn't work (code {code}).
+113	terminal.reboot	The package will be ready after a restart.
