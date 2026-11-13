@@ -73,6 +73,18 @@ $(date -d '-1 days' '+%F') 18:21:00|install|Mesa|25.2.1-1.1|x86_64|root@pc|oss|a
 $(date -d '-1 days' '+%F') 18:22:00|install|Mesa|25.2.2-1.1|x86_64|root@pc|oss|a|
 $(date '+%F') 08:10:00|install|vlc|3.0.21-1.1|x86_64|root@pc|oss|a|
 Z
+# fwupd: brak aktualizacji firmware (kod 2 = nic do zrobienia); prawdziwy fwupdmgr na maszynie testowej
+# nie może się uruchomić.
+cat > "$FAKE/bin/fwupdmgr" <<Z
+#!/bin/bash
+echo "fwupdmgr \$*" >> "$FAKE/log"
+case "\$1" in
+  refresh) exit 0 ;;
+  get-updates) echo '{"Devices":[]}'; exit 2 ;;
+  *) exit 2 ;;
+esac
+Z
+chmod +x "$FAKE/bin/fwupdmgr"
 cat > "$FAKE/bin/transactional-update" <<Z
 #!/bin/bash
 echo "transactional-update \$*" >> "$FAKE/log"
