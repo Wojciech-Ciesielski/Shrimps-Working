@@ -111,3 +111,8 @@
 111	Gotowe.
 112	Nie udało się (kod {code}).
 113	Pakiet będzie gotowy po ponownym uruchomieniu.
+114	Instalowanie
+115	Co chcesz zainstalować?
+116	Zainstaluj
+117	Instaluję…
+118	Tryb zaawansowany

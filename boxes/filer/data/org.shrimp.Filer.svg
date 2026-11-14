@@ -3,7 +3,5 @@
 <g filter="url(#shrimp-depth)"><g transform="translate(-8.73 -12.73) scale(1.1364)"><!-- Filer: niebieski folder w stylu Adwaita (bez cienia). -->
   <path d="M16 28a8 8 0 0 1 8-8h26l10 10h44a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H24a8 8 0 0 1-8-8z" fill="#1a5fb4"/>
   <path d="M16 44a8 8 0 0 1 8-8h80a8 8 0 0 1 8 8v56a8 8 0 0 1-8 8H24a8 8 0 0 1-8-8z" fill="#62a0ea"/>
-  <path d="M16 44a8 8 0 0 1 8-8h80a8 8 0 0 1 8 8v4H16z" fill="#99c1f1"/>
-  <rect x="40" y="62" width="48" height="6" rx="3" fill="#fff" opacity=".9"/>
-  <rect x="40" y="76" width="34" height="6" rx="3" fill="#fff" opacity=".9"/></g></g>
+  <path d="M16 44a8 8 0 0 1 8-8h80a8 8 0 0 1 8 8v4H16z" fill="#99c1f1"/></g></g>
 </svg>

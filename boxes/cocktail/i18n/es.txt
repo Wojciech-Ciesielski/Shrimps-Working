@@ -111,3 +111,8 @@
 111	Hecho.
 112	No ha funcionado (código {code}).
 113	El paquete estará listo después de reiniciar.
+114	Instalar
+115	¿Qué quieres instalar?
+116	Instalar
+117	Instalando…
+118	Modo avanzado

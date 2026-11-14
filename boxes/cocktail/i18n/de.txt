@@ -111,3 +111,8 @@
 111	Fertig.
 112	Das hat nicht geklappt (Code {code}).
 113	Das Paket ist nach einem Neustart bereit.
+114	Installieren
+115	Was möchtest du installieren?
+116	Installieren
+117	Wird installiert …
+118	Erweiterter Modus

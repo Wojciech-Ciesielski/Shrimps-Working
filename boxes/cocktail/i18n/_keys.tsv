@@ -112,3 +112,8 @@
 111	terminal.done	Done.
 112	terminal.failed	It didn't work (code {code}).
 113	terminal.reboot	The package will be ready after a restart.
+114	section.install	Install
+115	install.question	What do you want to install?
+116	install.button	Install
+117	install.working	Installing…
+118	menu.advanced	Advanced mode

@@ -17,4 +17,6 @@ install -Dm644 "$HERE/data/org.shrimp.Cherry.svg" "$D/usr/share/icons/hicolor/sc
 install -Dm644 "$HERE/data/tools.txt" "$D/usr/share/cherry/tools.txt"
 install -Dm644 "$HERE/data/fastfetch.jsonc" "$D/usr/share/cherry/fastfetch.jsonc"
 install -Dm644 "$HERE/data/fastfetch-logo.txt" "$D/usr/share/cherry/fastfetch-logo.txt"
+# Ten sam wygląd fastfetch w każdym terminalu (bez tego fastfetch pokazywał logo Leap z os-release).
+install -Dm644 "$HERE/data/fastfetch.jsonc" "$D/etc/xdg/fastfetch/config.jsonc"
 echo "Cherry zainstalowany w $D"
