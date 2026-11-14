@@ -1,0 +1,26 @@
+name: AppDB probe (tymczasowy)
+
+on:
+  push:
+    paths: [".github/workflows/appdb-probe.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Wyszukiwanie i strona aplikacji
+        run: |
+          set +e
+          UA='shrimp-apps-ci'
+          q='https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&sOrderBy=appName&bAscending=true&iappVersion-ratingOp=5&iappCategoryOp=11&sappFamily-appNameOp=2&sappFamily-appNameData=notepad%2B%2B&iversion-idOp=5&sOrderBy=appName&bAscending=true&iItemsPerPage=25'
+          curl -sSL -A "$UA" -o s.html -w 'search %{http_code} %{url_effective}\n' "$q"
+          grep -o 'objectManager.php?sClass=application&amp;iId=[0-9]*[^<]*<' s.html | head -20
+          grep -n -i -E 'platinum|gold|silver|bronze|garbage' s.html | head -20
+          sed -n '/<table/,/<\/table>/p' s.html | sed 's/^[ \t]*//' | grep -v '^$' | head -120
+          id=$(grep -o 'sClass=application&amp;iId=[0-9]*' s.html | head -1 | grep -o '[0-9]*$')
+          echo "APP ID $id"
+          curl -sSL -A "$UA" -o a.html -w 'app %{http_code}\n' "https://appdb.winehq.org/objectManager.php?sClass=application&iId=$id"
+          sed -n '/<table/,/<\/table>/p' a.html | sed 's/^[ \t]*//' | grep -v '^$' | grep -i -E -B3 -A3 'platinum|gold|silver|bronze|garbage|version' | head -150
