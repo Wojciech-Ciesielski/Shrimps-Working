@@ -39,8 +39,8 @@ const SECTIONS: [(&str, &str, &str); 5] = [
     ("aktualizacje", "emblem-synchronizing-symbolic", "section.updates"),
     ("urzadzenia", "computer-symbolic", "section.devices"),
     ("pakiety", "package-x-generic-symbolic", "section.packages"),
+    ("terminal", "list-add-symbolic", "section.install"),
     ("historia", "document-open-recent-symbolic", "section.history"),
-    ("terminal", "utilities-terminal-symbolic", "section.terminal"),
 ];
 
 fn main() -> glib::ExitCode {
@@ -108,8 +108,8 @@ fn build(application: &adw::Application) {
     stack.add_named(&updates.widget, Some("aktualizacje"));
     stack.add_named(&devices.widget, Some("urzadzenia"));
     stack.add_named(&packages.widget, Some("pakiety"));
-    stack.add_named(&history.widget, Some("historia"));
     stack.add_named(&terminal.widget, Some("terminal"));
+    stack.add_named(&history.widget, Some("historia"));
 
     // Pasek boczny: zakładki i wyszukiwanie na dole (ukryte w Aktualizacjach, jak w makiecie).
     let nav = gtk::ListBox::new();
@@ -153,7 +153,20 @@ fn build(application: &adw::Application) {
 
     // Treść: menu główne (☰) w pasku tytułu.
     let menu = gio::Menu::new();
+    menu.append(Some(crate::i18n::tr("menu.advanced")), Some("win.advanced"));
     menu.append(Some(crate::i18n::tr("menu.about")), Some("app.about"));
+    // Tryb zaawansowany: polecenie i jego wyjście w Instalowaniu (w trybie prostym są ukryte).
+    let advanced = gio::SimpleAction::new_stateful("advanced", None, &app::advanced().to_variant());
+    {
+        let terminal = terminal.clone();
+        advanced.connect_change_state(move |a, v| {
+            let Some(on) = v.and_then(|v| v.get::<bool>()) else { return };
+            a.set_state(&on.to_variant());
+            app::set_advanced(on);
+            terminal.set_advanced(on);
+        });
+    }
+    window.add_action(&advanced);
     let menu_button = gtk::MenuButton::new();
     menu_button.set_icon_name("open-menu-symbolic");
     menu_button.set_menu_model(Some(&menu));

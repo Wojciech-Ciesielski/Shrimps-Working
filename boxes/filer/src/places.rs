@@ -1,6 +1,6 @@
-//! Panel boczny jak w Nemo: Mój komputer (Dom, foldery, Ostatnie, System plików, Kosz), Zakładki,
-//! Urządzenia (z paskiem zajętości i wysuwaniem), Sieć. Menu kontekstowe, upuszczanie plików.
-use crate::bookmarks;
+//! Panel boczny: Mój komputer (Dom, foldery, Ostatnie, System plików, Kosz), Urządzenia (z paskiem
+//! zajętości i wysuwaniem), Sieć. Bez zakładek GTK z Nautilusa: powtarzały foldery z „Mój komputer”.
+//! Menu kontekstowe, upuszczanie plików.
 use crate::i18n::tr;
 use crate::util;
 use adw::prelude::*;
@@ -10,7 +10,7 @@ use std::rc::Rc;
 
 #[derive(Clone)]
 pub enum Place {
-    File { file: gio::File, bookmark: bool },
+    File { file: gio::File },
     Mount(gio::Mount),
     Volume(gio::Volume),
 }
@@ -43,7 +43,6 @@ pub struct Sidebar {
     on_open: OnOpen,
     on_drop: OnDrop,
     parent: RefCell<Option<gtk::Window>>,
-    _monitor: RefCell<Option<gio::FileMonitor>>,
     vm: gio::VolumeMonitor,
 }
 
@@ -51,19 +50,9 @@ impl Sidebar {
     pub fn new(on_open: OnOpen, on_drop: OnDrop) -> Rc<Sidebar> {
         let list = gtk::ListBox::builder().css_classes(["navigation-sidebar"]).build();
         let root = gtk::ScrolledWindow::builder().child(&list).hscrollbar_policy(gtk::PolicyType::Never).vexpand(true).build();
-        let sb = Rc::new(Sidebar { root, list, rows: RefCell::new(vec![]), on_open, on_drop, parent: RefCell::new(None), _monitor: RefCell::new(None), vm: gio::VolumeMonitor::get() });
+        let sb = Rc::new(Sidebar { root, list, rows: RefCell::new(vec![]), on_open, on_drop, parent: RefCell::new(None), vm: gio::VolumeMonitor::get() });
         sb.rebuild();
-        // Zmiany zakładek (także z innych programów) i urządzeń.
-        let w = Rc::downgrade(&sb);
-        let mon = gio::File::for_path(bookmarks::path()).monitor_file(gio::FileMonitorFlags::NONE, gio::Cancellable::NONE).ok();
-        if let Some(m) = &mon {
-            m.connect_changed(move |_, _, _, _| {
-                if let Some(s) = w.upgrade() {
-                    s.rebuild();
-                }
-            });
-        }
-        *sb._monitor.borrow_mut() = mon;
+        // Zmiany urządzeń.
         let vm = sb.vm.clone();
         let w = Rc::downgrade(&sb);
         let again = move || {
@@ -121,10 +110,10 @@ impl Sidebar {
         self.rows.borrow_mut().push(Some(place));
     }
 
-    fn file_row(&self, f: gio::File, name: Option<String>, bookmark: bool) {
+    fn file_row(&self, f: gio::File, name: Option<String>) {
         let icon = gio::ThemedIcon::new(util::place_icon(&f));
         let name = name.unwrap_or_else(|| util::display_name(&f));
-        self.row(icon.upcast_ref(), &name, Place::File { file: f, bookmark }, None, false);
+        self.row(icon.upcast_ref(), &name, Place::File { file: f }, None, false);
     }
 
     pub fn rebuild(&self) {
@@ -133,26 +122,18 @@ impl Sidebar {
         }
         self.rows.borrow_mut().clear();
         self.header(tr("side.computer"));
-        self.file_row(gio::File::for_path(glib::home_dir()), None, false);
+        self.file_row(gio::File::for_path(glib::home_dir()), None);
         for d in [glib::UserDirectory::Desktop, glib::UserDirectory::Documents, glib::UserDirectory::Music, glib::UserDirectory::Pictures, glib::UserDirectory::Videos, glib::UserDirectory::Downloads] {
             if let Some(p) = glib::user_special_dir(d).filter(|p| *p != glib::home_dir() && p.is_dir()) {
-                self.file_row(gio::File::for_path(p), None, false);
+                self.file_row(gio::File::for_path(p), None);
             }
         }
-        self.file_row(gio::File::for_uri("recent:///"), None, false);
-        self.file_row(gio::File::for_path("/"), None, false);
+        self.file_row(gio::File::for_uri("recent:///"), None);
+        self.file_row(gio::File::for_path("/"), None);
         let trash = gio::File::for_uri("trash:///");
         let full = trash.query_info("trash::item-count", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE).map(|i| i.attribute_uint32("trash::item-count") > 0).unwrap_or(false);
         let icon = gio::ThemedIcon::new(if full { "user-trash-full-symbolic" } else { "user-trash-symbolic" });
-        self.row(icon.upcast_ref(), tr("place.trash"), Place::File { file: trash, bookmark: false }, None, false);
-
-        let bm = bookmarks::load();
-        if !bm.is_empty() {
-            self.header(tr("side.bookmarks"));
-            for b in bm {
-                self.file_row(gio::File::for_uri(&b.uri), b.name, true);
-            }
-        }
+        self.row(icon.upcast_ref(), tr("place.trash"), Place::File { file: trash }, None, false);
 
         let vm = &self.vm;
         let mut devices: Vec<(gio::Icon, String, Place, Option<f64>, bool)> = vec![];
@@ -178,7 +159,7 @@ impl Sidebar {
             }
         }
         self.header(tr("side.network"));
-        self.file_row(gio::File::for_uri("network:///"), None, false);
+        self.file_row(gio::File::for_uri("network:///"), None);
     }
 
     /// Zaznacza miejsce odpowiadające bieżącemu folderowi.
@@ -238,18 +219,6 @@ impl Sidebar {
         }
     }
 
-    fn rename_bookmark(&self, i: i32) {
-        let Some(Place::File { file, bookmark: true }) = self.place(i) else { return };
-        let entry = gtk::Entry::builder().text(util::display_name(&file)).activates_default(true).build();
-        let d = adw::AlertDialog::new(Some(tr("side.rename_title")), None);
-        d.set_extra_child(Some(&entry));
-        d.add_responses(&[("cancel", tr("cancel")), ("ok", tr("rename.button"))]);
-        d.set_response_appearance("ok", adw::ResponseAppearance::Suggested);
-        d.set_default_response(Some("ok"));
-        d.connect_response(Some("ok"), move |_, _| bookmarks::rename(&file.uri(), &entry.text()));
-        d.present(self.parent.borrow().as_ref());
-    }
-
     fn connect(self: &Rc<Self>) {
         let w = Rc::downgrade(self);
         self.list.connect_row_activated(move |_, r| {
@@ -260,18 +229,11 @@ impl Sidebar {
         // Akcje menu kontekstowego (parametr: numer wiersza).
         let group = gio::SimpleActionGroup::new();
         type Act = fn(&Sidebar, i32);
-        let acts: [(&str, Act); 7] = [
+        let acts: [(&str, Act); 5] = [
             ("open", |s, i| s.activate(i, Open::Here)),
             ("tab", |s, i| s.activate(i, Open::Tab)),
             ("window", |s, i| s.activate(i, Open::Window)),
             ("eject", |s, i| s.eject(i)),
-            ("rename", |s, i| s.rename_bookmark(i)),
-            ("remove", |s, i| {
-                if let Some(Place::File { file, .. }) = s.place(i) {
-                    bookmarks::remove(&file.uri());
-                    s.rebuild();
-                }
-            }),
             ("empty", |s, _| {
                 if let Some(p) = s.parent.borrow().as_ref() {
                     crate::window::empty_trash(p);
@@ -310,10 +272,6 @@ impl Sidebar {
                     m.append_item(&item(tr("menu.open_window"), "side.window"));
                     let extra = gio::Menu::new();
                     match &place {
-                        Place::File { bookmark: true, .. } => {
-                            extra.append_item(&item(tr("side.rename"), "side.rename"));
-                            extra.append_item(&item(tr("side.remove"), "side.remove"));
-                        }
                         Place::File { file, .. } if file.uri_scheme().as_deref() == Some("trash") => {
                             extra.append_item(&item(tr("trash.empty"), "side.empty"));
                         }
@@ -335,24 +293,19 @@ impl Sidebar {
             }
         });
         self.list.add_controller(click);
-        // Upuszczanie: na miejsce = kopiuj/przenieś; folder na nagłówek „Zakładki” = dodaj zakładkę.
+        // Upuszczanie na miejsce: kopiuj albo przenieś.
         let drop = gtk::DropTarget::new(gdk::FileList::static_type(), gdk::DragAction::COPY | gdk::DragAction::MOVE | gdk::DragAction::LINK);
         let w = Rc::downgrade(self);
         drop.connect_drop(move |d, v, _, y| {
             let (Some(s), Ok(list)) = (w.upgrade(), v.get::<gdk::FileList>()) else { return false };
             let target = s.list.row_at_y(y as i32).and_then(|r| s.place(r.index())).and_then(|p| p.file());
             match target {
-                Some(t) => (s.on_drop)(list.files(), t, d.current_drop().map(|x| x.actions()).unwrap_or(gdk::DragAction::COPY)),
-                None => {
-                    for f in list.files() {
-                        if f.query_file_type(gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) == gio::FileType::Directory {
-                            bookmarks::add(&f);
-                        }
-                    }
-                    s.rebuild();
+                Some(t) => {
+                    (s.on_drop)(list.files(), t, d.current_drop().map(|x| x.actions()).unwrap_or(gdk::DragAction::COPY));
+                    true
                 }
+                None => false,
             }
-            true
         });
         self.list.add_controller(drop);
     }

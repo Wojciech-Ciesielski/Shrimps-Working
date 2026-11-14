@@ -65,8 +65,6 @@ pub fn show(parent: &gtk::Window, changed: std::rc::Rc<dyn Fn()>) {
     let display = adw::PreferencesPage::builder().title(tr("prefs.display")).icon_name("preferences-desktop-display-symbolic").build();
     let g = adw::PreferencesGroup::new();
     switch(&g, tr("prefs.full_path"), |s| s.full_path_title, |s, v| s.full_path_title = v, &changed);
-    switch(&g, tr("prefs.menubar"), |s| s.show_menubar, |s, v| s.show_menubar = v, &changed);
-    switch(&g, tr("prefs.statusbar"), |s| s.show_statusbar, |s, v| s.show_statusbar = v, &changed);
     switch(&g, tr("prefs.sidebar"), |s| s.show_sidebar, |s, v| s.show_sidebar = v, &changed);
     display.add(&g);
     d.add(&display);

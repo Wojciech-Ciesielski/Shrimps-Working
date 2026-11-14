@@ -1,14 +1,8 @@
-//! Dane Cherry: notatki, historia i ustawienia w jednym pliku JSON
+//! Dane Cherry: historia i ustawienia w jednym pliku JSON
 //! (`~/.local/share/cherry/cherry.json`) oraz pliki startowe zsh (`~/.config/cherry/zsh/`).
 
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
-pub struct Note {
-    pub cmd: String,
-    pub text: String,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct HistEntry {
@@ -27,7 +21,6 @@ pub struct Settings {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
 #[serde(default)]
 pub struct Data {
-    pub notes: Vec<Note>,
     pub history: Vec<HistEntry>,
     pub settings: Settings,
 }
@@ -37,22 +30,6 @@ pub const HISTORY_CHOICES: [Option<u32>; 4] = [None, Some(1), Some(7), Some(30)]
 const HISTORY_MAX: usize = 1000;
 
 impl Data {
-    /// Startowe notatki, żeby panel nie był pusty przy pierwszym uruchomieniu.
-    fn first_run() -> Data {
-        let n = |c: &str, t: &'static str| Note {
-            cmd: c.into(),
-            text: crate::i18n::tr(t).into(),
-        };
-        Data {
-            notes: vec![
-                n("sudo zypper refresh", "note.refresh"),
-                n("ls -la", "note.lsla"),
-                n("cd ..", "note.cdup"),
-            ],
-            ..Data::default()
-        }
-    }
-
     /// Dopisuje komendę do historii (bez powtórzenia ostatniej) i przycina ją.
     pub fn record(&mut self, cmd: &str, now: i64) {
         let cmd = cmd.trim();
@@ -125,7 +102,7 @@ pub fn load() -> Data {
 pub fn load_from(p: &Path) -> Data {
     match std::fs::read_to_string(p) {
         Ok(s) => serde_json::from_str(&s).unwrap_or_default(),
-        Err(_) => Data::first_run(),
+        Err(_) => Data::default(),
     }
 }
 
@@ -349,7 +326,7 @@ mod tests {
 
     #[test]
     fn json_roundtrip_and_defaults() {
-        // Pola starszych wersji (skróty, położenie kart) są pomijane.
+        // Pola starszych wersji (notatki, skróty, położenie kart) są pomijane.
         let d: Data = serde_json::from_str(
             r#"{"notes":[{"cmd":"ls","text":"x"}],"keys":[{"accel":"<Alt>l","cmd":"ls"}],"settings":{"tabs":"right"}}"#,
         )
