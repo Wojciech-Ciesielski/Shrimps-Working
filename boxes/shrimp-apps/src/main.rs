@@ -10,6 +10,7 @@ mod i18n;
 mod net;
 mod selftest;
 mod store;
+mod ubuntu;
 mod widgets;
 mod window;
 
@@ -115,12 +116,11 @@ fn build(app: &adw::Application, open_id: Option<String>) {
                 let catalog = matches!(ev, backend::Event::Catalog(_));
                 shell.handle(ev);
                 if catalog {
-                    match pending.take() {
-                        Some(id) => match id.strip_prefix("shrimp-search:") {
+                    if let Some(id) = pending.take() {
+                        match id.strip_prefix("shrimp-search:") {
                             Some(q) => shell.search_for(q),
                             None => shell.open_app(&id),
-                        },
-                        None => {}
+                        }
                     }
                 }
             }

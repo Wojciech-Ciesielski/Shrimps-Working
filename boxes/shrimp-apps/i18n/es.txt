@@ -74,3 +74,22 @@
 74	Buscar en Shrimp Apps
 75	Cerrar
 76	Barra lateral
+77	Desde Ubuntu
+78	Programas populares (más de {n} instalaciones) que no están disponibles como aplicaciones verificadas. Todos funcionan en un contenedor compartido de Ubuntu 24.04 y aparecen en la cuadrícula de aplicaciones como cualquier otra.
+79	Los contenedores no están disponibles
+80	Este sistema no tiene distrobox o podman.
+81	Actualizar todo
+82	Restaurar copia
+83	Antes de cada actualización se hace una copia del contenedor, así que puede volver atrás si algo deja de funcionar.
+84	Los programas de Ubuntu están actualizados
+85	¿Restaurar la copia?
+86	El contenedor vuelve al estado anterior a la última actualización. Se pierden los cambios hechos desde entonces.
+87	Cancelar
+88	Copia restaurada
+89	Abrir
+90	Quitar
+91	{name} quitado
+92	Instalar
+93	Instalando…
+94	{name} instalado
+95	Error: {error}

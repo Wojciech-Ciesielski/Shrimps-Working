@@ -202,7 +202,7 @@ impl Langs {
         let mut best: Option<(usize, &Element)> = None;
         for e in elems {
             if let Some(r) = self.rank(e.lang()) {
-                if best.map_or(true, |(br, _)| r < br) {
+                if best.is_none_or(|(br, _)| r < br) {
                     best = Some((r, e));
                 }
             }
@@ -300,11 +300,7 @@ fn component_to_app(c: &Element, langs: &Langs, icon_root: Option<&Path>) -> Opt
                     }
                 }
             }
-            Some("remote") => {
-                if icon_remote.is_none() || h == 128 {
-                    icon_remote = Some(i.text());
-                }
-            }
+            Some("remote") if icon_remote.is_none() || h == 128 => icon_remote = Some(i.text()),
             _ => {}
         }
     }
@@ -322,9 +318,8 @@ fn component_to_app(c: &Element, langs: &Langs, icon_root: Option<&Path>) -> Opt
 
     let mut homepage = None;
     for u in c.all("url") {
-        match u.attr("type") {
-            Some("homepage") => homepage = Some(u.text()),
-            _ => {}
+        if u.attr("type") == Some("homepage") {
+            homepage = Some(u.text());
         }
     }
 
@@ -375,7 +370,7 @@ fn component_to_app(c: &Element, langs: &Langs, icon_root: Option<&Path>) -> Opt
                 .collect()
         })
         .unwrap_or_default();
-    releases.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
+    releases.sort_by_key(|r| std::cmp::Reverse(r.timestamp));
 
     let mut brand_light = None;
     let mut brand_dark = None;
@@ -515,9 +510,9 @@ pub fn parse<R: BufRead>(input: R, langs: &Langs, icon_root: Option<&Path>) -> R
 }
 
 /// Tylko aplikacje sprawdzone na Flathub (twórca potwierdził, że to jego wydanie). Zainstalowane
-/// spoza tej listy nadal widać w „Zainstalowane”.
-pub fn verified_only(mut apps: Vec<App>) -> Vec<App> {
-    apps.retain(|a| a.verified);
+/// spoza tej listy (np. Steam z zestawu podstawowego) zostają, żeby działały szczegóły i aktualizacje.
+pub fn verified_only(mut apps: Vec<App>, installed: &[String]) -> Vec<App> {
+    apps.retain(|a| a.verified || installed.contains(&a.id));
     apps
 }
 
@@ -614,9 +609,12 @@ mod tests {
         assert_eq!(k.screenshots[1].full, "https://x/src.png");
         assert_eq!(k.brand_dark.as_deref(), Some("#204a87"));
         assert!(k.verified);
-        let ids: Vec<String> = verified_only(apps.clone()).into_iter().map(|a| a.id).collect();
+        let ids: Vec<String> = verified_only(apps.clone(), &[]).into_iter().map(|a| a.id).collect();
         assert!(ids.contains(&"org.kde.krita".to_string()));
         assert!(ids.iter().all(|id| apps.iter().any(|a| &a.id == id && a.verified)));
+        let unverified = apps.iter().find(|a| !a.verified).map(|a| a.id.clone()).expect("próbka ma aplikację niesprawdzoną");
+        assert!(!ids.contains(&unverified));
+        assert!(verified_only(apps.clone(), std::slice::from_ref(&unverified)).iter().any(|a| a.id == unverified));
         assert_eq!(k.main_category(), Some(Category::Graphics));
         assert!(k.keywords.contains(&"rysowanie".to_string()));
         assert_eq!(k.icon_remote.as_deref(), Some("https://dl.flathub.org/media/krita.png"));

@@ -8,7 +8,7 @@ build_depends = ["shrimp-i18n", "web-apps", "help-links"]
 ci = "shrimp-apps"
 
 [packages]
-image = ["libflatpak0", "libadwaita-1-0", "steam-devices", "gamemode"]
+image = ["libflatpak0", "libadwaita-1-0", "steam-devices", "gamemode", "distrobox", "podman"]
 build = [
     "bash",
     "coreutils",

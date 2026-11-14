@@ -75,3 +75,22 @@
 74	hint.search	Search in Shrimp Apps
 75	hint.close	Close
 76	view.sidebar	Sidebar
+77	page.ubuntu	From Ubuntu
+78	ubuntu.intro	Popular programs (over {n} installs) that are not available as verified apps. They all run in one shared Ubuntu 24.04 container and appear in the app grid like any other app.
+79	ubuntu.no-tools	Containers are not available
+80	ubuntu.no-tools-body	This system has no distrobox or podman.
+81	ubuntu.update	Update all
+82	ubuntu.restore	Restore backup
+83	ubuntu.backup-note	Before every update a backup of the container is made, so you can go back if something stops working.
+84	ubuntu.updated	Programs from Ubuntu are up to date
+85	ubuntu.restore-q	Restore the backup?
+86	ubuntu.restore-body	The container goes back to its state before the last update. Changes made since then are lost.
+87	ubuntu.cancel	Cancel
+88	ubuntu.restored	Backup restored
+89	ubuntu.open	Open
+90	ubuntu.remove	Remove
+91	ubuntu.removed	{name} removed
+92	ubuntu.install	Install
+93	ubuntu.installing	Installing…
+94	ubuntu.installed	{name} installed
+95	ubuntu.failed	Failed: {error}

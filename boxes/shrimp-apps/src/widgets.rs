@@ -20,6 +20,7 @@ pub fn pick_icon(names: &[&'static str]) -> &'static str {
 pub const ICON_DISCOVER: &[&str] = &["compass2-symbolic", "explore-symbolic", "starred-symbolic"];
 pub const ICON_INSTALLED: &[&str] = &["library-symbolic", "system-software-install-symbolic"];
 pub const ICON_WEB: &[&str] = &["globe-symbolic", "web-browser-symbolic"];
+pub const ICON_UBUNTU: &[&str] = &["application-x-addon-symbolic", "package-x-generic-symbolic"];
 pub const ICON_VERIFIED: &[&str] = &["verified-checkmark-symbolic", "emblem-ok-symbolic"];
 
 /// Wczytuje obraz z dysku poza wątkiem GTK.

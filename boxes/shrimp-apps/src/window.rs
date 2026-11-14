@@ -1,4 +1,4 @@
-//! Okno: pasek boczny (Odkrywaj, Zainstalowane, Aplikacje internetowe, kategorie,
+//! Okno: pasek boczny (Odkrywaj, Zainstalowane, Aplikacje internetowe, Z Ubuntu, kategorie,
 //! wyszukiwanie) i treść w `AdwNavigationView` (strony aplikacji wjeżdżają na wierzch).
 
 use std::cell::{Cell, RefCell};
@@ -19,6 +19,7 @@ pub enum Page {
     Discover,
     Installed,
     Web,
+    Ubuntu,
     Category(Category),
     Search,
 }
@@ -65,6 +66,7 @@ impl Shell {
         add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_DISCOVER), crate::i18n::tr("page.discover"), Page::Discover);
         add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_INSTALLED), crate::i18n::tr("page.installed"), Page::Installed);
         add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_WEB), crate::i18n::tr("page.web"), Page::Web);
+        add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_UBUNTU), crate::i18n::tr("page.ubuntu"), Page::Ubuntu);
         {
             let l = gtk::Label::builder().label(crate::i18n::tr("sidebar.categories")).xalign(0.0).build();
             l.add_css_class("sidebar-heading");
@@ -260,6 +262,7 @@ impl Shell {
             Page::Discover => self.discover_page(),
             Page::Installed => self.installed_page(),
             Page::Web => self.web_page(),
+            Page::Ubuntu => self.root_page(crate::i18n::tr("page.ubuntu"), "ubuntu", &crate::ubuntu::page(), true),
             Page::Category(c) => self.category_page(c),
             Page::Search => self.search_page(),
         };

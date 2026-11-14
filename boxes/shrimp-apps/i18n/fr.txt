@@ -74,3 +74,22 @@
 74	Chercher dans Shrimp Apps
 75	Fermer
 76	Barre latérale
+77	Depuis Ubuntu
+78	Programmes populaires (plus de {n} installations) qui ne sont pas disponibles en applications vérifiées. Ils fonctionnent tous dans un conteneur Ubuntu 24.04 partagé et apparaissent dans la grille d’applications comme les autres.
+79	Les conteneurs ne sont pas disponibles
+80	Ce système n’a pas distrobox ou podman.
+81	Tout mettre à jour
+82	Restaurer la sauvegarde
+83	Avant chaque mise à jour, une sauvegarde du conteneur est créée : vous pouvez revenir en arrière si quelque chose ne fonctionne plus.
+84	Les programmes d’Ubuntu sont à jour
+85	Restaurer la sauvegarde ?
+86	Le conteneur revient à son état d’avant la dernière mise à jour. Les modifications faites depuis sont perdues.
+87	Annuler
+88	Sauvegarde restaurée
+89	Ouvrir
+90	Supprimer
+91	{name} supprimé
+92	Installer
+93	Installation…
+94	{name} installé
+95	Échec : {error}

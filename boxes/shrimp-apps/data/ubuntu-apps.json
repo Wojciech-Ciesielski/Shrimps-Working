@@ -1,0 +1,21 @@
+{
+  "_": "Strona „Z Ubuntu” w Shrimp Apps (src/ubuntu.rs). Tylko aplikacje, których Flathub nie ma jako sprawdzonych (sklep pokazuje tylko sprawdzone), a które mają ponad min_downloads instalacji według statystyk Flathub (pole flathub = źródło liczby). CI (tools/check-ubuntu-apps.py) sprawdza na żywo: liczbę instalacji, brak weryfikacji na Flathub i pakiet w Ubuntu 24.04 (noble). Liczb nie wpisujemy ręcznie. exec = polecenie w kontenerze (distrobox-export --app).",
+  "container": "shrimp-ubuntu",
+  "image": "docker.io/library/ubuntu:24.04",
+  "backup": "localhost/shrimp-ubuntu-backup:latest",
+  "min_downloads": 1000000,
+  "apps": [
+    { "package": "telegram-desktop", "exec": "telegram-desktop", "name": "Telegram", "flathub": "org.telegram.desktop", "category": "internet" },
+    { "package": "calibre", "exec": "calibre", "name": "Calibre", "flathub": "com.calibre_ebook.calibre", "category": "office" },
+    { "package": "vlc", "exec": "vlc", "name": "VLC", "flathub": "org.videolan.VLC", "category": "video" },
+    { "package": "handbrake", "exec": "ghb", "name": "HandBrake", "flathub": "fr.handbrake.ghb", "category": "video" },
+    { "package": "audacity", "exec": "audacity", "name": "Audacity", "flathub": "org.audacityteam.Audacity", "category": "music" },
+    { "package": "qbittorrent", "exec": "qbittorrent", "name": "qBittorrent", "flathub": "org.qbittorrent.qBittorrent", "category": "internet" },
+    { "package": "mpv", "exec": "mpv", "name": "mpv", "flathub": "io.mpv.Mpv", "category": "video" },
+    { "package": "filezilla", "exec": "filezilla", "name": "FileZilla", "flathub": "org.filezillaproject.Filezilla", "category": "internet" },
+    { "package": "lutris", "exec": "lutris", "name": "Lutris", "flathub": "net.lutris.Lutris", "category": "games" },
+    { "package": "gimp", "exec": "gimp", "name": "GIMP", "flathub": "org.gimp.GIMP", "category": "graphics" },
+    { "package": "kodi", "exec": "kodi", "name": "Kodi", "flathub": "tv.kodi.Kodi", "category": "video" },
+    { "package": "transmission-gtk", "exec": "transmission-gtk", "name": "Transmission", "flathub": "com.transmissionbt.Transmission", "category": "internet" }
+  ]
+}

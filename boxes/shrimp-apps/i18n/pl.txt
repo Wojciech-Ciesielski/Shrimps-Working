@@ -74,3 +74,22 @@
 74	Szukaj w Shrimp Apps
 75	Zamknij
 76	Panel boczny
+77	Z Ubuntu
+78	Popularne programy (ponad {n} instalacji), których nie ma wśród sprawdzonych aplikacji. Wszystkie działają w jednym wspólnym kontenerze Ubuntu 24.04 i widać je w siatce aplikacji jak każdą inną.
+79	Kontenery są niedostępne
+80	W tym systemie nie ma distrobox albo podman.
+81	Aktualizuj wszystko
+82	Przywróć kopię
+83	Przed każdą aktualizacją powstaje kopia kontenera, więc można wrócić, jeśli coś przestanie działać.
+84	Programy z Ubuntu są aktualne
+85	Przywrócić kopię?
+86	Kontener wróci do stanu sprzed ostatniej aktualizacji. Zmiany wprowadzone od tego czasu przepadną.
+87	Anuluj
+88	Kopia przywrócona
+89	Otwórz
+90	Usuń
+91	Usunięto: {name}
+92	Zainstaluj
+93	Instalowanie…
+94	Zainstalowano: {name}
+95	Nie udało się: {error}
