@@ -159,18 +159,9 @@ impl Win {
         );
         sidebar.set_parent(window.upcast_ref());
 
-        // Układ Shrimp (jak Cocktail i Panko): pasek boczny z pomocą (?) u góry i wyszukiwaniem na dole, bez
-        // nazwy programu; treść z paskiem tytułu (nawigacja, ścieżka, widoki, menu ☰). Funkcje Nemo zostają.
-        let side_header = adw::HeaderBar::builder().show_title(false).build();
-        let help = gtk::Button::builder().icon_name("dialog-question-symbolic").tooltip_text(tr("help")).css_classes(["flat"]).build();
-        help.set_sensitive(crate::help::url().is_some());
-        help.connect_clicked(|b| {
-            if let Some(u) = crate::help::url() {
-                let root = b.root().and_downcast::<gtk::Window>();
-                gtk::UriLauncher::new(&u).launch(root.as_ref(), gio::Cancellable::NONE, |_| {});
-            }
-        });
-        side_header.pack_start(&help);
+        // Układ Shrimp (jak Cocktail i Panko): pasek boczny z wyszukiwaniem na dole, bez nazwy programu;
+        // treść z paskiem tytułu (panel boczny, nawigacja, ścieżka, widoki, menu ☰). Funkcje Nemo zostają.
+        let side_header = adw::HeaderBar::builder().show_title(false).show_end_title_buttons(false).build();
         let search = gtk::SearchEntry::builder().placeholder_text(tr("search.short")).tooltip_text(tr("search.placeholder")).build();
         let search_box = gtk::Box::builder().margin_start(8).margin_end(8).margin_top(8).margin_bottom(8).build();
         search.set_hexpand(true);
@@ -1176,16 +1167,11 @@ impl Win {
                 }
             }));
         }));
+        // „O Filerze” otwiera stronę programu na stronie Shrimp.
         add("about", Box::new(|w| {
-            let a = adw::AboutDialog::builder()
-                .application_name("Filer")
-                .application_icon("org.shrimp.Filer")
-                .version(env!("CARGO_PKG_VERSION"))
-                .developer_name("Shrimp")
-                .license_type(gtk::License::Gpl30)
-                .comments(tr("about.comments"))
-                .build();
-            a.present(Some(&w.window));
+            if let Some(u) = crate::help::url() {
+                gtk::UriLauncher::new(&u).launch(Some(&w.window), gio::Cancellable::NONE, |_| {});
+            }
         }));
         add("zoom-in", Box::new(|w| {
             let t = w.tab();

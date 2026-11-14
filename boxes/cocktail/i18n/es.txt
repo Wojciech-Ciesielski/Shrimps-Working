@@ -116,3 +116,4 @@
 116	Instalar
 117	Instalando…
 118	Modo avanzado
+119	Barra lateral

@@ -73,3 +73,4 @@
 73	W Shrimp programy pochodzą ze sklepu Shrimp Apps: są sprawdzone, bezpieczne i aktualizują się same. Zwykle jest tam ten sam program albo dobry zamiennik.
 74	Szukaj w Shrimp Apps
 75	Zamknij
+76	Panel boczny

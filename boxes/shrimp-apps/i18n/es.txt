@@ -73,3 +73,4 @@
 73	En Shrimp, los programas vienen de la tienda Shrimp Apps: están revisados, son seguros y se actualizan solos. Normalmente allí está el mismo programa o una buena alternativa.
 74	Buscar en Shrimp Apps
 75	Cerrar
+76	Barra lateral

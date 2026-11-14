@@ -73,3 +73,4 @@
 73	Dans Shrimp, les programmes viennent de la boutique Shrimp Apps : vérifiés, sûrs et mis à jour automatiquement. On y trouve en général le même programme ou une bonne alternative.
 74	Chercher dans Shrimp Apps
 75	Fermer
+76	Barre latérale

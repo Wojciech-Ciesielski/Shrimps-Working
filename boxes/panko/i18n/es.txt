@@ -112,3 +112,16 @@
 112	No se pudo guardar la configuración.
 113	Buscar
 114	Cancelar
+115	Barra lateral
+116	Reiniciar en esta versión
+117	El equipo se iniciará una vez desde la instantánea «{name}». Nada cambia hasta que decidas: al iniciar sesión, Panko preguntará si quieres conservar esta versión. Si no arranca, el siguiente inicio vuelve al sistema actual.
+118	Restaurar de forma permanente
+119	Se está ejecutando una versión anterior
+120	Este es el sistema de la instantánea «{name}». Consérvalo como versión actual o vuelve a la más reciente.
+121	Conservar esta versión
+122	Volver a la más reciente
+123	De vuelta a la versión más reciente
+124	La versión anterior no arrancó o el equipo se apagó antes de decidir. Se está ejecutando el sistema más reciente.
+125	Aceptar
+126	Esta versión se mantendrá tras el próximo reinicio.
+127	No se pudo preparar el inicio en esta versión.

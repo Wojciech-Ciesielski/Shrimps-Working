@@ -50,6 +50,8 @@ pub trait Backend: Send + Sync {
     /// Daje bieżącemu kontu dostęp do wszystkich konfiguracji.
     fn grant_access(&self, user: &str, configs: &[Config]) -> Result<()>;
     fn reboot(&self) -> Result<()>;
+    /// Następny start (tylko jeden) z migawki `num` (systemd-boot, `panko --try-boot`).
+    fn try_boot(&self, num: u32) -> Result<()>;
     /// Po ilu dniach usuwać migawki (None = nie usuwaj).
     fn max_age(&self) -> Option<u32>;
     fn set_max_age(&self, days: Option<u32>) -> Result<()>;
@@ -296,6 +298,13 @@ impl Backend for Dbus {
         pkexec(&me, &["--set-max-age".into(), arg])
     }
 
+    fn try_boot(&self, num: u32) -> Result<()> {
+        let me = std::env::current_exe()
+            .map(|p| p.to_string_lossy().into_owned())
+            .unwrap_or_else(|_| "/usr/bin/panko".into());
+        pkexec(&me, &["--try-boot".into(), num.to_string()])
+    }
+
     fn reboot(&self) -> Result<()> {
         let p = zbus::blocking::Proxy::new(
             &self.conn,
@@ -370,6 +379,9 @@ impl Backend for Offline {
         self.configs().map(|_| ())
     }
     fn reboot(&self) -> Result<()> {
+        self.configs().map(|_| ())
+    }
+    fn try_boot(&self, _: u32) -> Result<()> {
         self.configs().map(|_| ())
     }
     fn max_age(&self) -> Option<u32> {

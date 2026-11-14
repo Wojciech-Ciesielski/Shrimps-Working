@@ -2,6 +2,7 @@
 //! (usługa `org.opensuse.Snapper`). `panko --demo` pokazuje przykładowe dane z makiety.
 
 mod backend;
+mod boot;
 mod demo;
 mod escape;
 mod help;
@@ -17,11 +18,22 @@ use adw::prelude::*;
 const APP_ID: &str = "org.shrimp.Panko";
 
 /// `panko --cleanup`: raz dziennie jako root (panko-cleanup.timer). `panko --set-max-age N|off`:
-/// zapis ustawienia jako root (pkexec z okna). Oba bez okna i bez GTK.
+/// zapis ustawienia jako root (pkexec z okna). `panko --try-boot N`: następny start z migawki N (root,
+/// pkexec z okna). Wszystkie bez okna i bez GTK.
 fn cli() -> Option<i32> {
     let args: Vec<String> = std::env::args().skip(1).collect();
     match args.first().map(String::as_str) {
         Some("--cleanup") => Some(cleanup()),
+        Some("--try-boot") => Some(match args.get(1).and_then(|v| v.parse::<u32>().ok()) {
+            Some(n) => match boot::try_boot(n) {
+                Ok(()) => 0,
+                Err(e) => {
+                    eprintln!("panko: {e}");
+                    1
+                }
+            },
+            None => 2,
+        }),
         Some("--set-max-age") => {
             let days = match args.get(1).map(String::as_str) {
                 Some("off") => None,
@@ -100,6 +112,11 @@ fn main() -> gtk::glib::ExitCode {
     if let Some(code) = cli() {
         return gtk::glib::ExitCode::from(code as u8);
     }
+    // Po zalogowaniu (autostart): pytanie po starcie w starszej wersji. Bez próby startu nic nie pokazuje.
+    let check = std::env::args().any(|a| a == "--check-boot");
+    if check && boot::pending().is_none() {
+        return gtk::glib::ExitCode::SUCCESS;
+    }
     let demo = std::env::args().any(|a| a == "--demo")
         || std::env::var("PANKO_DEMO").is_ok_and(|v| v == "1");
     let app = adw::Application::builder()
@@ -119,7 +136,11 @@ fn main() -> gtk::glib::ExitCode {
                 }
             }
         };
-        ui::build(app, backend);
+        if check {
+            ui::check_boot(app, backend);
+        } else {
+            ui::build(app, backend);
+        }
     });
     // Własne argumenty (--demo) nie trafiają do GApplication.
     app.run_with_args(&[std::env::args().next().unwrap_or_default()])

@@ -112,3 +112,16 @@
 112	Impossible d'enregistrer les paramètres.
 113	Rechercher
 114	Annuler
+115	Barre latérale
+116	Redémarrer dans cette version
+117	L’ordinateur démarrera une fois depuis l’instantané « {name} ». Rien ne change tant que vous n’avez pas décidé : après la connexion, Panko demandera s’il faut garder cette version. Si elle ne démarre pas, le démarrage suivant revient au système actuel.
+118	Restaurer définitivement
+119	Une version antérieure est en cours d’exécution
+120	Voici le système de l’instantané « {name} ». Gardez-le comme version actuelle ou revenez à la plus récente.
+121	Garder cette version
+122	Revenir à la plus récente
+123	Retour à la version la plus récente
+124	L’ancienne version n’a pas démarré ou l’ordinateur a été éteint avant votre choix. Le système le plus récent fonctionne.
+125	OK
+126	Cette version restera après le prochain redémarrage.
+127	Impossible de préparer le démarrage dans cette version.

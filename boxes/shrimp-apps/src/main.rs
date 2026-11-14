@@ -137,7 +137,6 @@ fn build(app: &adw::Application, open_id: Option<String>) {
 
     let actions = [
         ("refresh", vec!["<Control>r"]),
-        ("help", vec!["F1"]),
         ("about", vec![]),
         ("search", vec!["<Control>f"]),
         ("quit", vec!["<Control>q"]),
@@ -147,19 +146,16 @@ fn build(app: &adw::Application, open_id: Option<String>) {
         let s = shell.clone();
         a.connect_activate(move |_, _| match name {
             "refresh" => s.store.send(Cmd::Refresh { force: true }),
-            "help" => {
+            // „O Shrimp Apps” otwiera stronę programu na stronie Shrimp.
+            "about" => {
                 if let Some(u) = help_url() {
                     gtk::UriLauncher::new(&u).launch(Some(&s.window), gio::Cancellable::NONE, |_| {});
                 }
             }
-            "about" => about(&s.window),
             "search" => s.focus_search(),
             "quit" => s.window.close(),
             _ => {}
         });
-        if name == "help" {
-            a.set_enabled(help_url().is_some());
-        }
         app.add_action(&a);
         if !accels.is_empty() {
             app.set_accels_for_action(&format!("app.{name}"), &accels);
@@ -179,14 +175,3 @@ fn build(app: &adw::Application, open_id: Option<String>) {
     shell.window.present();
 }
 
-fn about(window: &adw::ApplicationWindow) {
-    let d = adw::AboutDialog::builder()
-        .application_name("Shrimp Apps")
-        .application_icon(APP_ID)
-        .developer_name("Shrimp")
-        .version(env!("CARGO_PKG_VERSION"))
-        .license_type(gtk::License::Gpl30)
-        .comments(crate::i18n::tr("about.comments"))
-        .build();
-    d.present(Some(window));
-}
