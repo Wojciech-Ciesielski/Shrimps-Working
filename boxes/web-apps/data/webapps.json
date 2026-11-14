@@ -126,7 +126,7 @@
   {"id": "codeberg", "name": "Codeberg", "url": "https://codeberg.org/", "category": "programowanie", "icon": "icons/codeberg.png"},
   {"id": "visual-studio-code", "name": "Visual Studio Code", "url": "https://vscode.dev/", "category": "programowanie", "icon_url": "https://code.visualstudio.com/assets/images/code-stable.png"},
   {"id": "codepen", "name": "CodePen", "url": "https://codepen.io/", "category": "programowanie", "icon": "icons/codepen.png"},
-  {"id": "codesandbox", "name": "CodeSandbox", "url": "https://codesandbox.io/", "category": "programowanie", "icon": "icons/codesandbox.png"},
+  {"id": "codesandbox", "name": "CodeSandbox", "url": "https://codesandbox.io/", "category": "programowanie"},
   {"id": "stackblitz", "name": "StackBlitz", "url": "https://stackblitz.com/", "category": "programowanie", "icon": "icons/stackblitz.png"},
   {"id": "google-colab", "name": "Google Colab", "url": "https://colab.research.google.com/", "category": "programowanie", "icon": "icons/google-colab.png"},
   {"id": "stack-overflow", "name": "Stack Overflow", "url": "https://stackoverflow.com/", "category": "programowanie", "icon": "icons/stack-overflow.png"},
