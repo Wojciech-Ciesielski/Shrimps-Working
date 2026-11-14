@@ -5,7 +5,7 @@ use crate::ops::{self, Kind};
 use crate::pathbar::PathBar;
 use crate::places::{Open, Sidebar};
 use crate::tab::{self, Tab};
-use crate::{bookmarks, prefs, props, settings, util};
+use crate::{prefs, props, settings, util};
 use adw::prelude::*;
 use gtk::{gdk, gio, glib};
 use std::cell::{Cell, RefCell};
@@ -26,8 +26,7 @@ pub struct Win {
     split_view: adw::OverlaySplitView,
     sidebar: Rc<Sidebar>,
     pathbar: Rc<PathBar>,
-    menubar: gtk::PopoverMenuBar,
-    statusbar: gtk::Box,
+    title: gtk::Label,
     status: gtk::Label,
     zoom: gtk::Scale,
     search: gtk::SearchEntry,
@@ -38,7 +37,6 @@ pub struct Win {
     refreshing: Cell<bool>,
 }
 
-type Refill = Box<dyn Fn()>;
 type StrAction = Box<dyn Fn(&Win, String)>;
 
 thread_local! {
@@ -182,7 +180,9 @@ impl Win {
         side_tv.set_content(Some(&sidebar.root));
         side_tv.add_bottom_bar(&search_box);
 
-        // Pasek tytułu treści: własny wiersz (adw::HeaderBar daje ścieżce tylko środek), wygląd jak pasek tytułu.
+        // Pasek tytułu treści (jak w innych aplikacjach Shrimp): panel boczny, wstecz/dalej, nazwa folderu,
+        // widoki i menu ☰. Ścieżka jest na dole okna; „W górę”, „Odśwież” i „Dom” są w menu, skrótach
+        // (Alt+↑, F5, Alt+Home) i w panelu bocznym, więc nie powtarzają się w pasku.
         let side_btn = gtk::ToggleButton::builder().icon_name("sidebar-show-symbolic").tooltip_text(tr("view.sidebar")).css_classes(["flat"]).build();
         let nav = gtk::Box::builder().css_classes(["linked"]).build();
         for b in [&back, &forward, &up, &reload, &home_b] {
@@ -194,11 +194,8 @@ impl Win {
         row.append(&gtk::WindowControls::new(gtk::PackType::Start));
         row.append(&side_btn);
         row.append(&nav);
-        row.append(&up);
-        row.append(&reload);
-        row.append(&home_b);
-        pathbar.root.set_hexpand(true);
-        row.append(&pathbar.root);
+        let title = gtk::Label::builder().hexpand(true).ellipsize(gtk::pango::EllipsizeMode::Middle).css_classes(["heading"]).build();
+        row.append(&title);
         let views = gtk::Box::builder().css_classes(["linked"]).build();
         for (v, icon, tip) in [("icons", "view-grid-symbolic", tr("view.icons")), ("list", "view-list-symbolic", tr("view.list")), ("compact", "view-list-bullet-symbolic", tr("view.compact"))] {
             let b = gtk::ToggleButton::builder().icon_name(icon).tooltip_text(tip).action_name("win.view").action_target(&v.to_variant()).css_classes(["flat"]).build();
@@ -210,23 +207,24 @@ impl Win {
         row.append(&gtk::WindowControls::new(gtk::PackType::End));
         let header = gtk::WindowHandle::builder().child(&row).build();
 
-        let menubar = gtk::PopoverMenuBar::from_model(Some(&Self::menu_model()));
         let split = gtk::Paned::builder().orientation(gtk::Orientation::Horizontal).wide_handle(true).shrink_start_child(false).shrink_end_child(false).build();
 
-        let status = gtk::Label::builder().hexpand(true).xalign(0.0).ellipsize(gtk::pango::EllipsizeMode::Middle).css_classes(["caption", "dim-label"]).build();
+        // Dół okna: ścieżka Shrimp (kliknięcie w pusty pasek = wpisanie ścieżki), liczba elementów, powiększenie.
+        let status = gtk::Label::builder().xalign(1.0).ellipsize(gtk::pango::EllipsizeMode::Middle).css_classes(["caption", "dim-label"]).build();
         let zoom = gtk::Scale::with_range(gtk::Orientation::Horizontal, 0.0, 6.0, 1.0);
         zoom.set_draw_value(false);
-        zoom.set_width_request(120);
+        zoom.set_width_request(110);
         zoom.set_tooltip_text(Some(tr("view.zoom")));
-        let statusbar = gtk::Box::builder().spacing(6).margin_start(18).margin_end(12).margin_top(4).margin_bottom(4).build();
-        statusbar.append(&status);
-        statusbar.append(&zoom);
+        let foot = gtk::Box::builder().spacing(8).margin_start(6).margin_end(12).margin_top(4).margin_bottom(4).build();
+        pathbar.root.set_hexpand(true);
+        foot.append(&pathbar.root);
+        foot.append(&status);
+        foot.append(&zoom);
 
         let content = adw::ToolbarView::new();
         content.add_top_bar(&header);
-        content.add_top_bar(&menubar);
         content.set_content(Some(&split));
-        content.add_bottom_bar(&statusbar);
+        content.add_bottom_bar(&foot);
         let split_view = adw::OverlaySplitView::builder().sidebar(&side_tv).content(&content).min_sidebar_width(180.0).max_sidebar_width(s.sidebar_width.max(180) as f64).build();
         split_view.bind_property("show-sidebar", &side_btn, "active").bidirectional().sync_create().build();
         // Wąskie okno: panel boczny nad treścią (jak w innych aplikacjach Shrimp).
@@ -243,8 +241,7 @@ impl Win {
             split_view,
             sidebar,
             pathbar,
-            menubar,
-            statusbar,
+            title,
             status,
             zoom,
             search,
@@ -430,7 +427,9 @@ impl Win {
         let t = self.tab();
         let loc = t.location();
         let s = settings::get();
-        self.window.set_title(Some(&if s.full_path_title { loc.parse_name().to_string() } else { util::display_name(&loc) }));
+        let name = if s.full_path_title { loc.parse_name().to_string() } else { util::display_name(&loc) };
+        self.window.set_title(Some(&name));
+        self.title.set_label(&name);
         self.pathbar.set(&loc);
         self.sidebar.highlight(&loc);
         self.back.set_sensitive(t.can_back());
@@ -700,125 +699,26 @@ impl Win {
 
     // ---------- menu ----------
 
-    /// Menu ☰ (styl Shrimp): to samo co pasek menu Nemo, w jednym przycisku.
+    /// Menu ☰ (styl Shrimp): to, czego nie ma w pasku ani w menu pod prawym przyciskiem.
     fn main_menu() -> gio::Menu {
-        let bar = Self::menu_model();
-        let m = gio::Menu::new();
-        let a = gio::Menu::new();
-        a.append(Some(tr("menu.new_window")), Some("win.new-window"));
-        a.append(Some(tr("menu.new_tab")), Some("win.new-tab"));
-        a.append(Some(tr("menu.connect")), Some("win.connect"));
-        m.append_section(None, &a);
-        let b = gio::Menu::new();
-        for (i, label) in [(1, tr("menu.edit_plain")), (2, tr("menu.view_plain")), (3, tr("menu.go_plain")), (4, tr("menu.bookmarks_plain"))] {
-            if let Some(sub) = bar.item_link(i, "submenu").and_downcast::<gio::Menu>() {
-                b.append_submenu(Some(label), &sub);
-            }
-        }
-        m.append_section(None, &b);
-        let c = gio::Menu::new();
-        c.append(Some(tr("menu.preferences")), Some("win.preferences"));
-        c.append(Some(tr("menu.about")), Some("win.about"));
-        m.append_section(None, &c);
-        m
-    }
-
-    fn menu_model() -> gio::Menu {
         let item = |m: &gio::Menu, label: &str, action: &str| m.append(Some(label), Some(action));
-        let bar = gio::Menu::new();
-
-        let file = gio::Menu::new();
+        let m = gio::Menu::new();
         let s = gio::Menu::new();
-        item(&s, tr("menu.new_tab"), "win.new-tab");
         item(&s, tr("menu.new_window"), "win.new-window");
+        item(&s, tr("menu.new_tab"), "win.new-tab");
         item(&s, tr("menu.new_folder"), "win.new-folder");
-        file.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("menu.connect"), "win.connect");
-        item(&s, tr("menu.properties"), "win.properties");
-        file.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("menu.close_tab"), "win.close-tab");
-        item(&s, tr("menu.close_window"), "window.close");
-        item(&s, tr("menu.quit"), "app.quit");
-        file.append_section(None, &s);
-        bar.append_submenu(Some(tr("menu.file")), &file);
-
-        let edit = gio::Menu::new();
-        let s = gio::Menu::new();
-        item(&s, tr("menu.undo"), "win.undo");
-        edit.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("menu.cut"), "win.cut");
-        item(&s, tr("menu.copy"), "win.copy");
-        item(&s, tr("menu.paste"), "win.paste");
-        edit.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("menu.select_all"), "win.select-all");
-        item(&s, tr("menu.select_pattern"), "win.select-pattern");
-        item(&s, tr("menu.invert"), "win.invert");
-        edit.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("menu.rename"), "win.rename");
-        item(&s, tr("action.trash"), "win.trash");
-        item(&s, tr("menu.delete"), "win.delete");
-        edit.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("menu.preferences"), "win.preferences");
-        edit.append_section(None, &s);
-        bar.append_submenu(Some(tr("menu.edit")), &edit);
-
-        let view = gio::Menu::new();
-        let s = gio::Menu::new();
-        item(&s, tr("go.reload"), "win.reload");
-        view.append_section(None, &s);
+        m.append_section(None, &s);
         let s = gio::Menu::new();
         item(&s, tr("view.hidden"), "win.show-hidden");
-        item(&s, tr("view.menubar"), "win.show-menubar");
-        item(&s, tr("view.sidebar"), "win.show-sidebar");
-        item(&s, tr("view.statusbar"), "win.show-statusbar");
         item(&s, tr("view.split"), "win.split");
-        item(&s, tr("view.location"), "win.location");
-        view.append_section(None, &s);
-        view.append_section(None, &Self::view_section());
+        s.append_submenu(Some(tr("sort.title")), &Self::sort_menu());
+        m.append_section(None, &s);
         let s = gio::Menu::new();
-        item(&s, tr("view.zoom_in"), "win.zoom-in");
-        item(&s, tr("view.zoom_out"), "win.zoom-out");
-        item(&s, tr("view.zoom_normal"), "win.zoom-normal");
-        view.append_section(None, &s);
-        view.append_submenu(Some(tr("sort.title")), &Self::sort_menu());
-        bar.append_submenu(Some(tr("menu.view")), &view);
-
-        let go = gio::Menu::new();
-        let s = gio::Menu::new();
-        item(&s, tr("go.back"), "win.back");
-        item(&s, tr("go.forward"), "win.forward");
-        item(&s, tr("go.up"), "win.up");
-        go.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("go.home"), "win.home");
-        item(&s, tr("place.computer"), "win.go::computer:///");
-        item(&s, tr("place.recent"), "win.go::recent:///");
-        item(&s, tr("place.trash"), "win.go::trash:///");
-        item(&s, tr("place.network"), "win.go::network:///");
-        go.append_section(None, &s);
-        let s = gio::Menu::new();
-        item(&s, tr("view.location"), "win.location");
-        item(&s, tr("go.search"), "win.search");
-        go.append_section(None, &s);
-        bar.append_submenu(Some(tr("menu.go")), &go);
-
-        let bm = gio::Menu::new();
-        let s = gio::Menu::new();
-        item(&s, tr("bookmarks.add"), "win.bookmark");
-        item(&s, tr("bookmarks.edit"), "win.edit-bookmarks");
-        bm.append_section(None, &s);
-        bar.append_submenu(Some(tr("menu.bookmarks")), &bm);
-
-        let help = gio::Menu::new();
-        item(&help, tr("menu.about"), "win.about");
-        bar.append_submenu(Some(tr("menu.help")), &help);
-        bar
+        item(&s, tr("menu.connect"), "win.connect");
+        item(&s, tr("menu.preferences"), "win.preferences");
+        item(&s, tr("menu.about"), "win.about");
+        m.append_section(None, &s);
+        m
     }
 
     fn view_section() -> gio::Menu {
@@ -1015,14 +915,10 @@ impl Win {
 
     fn apply_settings(&self) {
         let s = settings::get();
-        self.menubar.set_visible(s.show_menubar);
-        self.statusbar.set_visible(s.show_statusbar);
         self.split_view.set_show_sidebar(s.show_sidebar);
         for (name, v) in [
             ("show-hidden", s.show_hidden),
-            ("show-menubar", s.show_menubar),
             ("show-sidebar", s.show_sidebar),
-            ("show-statusbar", s.show_statusbar),
             ("reverse", s.sort_reverse),
             ("folders-first", s.folders_first),
         ] {
@@ -1038,49 +934,6 @@ impl Win {
         }
         self.refresh();
     }
-
-    fn edit_bookmarks(&self) {
-        let list = gtk::ListBox::builder().css_classes(["boxed-list"]).selection_mode(gtk::SelectionMode::None).build();
-        let fill: Rc<RefCell<Option<Refill>>> = Rc::new(RefCell::new(None));
-        let l2 = list.clone();
-        let f2 = fill.clone();
-        *fill.borrow_mut() = Some(Box::new(move || {
-            while let Some(c) = l2.first_child() {
-                l2.remove(&c);
-            }
-            for b in bookmarks::load() {
-                let r = adw::EntryRow::builder().title(gio::File::for_uri(&b.uri).parse_name()).text(b.name.clone().unwrap_or_default()).show_apply_button(true).build();
-                let uri = b.uri.clone();
-                r.connect_apply(move |e| bookmarks::rename(&uri, &e.text()));
-                let del = gtk::Button::builder().icon_name("user-trash-symbolic").valign(gtk::Align::Center).css_classes(["flat"]).tooltip_text(tr("side.remove")).build();
-                let uri = b.uri.clone();
-                let f3 = f2.clone();
-                del.connect_clicked(move |_| {
-                    bookmarks::remove(&uri);
-                    if let Some(f) = f3.borrow().as_ref() {
-                        f();
-                    }
-                });
-                r.add_suffix(&del);
-                l2.append(&r);
-            }
-        }));
-        if let Some(f) = fill.borrow().as_ref() {
-            f();
-        }
-        let page = adw::PreferencesPage::new();
-        let g = adw::PreferencesGroup::builder().description(tr("bookmarks.edit_hint")).build();
-        g.add(&list);
-        page.add(&g);
-        let d = adw::Dialog::builder().title(tr("bookmarks.edit")).content_width(520).content_height(420).build();
-        let tv = adw::ToolbarView::new();
-        tv.add_top_bar(&adw::HeaderBar::new());
-        tv.set_content(Some(&page));
-        d.set_child(Some(&tv));
-        d.present(Some(&self.window));
-    }
-
-    // ---------- akcje ----------
 
     fn actions(&self) {
         let win = &self.window;
@@ -1315,11 +1168,6 @@ impl Win {
             });
             d.present(Some(&w.window));
         }));
-        add("bookmark", Box::new(|w| {
-            bookmarks::add(&w.tab().location());
-            w.sidebar.rebuild();
-        }));
-        add("edit-bookmarks", Box::new(|w| w.edit_bookmarks()));
         add("preferences", Box::new(move |w| {
             let me = w.weak();
             prefs::show(&par(w), Rc::new(move || {
@@ -1383,9 +1231,7 @@ impl Win {
             w.settings_changed();
         }));
         toggle("show-hidden", |s, v| s.show_hidden = v, s.show_hidden);
-        toggle("show-menubar", |s, v| s.show_menubar = v, s.show_menubar);
         toggle("show-sidebar", |s, v| s.show_sidebar = v, s.show_sidebar);
-        toggle("show-statusbar", |s, v| s.show_statusbar = v, s.show_statusbar);
         toggle("reverse", |s, v| s.sort_reverse = v, s.sort_reverse);
         toggle("folders-first", |s, v| s.folders_first = v, s.folders_first);
     }
@@ -1505,8 +1351,6 @@ pub fn accels(app: &adw::Application) {
         ("win.zoom-in", &["<Ctrl>plus", "<Ctrl>equal", "<Ctrl>KP_Add"]),
         ("win.zoom-out", &["<Ctrl>minus", "<Ctrl>KP_Subtract"]),
         ("win.zoom-normal", &["<Ctrl>0", "<Ctrl>KP_0"]),
-        ("win.bookmark", &["<Ctrl>d"]),
-        ("win.edit-bookmarks", &["<Ctrl>b"]),
         ("win.terminal", &["F4"]),
         ("win.open-tab", &["<Ctrl>Return"]),
         ("window.close", &["<Ctrl><Shift>w"]),

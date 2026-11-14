@@ -1,5 +1,6 @@
-//! Okno Cherry: jeden pionowy pasek po lewej (pomoc, nowa karta, ustawienia, lista kart, na dole notatki
-//! i historia), a obok terminal (VTE, zsh) na całą wysokość okna, bez paska u góry i bez kart poziomych.
+//! Okno Cherry: pionowy pasek po lewej (pomoc u góry, lista kart, na dole nowa karta i historia), a obok
+//! terminal (VTE, zsh) z paskiem tytułu, w którym po prawej są ustawienia i przyciski okna, jak w innych
+//! aplikacjach Shrimp. Bez kart poziomych.
 //! Skróty jak w Windows: Ctrl+C kopiuje zaznaczenie (bez zaznaczenia przerywa), Ctrl+V wkleja, menu pod
 //! prawym przyciskiem; edycję wpisywanej komendy (Shift+strzałki, Ctrl+A, Ctrl+Z…) dokłada .zshrc Cherry.
 //! Historię komend zapisuje sam zsh (dokładnie to, co wykonał), Cherry ją tylko pokazuje.
@@ -12,7 +13,7 @@ use std::rc::{Rc, Weak};
 use vte::prelude::*;
 
 use crate::i18n::{tr, trf};
-use crate::store::{self, Data, Note};
+use crate::store::{self, Data};
 
 const CSS: &str = r#"
 .cherry-side { background: @sidebar_bg_color; }
@@ -40,8 +41,6 @@ pub struct App {
     window: adw::ApplicationWindow,
     view: adw::TabView,
     side_tabs: gtk::ListBox,
-    notes_btn: gtk::MenuButton,
-    notes_list: gtk::ListBox,
     hist_btn: gtk::MenuButton,
     hist_list: gtk::ListBox,
     hist_search: gtk::SearchEntry,
@@ -123,8 +122,7 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
     view.set_hexpand(true);
     view.set_vexpand(true);
 
-    // Pasek boczny: pomoc po lewej, nowa karta, ustawienia i przyciski okna po prawej (to jedyny pasek
-    // tytułu okna, terminal sięga od góry do dołu).
+    // Pasek boczny: u góry tylko pomoc (przyciski okna są w prawym górnym rogu, nad terminalem).
     let header = adw::HeaderBar::new();
     header.set_show_title(false);
     let help = gtk::Button::builder()
@@ -133,33 +131,14 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
         .build();
     help.set_sensitive(crate::help::url().is_some());
     header.pack_start(&help);
-    let menu_btn = gtk::MenuButton::builder()
-        .icon_name("open-menu-symbolic")
-        .tooltip_text(tr("settings"))
-        .build();
-    // Przyciski okna: pasek tytułu w panelu bocznym sam ich nie pokazuje (obok jest treść).
-    header.set_show_end_title_buttons(false);
-    header.pack_end(&gtk::WindowControls::new(gtk::PackType::End));
-    header.pack_end(&menu_btn);
-    let new_tab = gtk::Button::builder()
-        .icon_name("tab-new-symbolic")
-        .tooltip_text(tr("tab.new"))
-        .build();
-    header.pack_end(&new_tab);
 
     let side_tabs = gtk::ListBox::builder()
         .selection_mode(gtk::SelectionMode::Single)
         .build();
     side_tabs.add_css_class("navigation-sidebar");
 
-    // Na dole paska, po prawej: notatki i historia (okienka nad przyciskiem).
-    let notes_list = list();
-    let notes_add = icon_button("list-add-symbolic", tr("note.new"));
-    let nb = gtk::Box::new(gtk::Orientation::Vertical, 6);
-    nb.append(&heading_with(tr("tool.notes"), &notes_add));
-    nb.append(&scroll(&notes_list));
-    let notes_btn = pop_button("document-edit-symbolic", tr("tool.notes"), &nb);
-
+    // Na dole paska: nowa karta po lewej, historia po prawej (okienko nad przyciskiem).
+    let new_tab = icon_button("list-add-symbolic", tr("tab.new"));
     let hist_list = list();
     let hist_clear = icon_button("user-trash-symbolic", tr("hist.clear"));
     let hist_search = gtk::SearchEntry::builder()
@@ -171,11 +150,10 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
     hb.append(&scroll(&hist_list));
     let hist_btn = pop_button("document-open-recent-symbolic", tr("tool.history"), &hb);
 
-    let foot = gtk::Box::new(gtk::Orientation::Horizontal, 4);
+    let foot = gtk::CenterBox::new();
     foot.add_css_class("cherry-foot");
-    foot.set_halign(gtk::Align::End);
-    foot.append(&notes_btn);
-    foot.append(&hist_btn);
+    foot.set_start_widget(Some(&new_tab));
+    foot.set_end_widget(Some(&hist_btn));
 
     let side = adw::ToolbarView::new();
     side.add_css_class("cherry-side");
@@ -183,10 +161,22 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
     side.set_content(Some(&scroll(&side_tabs)));
     side.add_bottom_bar(&foot);
 
-    // Pasek boczny o stałej szerokości (pasek tytułu sam z siebie chciałby więcej), terminal obok.
+    // Terminal z własnym paskiem tytułu: ustawienia i przyciski okna w prawym górnym rogu okna.
+    let top = adw::HeaderBar::new();
+    top.set_show_title(false);
+    let menu_btn = gtk::MenuButton::builder()
+        .icon_name("open-menu-symbolic")
+        .tooltip_text(tr("settings"))
+        .build();
+    top.pack_end(&menu_btn);
+    let main = adw::ToolbarView::new();
+    main.add_top_bar(&top);
+    main.set_content(Some(&view));
+
+    // Pasek boczny o stałej szerokości, terminal obok.
     let body = adw::OverlaySplitView::builder()
         .sidebar(&side)
-        .content(&view)
+        .content(&main)
         .min_sidebar_width(SIDE_WIDTH)
         .max_sidebar_width(SIDE_WIDTH)
         .collapsed(false)
@@ -199,8 +189,6 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
         window: window.clone(),
         view: view.clone(),
         side_tabs: side_tabs.clone(),
-        notes_btn,
-        notes_list,
         hist_btn,
         hist_list,
         hist_search: hist_search.clone(),
@@ -222,13 +210,6 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
     new_tab.connect_clicked(move |_| {
         if let Some(a) = w.upgrade() {
             a.new_tab_here()
-        }
-    });
-    let w = Rc::downgrade(&me);
-    notes_add.connect_clicked(move |_| {
-        if let Some(a) = w.upgrade() {
-            a.notes_btn.popdown();
-            a.note_dialog()
         }
     });
     let w = Rc::downgrade(&me);
@@ -300,7 +281,6 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
         });
     }
 
-    me.refresh_notes();
     me.ingest_history();
     me.add_tab(dir.as_deref().and_then(|d| d.to_str()));
     WINDOWS.with(|w| {
@@ -357,7 +337,7 @@ fn icon_button(icon: &str, tip: &str) -> gtk::Button {
     b
 }
 
-/// Przycisk z ikoną otwierający okienko (notatki, historia) nad sobą.
+/// Przycisk z ikoną otwierający okienko (historia) nad sobą.
 fn pop_button(icon: &str, tip: &str, content: &gtk::Box) -> gtk::MenuButton {
     content.add_css_class("cherry-pop");
     content.set_size_request(340, 420);
@@ -769,38 +749,6 @@ impl App {
         }
     }
 
-    fn refresh_notes(&self) {
-        clear(&self.notes_list);
-        let notes = self.data.borrow().notes.clone();
-        for (i, n) in notes.iter().enumerate() {
-            let (row, hb) = two_line_row(&n.cmd, &n.text);
-            let del = icon_button("user-trash-symbolic", tr("delete"));
-            del.set_valign(gtk::Align::Center);
-            hb.append(&del);
-            let w = Rc::downgrade(&self.me());
-            del.connect_clicked(move |_| {
-                if let Some(a) = w.upgrade() {
-                    if i < a.data.borrow().notes.len() {
-                        a.data.borrow_mut().notes.remove(i);
-                    }
-                    a.save();
-                    a.refresh_notes();
-                }
-            });
-            self.notes_list.append(&row);
-        }
-        let w = Rc::downgrade(&self.me());
-        reconnect_activate(&self.notes_list, move |i| {
-            if let Some(a) = w.upgrade() {
-                let c = a.data.borrow().notes.get(i).map(|n| n.cmd.clone());
-                if let Some(c) = c {
-                    a.notes_btn.popdown();
-                    a.insert(&c)
-                }
-            }
-        });
-    }
-
     fn refresh_history(&self) {
         clear(&self.hist_list);
         let q = self.hist_search.text().to_lowercase();
@@ -846,84 +794,6 @@ impl App {
                 a.insert(c)
             }
         });
-    }
-
-    fn note_dialog(&self) {
-        let cmd = gtk::Entry::builder()
-            .placeholder_text(tr("note.cmd"))
-            .build();
-        cmd.add_css_class("cherry-tok");
-        let text = gtk::Entry::builder()
-            .placeholder_text(tr("note.text"))
-            .build();
-        let sugg = list();
-        let b = gtk::Box::new(gtk::Orientation::Vertical, 8);
-        b.append(&cmd);
-        b.append(&sugg);
-        b.append(&text);
-        // Podpowiedzi: komendy z historii zawierające wpisany tekst.
-        let history: Vec<String> = self
-            .data
-            .borrow()
-            .history
-            .iter()
-            .map(|h| h.cmd.clone())
-            .collect();
-        let c2 = cmd.clone();
-        let s2 = sugg.clone();
-        cmd.connect_changed(move |e| {
-            clear(&s2);
-            let q = e.text().trim().to_lowercase();
-            if q.is_empty() {
-                return;
-            }
-            let mut seen: Vec<&String> = Vec::new();
-            for s in &history {
-                if s.to_lowercase().contains(&q) && s != e.text().trim() && !seen.contains(&s) {
-                    seen.push(s);
-                }
-                if seen.len() == 4 {
-                    break;
-                }
-            }
-            for s in seen {
-                let l = gtk::Label::builder().label(s).xalign(0.0).build();
-                l.add_css_class("cherry-tok");
-                let row = gtk::ListBoxRow::builder().child(&l).build();
-                let c3 = c2.clone();
-                let s3 = s.clone();
-                let click = gtk::GestureClick::new();
-                click.connect_released(move |_, _, _, _| {
-                    c3.set_text(&s3);
-                    c3.set_position(-1);
-                });
-                row.add_controller(click);
-                s2.append(&row);
-            }
-        });
-        let d = adw::AlertDialog::builder()
-            .heading(tr("note.new"))
-            .extra_child(&b)
-            .build();
-        d.add_responses(&[("cancel", tr("cancel")), ("save", tr("save"))]);
-        d.set_response_appearance("save", adw::ResponseAppearance::Suggested);
-        d.set_default_response(Some("save"));
-        let w = Rc::downgrade(&self.me());
-        d.connect_response(None, move |_, r| {
-            let Some(a) = w.upgrade() else { return };
-            let c = cmd.text().trim().to_owned();
-            if r != "save" || c.is_empty() {
-                return;
-            }
-            let t = text.text().trim().to_owned();
-            a.data
-                .borrow_mut()
-                .notes
-                .insert(0, Note { cmd: c, text: t });
-            a.save();
-            a.refresh_notes();
-        });
-        d.present(Some(&self.window));
     }
 
     /// Pionowa lista kart: tytuł (folder), pod nim ścieżka i gałąź gita, krzyżyk.

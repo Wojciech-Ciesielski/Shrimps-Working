@@ -1,6 +1,7 @@
-//! Terminal: bardzo prosty wiersz poleceń ze stałym początkiem `transactional-update pkg install`.
-//! Użytkownik wpisuje tylko nazwy pakietów; polecenie idzie przez pomocnika (pkexec), a wyjście
-//! pojawia się na bieżąco nad wierszem.
+//! Instalowanie: w trybie prostym pytanie „Co chcesz zainstalować?” i pole na środku, bez wyjścia
+//! polecenia. W trybie zaawansowanym (menu ☰) na górze wiersz ze stałym początkiem
+//! `transactional-update pkg install`, a pod nim wyjście na bieżąco. Polecenie idzie przez pomocnika
+//! (pkexec); użytkownik wpisuje tylko nazwy pakietów.
 
 use adw::prelude::*;
 use gtk::{gio, glib};
@@ -22,15 +23,20 @@ pub fn parse_names(line: &str) -> Result<Vec<String>, String> {
 }
 
 pub struct Terminal {
-    pub widget: gtk::Box,
+    pub widget: gtk::Stack,
     app: Rc<App>,
     out: gtk::TextView,
     entry: gtk::Entry,
+    simple_entry: gtk::Entry,
+    simple_button: gtk::Button,
+    simple_status: gtk::Label,
+    spinner: gtk::Spinner,
 }
 
 impl Terminal {
     pub fn new(app: &Rc<App>) -> Rc<Self> {
-        let widget = gtk::Box::new(gtk::Orientation::Vertical, 0);
+        // Tryb zaawansowany: wiersz polecenia na górze, wyjście pod nim.
+        let advanced = gtk::Box::new(gtk::Orientation::Vertical, 0);
         let out = gtk::TextView::new();
         out.set_editable(false);
         out.set_cursor_visible(false);
@@ -52,22 +58,80 @@ impl Terminal {
         entry.set_placeholder_text(Some(crate::i18n::tr("terminal.placeholder")));
         line.append(&prompt);
         line.append(&entry);
-        widget.append(&sw);
-        widget.append(&gtk::Separator::new(gtk::Orientation::Horizontal));
-        widget.append(&line);
+        advanced.append(&line);
+        advanced.append(&gtk::Separator::new(gtk::Orientation::Horizontal));
+        advanced.append(&sw);
 
-        let t = Rc::new(Terminal { widget, app: app.clone(), out, entry });
+        // Tryb prosty: krótkie pytanie i pole na środku, wynik jednym zdaniem pod spodem.
+        let simple = gtk::Box::new(gtk::Orientation::Vertical, 18);
+        simple.set_valign(gtk::Align::Center);
+        simple.set_halign(gtk::Align::Center);
+        simple.set_margin_start(24);
+        simple.set_margin_end(24);
+        let question = gtk::Label::new(Some(crate::i18n::tr("install.question")));
+        question.add_css_class("title-2");
+        question.set_wrap(true);
+        question.set_justify(gtk::Justification::Center);
+        let simple_entry = gtk::Entry::new();
+        simple_entry.set_width_request(360);
+        simple_entry.update_property(&[gtk::accessible::Property::Label(crate::i18n::tr("install.question"))]);
+        let simple_button = gtk::Button::with_label(crate::i18n::tr("install.button"));
+        simple_button.add_css_class("suggested-action");
+        simple_button.add_css_class("pill");
+        simple_button.add_css_class("cocktail-main");
+        simple_button.set_halign(gtk::Align::Center);
+        let spinner = gtk::Spinner::new();
+        spinner.set_visible(false);
+        let simple_status = gtk::Label::new(None);
+        simple_status.add_css_class("dim-label");
+        simple_status.set_wrap(true);
+        simple_status.set_justify(gtk::Justification::Center);
+        simple_status.set_max_width_chars(48);
+        simple.append(&question);
+        simple.append(&simple_entry);
+        simple.append(&simple_button);
+        simple.append(&spinner);
+        simple.append(&simple_status);
+
+        let widget = gtk::Stack::new();
+        widget.add_named(&simple, Some("simple"));
+        widget.add_named(&advanced, Some("advanced"));
+        widget.set_visible_child_name(if crate::app::advanced() { "advanced" } else { "simple" });
+
+        let t = Rc::new(Terminal { widget, app: app.clone(), out, entry, simple_entry, simple_button, simple_status, spinner });
         let weak = Rc::downgrade(&t);
-        t.entry.connect_activate(move |e| {
+        let go = move |text: String| {
             let Some(t) = weak.upgrade() else { return };
-            let text = e.text().to_string();
             glib::spawn_future_local(async move { t.run(&text).await });
-        });
+        };
+        let g = go.clone();
+        t.entry.connect_activate(move |e| g(e.text().to_string()));
+        let g = go.clone();
+        t.simple_entry.connect_activate(move |e| g(e.text().to_string()));
+        let e = t.simple_entry.clone();
+        t.simple_button.connect_clicked(move |_| go(e.text().to_string()));
         t
     }
 
+    /// Przełącza tryb prosty i zaawansowany (wyjście polecenia zostaje, widać je po przełączeniu).
+    pub fn set_advanced(&self, on: bool) {
+        self.widget.set_visible_child_name(if on { "advanced" } else { "simple" });
+    }
+
     pub fn focus(&self) {
-        self.entry.grab_focus();
+        if self.widget.visible_child_name().as_deref() == Some("advanced") {
+            self.entry.grab_focus();
+        } else {
+            self.simple_entry.grab_focus();
+        }
+    }
+
+    fn busy(&self, on: bool) {
+        self.entry.set_sensitive(!on);
+        self.simple_entry.set_sensitive(!on);
+        self.simple_button.set_sensitive(!on);
+        self.spinner.set_visible(on);
+        self.spinner.set_spinning(on);
     }
 
     fn print(&self, text: &str) {
@@ -84,7 +148,9 @@ impl Terminal {
             Ok(n) if n.is_empty() => return,
             Ok(n) => n,
             Err(bad) => {
-                self.print(&format!("\n{}\n", crate::i18n::trf("terminal.bad-name", &[("name", &bad)])));
+                let msg = crate::i18n::trf("terminal.bad-name", &[("name", &bad)]);
+                self.print(&format!("\n{msg}\n"));
+                self.simple_status.set_label(&msg);
                 return;
             }
         };
@@ -93,13 +159,17 @@ impl Terminal {
             return;
         }
         self.app.busy.set(true);
-        self.entry.set_sensitive(false);
+        self.busy(true);
         self.entry.set_text("");
+        self.simple_status.set_label(crate::i18n::tr("install.working"));
         self.print(&format!("\n$ {PREFIX} {}\n", names.join(" ")));
-        self.stream(&names).await;
+        let code = self.stream(&names).await;
+        if code == 0 {
+            self.simple_entry.set_text("");
+        }
         self.app.busy.set(false);
-        self.entry.set_sensitive(true);
-        self.entry.grab_focus();
+        self.busy(false);
+        self.focus();
     }
 
     /// Uruchamia pomocnika i dopisuje jego wyjście wiersz po wierszu. Zwraca kod wyjścia.
@@ -119,6 +189,7 @@ impl Terminal {
             Ok(p) => p,
             Err(e) => {
                 self.print(&format!("{}\n", e.message()));
+                self.simple_status.set_label(e.message());
                 return -1;
             }
         };
@@ -138,6 +209,7 @@ impl Terminal {
         match code {
             0 => {
                 self.print(&format!("{}\n", crate::i18n::tr("terminal.done")));
+                self.simple_status.set_label(crate::i18n::tr(if reboot { "terminal.reboot" } else { "terminal.done" }));
                 if reboot {
                     self.print(&format!("{}\n", crate::i18n::tr("terminal.reboot")));
                     let mut pending = self.app.pending.borrow_mut();
@@ -150,8 +222,12 @@ impl Terminal {
                 self.app.changed();
             }
             // Okno hasła zamknięte.
-            126 | 127 => {}
-            c => self.print(&format!("{}\n", crate::i18n::trf("terminal.failed", &[("code", &c.to_string())]))),
+            126 | 127 => self.simple_status.set_label(""),
+            c => {
+                let msg = crate::i18n::trf("terminal.failed", &[("code", &c.to_string())]);
+                self.print(&format!("{msg}\n"));
+                self.simple_status.set_label(&msg);
+            }
         }
         code
     }

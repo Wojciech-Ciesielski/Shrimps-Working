@@ -221,3 +221,27 @@ pub fn reboot() {
         let _ = run(&["systemctl", "reboot"]).await;
     });
 }
+
+/// Plik ustawień Cocktail (`~/.config/cocktail/settings.ini`).
+fn settings_file() -> std::path::PathBuf {
+    glib::user_config_dir().join("cocktail").join("settings.ini")
+}
+
+/// Tryb zaawansowany (menu ☰): Instalowanie pokazuje polecenie i jego wyjście. Domyślnie wyłączony.
+pub fn advanced() -> bool {
+    let k = glib::KeyFile::new();
+    k.load_from_file(settings_file(), glib::KeyFileFlags::NONE).is_ok() && k.boolean("cocktail", "advanced").unwrap_or(false)
+}
+
+pub fn set_advanced(on: bool) {
+    let k = glib::KeyFile::new();
+    let f = settings_file();
+    let _ = k.load_from_file(&f, glib::KeyFileFlags::KEEP_COMMENTS);
+    k.set_boolean("cocktail", "advanced", on);
+    if let Some(d) = f.parent() {
+        let _ = std::fs::create_dir_all(d);
+    }
+    if let Err(e) = k.save_to_file(&f) {
+        eprintln!("cocktail: nie można zapisać ustawień: {e}");
+    }
+}

@@ -111,3 +111,8 @@
 111	Terminé.
 112	Cela n’a pas fonctionné (code {code}).
 113	Le paquet sera prêt après un redémarrage.
+114	Installer
+115	Que veux-tu installer ?
+116	Installer
+117	Installation…
+118	Mode avancé

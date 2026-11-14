@@ -2,7 +2,6 @@
 //! widoki ikon/listy/kompaktowy, operacje z kolejką i cofaniem, kosz, miniatury, skrypty Nemo),
 //! napisany od nowa w Rust na GTK4 + libadwaita, z ikonami motywu (MoreWaita w Shrimp).
 
-mod bookmarks;
 mod help;
 mod i18n;
 mod ops;
@@ -24,7 +23,6 @@ const APP_ID: &str = "org.shrimp.Filer";
 /// Źródła do testu `every_used_key_exists` (i18n).
 #[cfg(test)]
 pub const SOURCES: &[(&str, &str)] = &[
-    ("bookmarks.rs", include_str!("bookmarks.rs")),
     ("ops.rs", include_str!("ops.rs")),
     ("pathbar.rs", include_str!("pathbar.rs")),
     ("places.rs", include_str!("places.rs")),
