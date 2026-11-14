@@ -1,0 +1,14 @@
+1	Wstecz
+2	Dalej
+3	Odśwież
+4	Menu główne
+5	Otwórz w przeglądarce
+6	Kopiuj adres
+7	Powiększ
+8	Pomniejsz
+9	Pozwolić aplikacji {name} używać kamery albo mikrofonu?
+10	Pozwól
+11	Nie pozwalaj
+12	Pobrano do folderu Pobrane: {file}
+13	Skopiowano adres
+14	Brak połączenia z internetem

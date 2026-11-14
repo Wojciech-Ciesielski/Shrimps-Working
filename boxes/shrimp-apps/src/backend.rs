@@ -209,7 +209,7 @@ impl Worker {
                 net_error = Some(e.to_string());
             }
         }
-        match self.appstream_dir(&remote).ok_or_else(|| crate::i18n::tr("error.no-catalog").to_string()).and_then(|d| catalog::load_dir(&d, &self.langs)) {
+        match self.appstream_dir(&remote).ok_or_else(|| crate::i18n::tr("error.no-catalog").to_string()).and_then(|d| catalog::load_dir(&d, &self.langs)).map(catalog::verified_only) {
             Ok(apps) if !apps.is_empty() => {
                 self.emit(Event::Catalog(apps));
                 if let Some(e) = net_error {

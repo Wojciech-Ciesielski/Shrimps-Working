@@ -1,0 +1,27 @@
+[box]
+id = "webapp-window"
+version = "0.1.0"
+kind = "app"
+summary = "Okno aplikacji internetowej (PWA) bez przeglądarki: GTK4 + libadwaita + WebKitGTK, Rust"
+build_depends = ["shrimp-i18n"]
+ci = "webapp-window"
+
+[packages]
+image = ["libgtk-4-1", "libadwaita-1-0", "libwebkitgtk-6_0-4"]
+build = [
+    "bash",
+    "coreutils",
+    "gcc",
+    "pkg-config",
+    "rustup",
+    "ca-certificates",
+    "ca-certificates-mozilla",
+    "pkgconfig(gtk4)",
+    "pkgconfig(libadwaita-1)",
+    "pkgconfig(webkitgtk-6.0)",
+]
+
+[build]
+chroot = "cargo build --release --locked"
+outputs = ["target/release/shrimp-webapp"]
+install = "install.sh"

@@ -1,0 +1,14 @@
+1	Précédent
+2	Suivant
+3	Actualiser
+4	Menu principal
+5	Ouvrir dans le navigateur
+6	Copier le lien
+7	Zoom avant
+8	Zoom arrière
+9	Autoriser {name} à utiliser la caméra ou le micro ?
+10	Autoriser
+11	Refuser
+12	Téléchargé dans Téléchargements : {file}
+13	Lien copié
+14	Pas de connexion Internet

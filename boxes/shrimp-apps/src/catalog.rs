@@ -514,6 +514,13 @@ pub fn parse<R: BufRead>(input: R, langs: &Langs, icon_root: Option<&Path>) -> R
     Ok(apps)
 }
 
+/// Tylko aplikacje sprawdzone na Flathub (twórca potwierdził, że to jego wydanie). Zainstalowane
+/// spoza tej listy nadal widać w „Zainstalowane”.
+pub fn verified_only(mut apps: Vec<App>) -> Vec<App> {
+    apps.retain(|a| a.verified);
+    apps
+}
+
 /// Wczytuje katalog z katalogu AppStream repozytorium (`appstream.xml.gz` lub `appstream.xml`).
 pub fn load_dir(dir: &Path, langs: &Langs) -> Result<Vec<App>, String> {
     let gz = dir.join("appstream.xml.gz");
@@ -607,6 +614,9 @@ mod tests {
         assert_eq!(k.screenshots[1].full, "https://x/src.png");
         assert_eq!(k.brand_dark.as_deref(), Some("#204a87"));
         assert!(k.verified);
+        let ids: Vec<String> = verified_only(apps.clone()).into_iter().map(|a| a.id).collect();
+        assert!(ids.contains(&"org.kde.krita".to_string()));
+        assert!(ids.iter().all(|id| apps.iter().any(|a| &a.id == id && a.verified)));
         assert_eq!(k.main_category(), Some(Category::Graphics));
         assert!(k.keywords.contains(&"rysowanie".to_string()));
         assert_eq!(k.icon_remote.as_deref(), Some("https://dl.flathub.org/media/krita.png"));

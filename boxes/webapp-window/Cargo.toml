@@ -1,0 +1,19 @@
+[package]
+name = "shrimp-webapp"
+version = "0.1.0"
+edition = "2021"
+description = "Okno aplikacji internetowej Shrimp (WebKitGTK), bez przeglądarki"
+license = "GPL-3.0-or-later"
+
+[build-dependencies]
+shrimp-i18n = { path = "../shrimp-i18n" }
+
+[dependencies]
+shrimp-i18n = { path = "../shrimp-i18n" }
+gtk = { package = "gtk4", version = "0.11", features = ["v4_14"] }
+adw = { package = "libadwaita", version = "0.9", features = ["v1_5"] }
+webkit = { package = "webkit6", version = "0.6" }
+
+[profile.release]
+lto = true
+strip = true

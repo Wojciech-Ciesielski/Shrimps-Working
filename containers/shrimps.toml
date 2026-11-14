@@ -3,4 +3,4 @@
 [container]
 id = "shrimps"
 summary = "Aplikacje Shrimps: Shrimp Apps, Cocktail, Panko, Cherry, Filer, Shrimp Center"
-boxes = ["shrimp-apps", "cocktail", "panko", "cherry", "filer", "shrimp-center"]
+boxes = ["shrimp-apps", "cocktail", "panko", "cherry", "filer", "shrimp-center", "webapp-window"]

@@ -37,7 +37,7 @@ jobs:
           {
             echo "${{ inputs.title }}: aplikacje Shrimps w wersji testowej."
             echo
-            for b in shrimp-apps cocktail panko cherry filer shrimp-center; do
+            for b in shrimp-apps cocktail panko cherry filer shrimp-center webapp-window; do
               v=$(grep -m1 '^version' "boxes/$b/box.toml" | cut -d'"' -f2)
               s=$(grep -m1 '^summary' "boxes/$b/box.toml" | cut -d'"' -f2)
               echo "- \`$b\` $v: $s"
