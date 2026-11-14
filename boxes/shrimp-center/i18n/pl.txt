@@ -1,0 +1,62 @@
+1	Systemy
+2	Wygląd
+3	Pokaż panel boczny
+4	O Shrimp Center
+5	Menu główne
+6	Uruchom ponownie w
+7	Uruchom ponownie
+8	Ustawienia UEFI
+9	Ustawienia komputera, na przykład kolejność uruchamiania albo Secure Boot
+10	Tylko przy następnym starcie, potem jak zwykle {name}
+11	Domyślny system
+12	Uruchamia się po włączeniu komputera
+13	Uruchomić ponownie w systemie {name}?
+14	Najpierw zapisz swoją pracę. Otwarte aplikacje zostaną zamknięte.
+15	Uruchomić ponownie w ustawieniach UEFI?
+16	Anuluj
+17	Ten komputer nie uruchamia się w trybie UEFI, więc przełączanie systemów jest niedostępne.
+18	Nie udało się zmienić ustawienia: {error}
+19	Na tym komputerze nie ma innego systemu.
+20	Pulpit
+21	Styl
+22	Jasny
+23	Ciemny
+24	Kolor akcentu
+25	Niebieski
+26	Morski
+27	Zielony
+28	Żółty
+29	Pomarańczowy
+30	Czerwony
+31	Różowy
+32	Fioletowy
+33	Grafitowy
+34	Animacje
+35	Skalowanie
+36	Wielkość tekstu
+37	Skalowanie ekranu
+38	Otwiera ustawienia ekranu
+39	Dok
+40	Położenie
+41	Na dole
+42	Po lewej
+43	Po prawej
+44	Wielkość ikon
+45	Małe
+46	Średnie
+47	Duże
+48	Ukrywaj automatycznie
+49	Chowa się, gdy zasłoni go okno
+50	Pokaż kosz
+51	Przyciski okna
+52	Przyciski
+53	Tylko zamknij
+54	Minimalizuj, maksymalizuj, zamknij
+55	Po lewej stronie
+56	Czcionki
+57	Interfejs
+58	Dokumenty
+59	Stała szerokość
+60	Przywróć domyślne
+61	Przywrócono domyślny wygląd
+62	Przykładowe dane, nic na tym komputerze się nie zmienia.

@@ -1,0 +1,62 @@
+1	Systeme
+2	Darstellung
+3	Seitenleiste anzeigen
+4	Über Shrimp Center
+5	Hauptmenü
+6	Neu starten in
+7	Neu starten
+8	UEFI-Einstellungen
+9	Einstellungen des Computers, etwa Startreihenfolge oder Secure Boot
+10	Nur beim nächsten Start, danach wie gewohnt {name}
+11	Standardsystem
+12	Startet beim Einschalten des Computers
+13	In {name} neu starten?
+14	Speichern Sie zuerst Ihre Arbeit. Geöffnete Apps werden geschlossen.
+15	In die UEFI-Einstellungen neu starten?
+16	Abbrechen
+17	Dieser Computer startet nicht im UEFI-Modus, daher ist das Wechseln des Systems nicht verfügbar.
+18	Die Einstellung konnte nicht geändert werden: {error}
+19	Auf diesem Computer wurde kein anderes System gefunden.
+20	Arbeitsfläche
+21	Stil
+22	Hell
+23	Dunkel
+24	Akzentfarbe
+25	Blau
+26	Blaugrün
+27	Grün
+28	Gelb
+29	Orange
+30	Rot
+31	Rosa
+32	Lila
+33	Schiefergrau
+34	Animationen
+35	Skalierung
+36	Textgröße
+37	Bildschirmskalierung
+38	Öffnet die Bildschirmeinstellungen
+39	Dock
+40	Position
+41	Unten
+42	Links
+43	Rechts
+44	Symbolgröße
+45	Klein
+46	Mittel
+47	Groß
+48	Automatisch ausblenden
+49	Blendet sich aus, wenn ein Fenster es verdeckt
+50	Papierkorb anzeigen
+51	Fensterknöpfe
+52	Knöpfe
+53	Nur Schließen
+54	Minimieren, maximieren, schließen
+55	Auf der linken Seite
+56	Schriften
+57	Oberfläche
+58	Dokumente
+59	Feste Breite
+60	Standard wiederherstellen
+61	Standardaussehen wiederhergestellt
+62	Beispieldaten, auf diesem Computer wird nichts geändert.

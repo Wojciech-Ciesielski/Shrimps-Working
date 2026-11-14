@@ -1,0 +1,62 @@
+1	Sistemas
+2	Apariencia
+3	Mostrar barra lateral
+4	Acerca de Shrimp Center
+5	Menú principal
+6	Reiniciar en
+7	Reiniciar
+8	Configuración UEFI
+9	Ajustes del equipo, como el orden de arranque o Secure Boot
+10	Solo en el próximo arranque, después {name} como siempre
+11	Sistema predeterminado
+12	Se inicia al encender el equipo
+13	¿Reiniciar en {name}?
+14	Guarda primero tu trabajo. Las aplicaciones abiertas se cerrarán.
+15	¿Reiniciar en la configuración UEFI?
+16	Cancelar
+17	Este equipo no arranca en modo UEFI, así que no se puede cambiar de sistema.
+18	No se pudo cambiar el ajuste: {error}
+19	No se encontró otro sistema en este equipo.
+20	Escritorio
+21	Estilo
+22	Claro
+23	Oscuro
+24	Color de acento
+25	Azul
+26	Verde azulado
+27	Verde
+28	Amarillo
+29	Naranja
+30	Rojo
+31	Rosa
+32	Morado
+33	Pizarra
+34	Animaciones
+35	Escala
+36	Tamaño del texto
+37	Escala de pantalla
+38	Abre la configuración de pantalla
+39	Dock
+40	Posición
+41	Abajo
+42	Izquierda
+43	Derecha
+44	Tamaño de los iconos
+45	Pequeños
+46	Medianos
+47	Grandes
+48	Ocultar automáticamente
+49	Se oculta cuando una ventana lo cubre
+50	Mostrar papelera
+51	Botones de ventana
+52	Botones
+53	Solo cerrar
+54	Minimizar, maximizar, cerrar
+55	En el lado izquierdo
+56	Tipos de letra
+57	Interfaz
+58	Documentos
+59	Ancho fijo
+60	Restaurar valores predeterminados
+61	Apariencia predeterminada restaurada
+62	Datos de ejemplo, no se cambia nada en este equipo.

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<!-- Shrimp Center uruchamia przez pkexec tylko siebie (shrimp-center, opcje boot-next i default z numerem wpisu), a ten
+     sprawdza ID z listy efibootmgr i zmienia tylko BootNext albo kolejność BootOrder. -->
+<policyconfig>
+  <vendor>Shrimp</vendor>
+  <action id="org.shrimp.center.boot">
+    <description>Choose which system starts</description>
+    <description xml:lang="pl">Wybór systemu, który się uruchamia</description>
+    <message>Changing which system starts requires administrator rights.</message>
+    <message xml:lang="pl">Zmiana uruchamianego systemu wymaga uprawnień administratora.</message>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/shrimp-center</annotate>
+  </action>
+</policyconfig>

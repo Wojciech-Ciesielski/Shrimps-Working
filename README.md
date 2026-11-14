@@ -7,6 +7,7 @@ Repozytorium robocze aplikacji **Shrimps**: natywnych programów Shrimp (GTK4 + 
 | `shrimp-apps` | sklep z aplikacjami Flathub i PWA | Shrimp Apps |
 | `cocktail` | aktualizacje i pakiety (zypper, transactional-update) | Cocktail |
 | `panko` | migawki i cofanie zmian (snapper) | Panko |
+| `shrimp-center` | Shrimp Center: uruchom ponownie w Windows, domyślny system, ustawienia UEFI, wygląd pulpitu | Shrimp Center |
 | `cherry` | terminal z zsh, który tłumaczy komendy (VTE) | Cherry |
 | `filer` | menedżer plików: funkcje i układ 1:1 z Nemo | Filer |
 | `shrimp-i18n`, `web-apps` | biblioteki tych aplikacji | Web Apps |

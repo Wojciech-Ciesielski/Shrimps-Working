@@ -1,0 +1,28 @@
+[box]
+id = "shrimp-center"
+version = "0.1.0"
+kind = "app"
+summary = "Shrimp Center: przełączanie na Windows, domyślny system, ustawienia UEFI i wygląd (GTK4 + libadwaita, Rust)"
+build_depends = ["shrimp-i18n", "help-links"]
+ci = "shrimp-center"
+
+[packages]
+image = ["libgtk-4-1", "libadwaita-1-0", "efibootmgr", "polkit"]
+build = [
+    "bash",
+    "coreutils",
+    "findutils",
+    "gawk",
+    "gcc",
+    "pkg-config",
+    "rustup",
+    "ca-certificates",
+    "ca-certificates-mozilla",
+    "pkgconfig(gtk4)",
+    "pkgconfig(libadwaita-1)",
+]
+
+[build]
+chroot = "cargo build --release --locked"
+outputs = ["target/release/shrimp-center"]
+install = "install.sh"
