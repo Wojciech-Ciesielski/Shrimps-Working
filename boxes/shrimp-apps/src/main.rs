@@ -8,10 +8,12 @@ mod headless;
 mod hint;
 mod i18n;
 mod net;
+mod pe;
 mod selftest;
 mod store;
 mod ubuntu;
 mod widgets;
+mod wine;
 mod window;
 
 use std::rc::Rc;
@@ -47,6 +49,21 @@ fn main() -> glib::ExitCode {
     // Instalacja bez okna (obraz, onboarding): shrimp-apps --install [--base] [ID...]
     if args.get(1).map(String::as_str) == Some("--install") {
         return headless::run(&args[2..]);
+    }
+
+    // Werdykt Wine AppDB bez okna (CI sprawdza, czy strona AppDB nadal się parsuje): shrimp-apps --appdb NAZWA
+    if args.get(1).map(String::as_str) == Some("--appdb") {
+        return match wine::lookup(args.get(2).map(String::as_str).unwrap_or("")) {
+            Ok(Some(v)) => {
+                println!("{} {} {} {}", v.app, v.rating, v.wine, v.url);
+                glib::ExitCode::SUCCESS
+            }
+            Ok(None) => glib::ExitCode::from(3),
+            Err(e) => {
+                eprintln!("{e}");
+                glib::ExitCode::FAILURE
+            }
+        };
     }
 
     // Okienko przy instalatorze spoza sklepu: shrimp-apps --hint download|file PLIK

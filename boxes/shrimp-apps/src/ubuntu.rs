@@ -101,7 +101,7 @@ pub fn backup_exists(d: &Data) -> bool {
 }
 
 /// Wykonuje kolejne polecenia; przy błędzie zwraca ostatnią linię komunikatu.
-fn run(plan: &[Cmd]) -> Result<(), String> {
+pub fn run(plan: &[Cmd]) -> Result<(), String> {
     for c in plan {
         let o = Command::new(&c[0]).args(&c[1..]).output().map_err(|e| format!("{}: {e}", c[0]))?;
         if !o.status.success() {
@@ -342,11 +342,11 @@ mod tests {
         let _ = std::fs::remove_dir_all(&t);
         std::fs::create_dir_all(&t).unwrap();
         std::fs::write(t.join("shrimp-ubuntu-vlc.desktop"), "[Desktop Entry]\nExec=/usr/bin/distrobox-enter  -n shrimp-ubuntu  --   /usr/bin/vlc --started-from-file %U\n").unwrap();
-        std::fs::write(t.join("other-gimp.desktop"), "[Desktop Entry]\nExec=distrobox-enter -n other -- gimp\n").unwrap();
+        std::fs::write(t.join("other-audacity.desktop"), "[Desktop Entry]\nExec=distrobox-enter -n other -- audacity\n").unwrap();
         let vlc = d.apps.iter().find(|a| a.package == "vlc").unwrap();
-        let gimp = d.apps.iter().find(|a| a.package == "gimp").unwrap();
+        let audacity = d.apps.iter().find(|a| a.package == "audacity").unwrap();
         assert_eq!(exported_in(&t, d, vlc), Some(t.join("shrimp-ubuntu-vlc.desktop")));
-        assert_eq!(exported_in(&t, d, gimp), None);
+        assert_eq!(exported_in(&t, d, audacity), None);
         assert_eq!(format_million(1_000_000), "1\u{202F}000\u{202F}000");
         let _ = std::fs::remove_dir_all(&t);
     }

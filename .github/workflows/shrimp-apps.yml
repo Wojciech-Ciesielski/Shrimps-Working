@@ -25,6 +25,8 @@ jobs:
             flatpak ostree imagemagick xvfb xdotool dbus-x11 adwaita-icon-theme fonts-cantarell fonts-dejavu-core
       - run: cargo test --locked
       - run: cargo build --locked
+      - name: Wine AppDB na żywo (werdykt przy instalatorze .exe)
+        run: ./target/debug/shrimp-apps --appdb "Notepad++" | tee /dev/stderr | grep -Eq ' (Platinum|Gold|Silver|Bronze|Garbage) '
 
       - name: Lokalne repozytorium testowe (instalacja, aktualizacja, usuwanie)
         run: |

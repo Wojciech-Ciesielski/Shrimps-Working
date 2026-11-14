@@ -5,17 +5,14 @@
   "backup": "localhost/shrimp-ubuntu-backup:latest",
   "min_downloads": 1000000,
   "apps": [
-    { "package": "telegram-desktop", "exec": "telegram-desktop", "name": "Telegram", "flathub": "org.telegram.desktop", "category": "internet" },
-    { "package": "calibre", "exec": "calibre", "name": "Calibre", "flathub": "com.calibre_ebook.calibre", "category": "office" },
     { "package": "vlc", "exec": "vlc", "name": "VLC", "flathub": "org.videolan.VLC", "category": "video" },
-    { "package": "handbrake", "exec": "ghb", "name": "HandBrake", "flathub": "fr.handbrake.ghb", "category": "video" },
     { "package": "audacity", "exec": "audacity", "name": "Audacity", "flathub": "org.audacityteam.Audacity", "category": "music" },
-    { "package": "qbittorrent", "exec": "qbittorrent", "name": "qBittorrent", "flathub": "org.qbittorrent.qBittorrent", "category": "internet" },
-    { "package": "mpv", "exec": "mpv", "name": "mpv", "flathub": "io.mpv.Mpv", "category": "video" },
-    { "package": "filezilla", "exec": "filezilla", "name": "FileZilla", "flathub": "org.filezillaproject.Filezilla", "category": "internet" },
-    { "package": "lutris", "exec": "lutris", "name": "Lutris", "flathub": "net.lutris.Lutris", "category": "games" },
-    { "package": "gimp", "exec": "gimp", "name": "GIMP", "flathub": "org.gimp.GIMP", "category": "graphics" },
-    { "package": "kodi", "exec": "kodi", "name": "Kodi", "flathub": "tv.kodi.Kodi", "category": "video" },
-    { "package": "transmission-gtk", "exec": "transmission-gtk", "name": "Transmission", "flathub": "com.transmissionbt.Transmission", "category": "internet" }
+    { "package": "inkscape", "exec": "inkscape", "name": "Inkscape", "flathub": "org.inkscape.Inkscape", "category": "graphics" },
+    { "package": "remmina", "exec": "remmina", "name": "Remmina", "flathub": "org.remmina.Remmina", "category": "internet" },
+    { "package": "darktable", "exec": "darktable", "name": "darktable", "flathub": "org.darktable.Darktable", "category": "graphics" },
+    { "package": "shotcut", "exec": "shotcut", "name": "Shotcut", "flathub": "org.shotcut.Shotcut", "category": "video" },
+    { "package": "freecad", "exec": "freecad", "name": "FreeCAD", "flathub": "org.freecad.FreeCAD", "category": "tools" },
+    { "package": "torbrowser-launcher", "exec": "torbrowser-launcher", "name": "Tor Browser", "flathub": "org.torproject.torbrowser-launcher", "category": "internet" },
+    { "package": "strawberry", "exec": "strawberry", "name": "Strawberry", "flathub": "org.strawberrymusicplayer.strawberry", "category": "music" }
   ]
 }

@@ -93,3 +93,19 @@
 93	Instalowanie…
 94	Zainstalowano: {name}
 95	Nie udało się: {error}
+96	{file} to instalator dla Windows. Część programów dla Windows działa w Shrimp przez Wine, ale program ze sklepu jest zawsze lepszy.
+97	Sprawdzanie w Wine AppDB…
+98	Wine AppDB, {app}: {rating} (ostatni test: Wine {wine}).
+99	działa bez zarzutu
+100	działa dobrze po drobnych ustawieniach
+101	działa z drobnymi problemami
+102	działa słabo
+103	nie działa
+104	Wine AppDB nie ma wpisu dla {name}, więc nie wiadomo, czy zadziała.
+105	Nie udało się sprawdzić Wine AppDB ({error}).
+106	Zainstaluj przez Wine
+107	Instalowanie przez Wine
+108	Za pierwszym razem Shrimp przygotowuje Wine w kontenerze Ubuntu, co może potrwać kilka minut. Potem otworzy się instalator.
+109	Instalacja zakończona
+110	Skróty zainstalowanego programu są w siatce aplikacji.
+111	Instalacja nie powiodła się
