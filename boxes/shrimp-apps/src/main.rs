@@ -8,9 +8,12 @@ mod headless;
 mod hint;
 mod i18n;
 mod net;
+mod pe;
 mod selftest;
 mod store;
+mod ubuntu;
 mod widgets;
+mod wine;
 mod window;
 
 use std::rc::Rc;
@@ -46,6 +49,21 @@ fn main() -> glib::ExitCode {
     // Instalacja bez okna (obraz, onboarding): shrimp-apps --install [--base] [ID...]
     if args.get(1).map(String::as_str) == Some("--install") {
         return headless::run(&args[2..]);
+    }
+
+    // Werdykt Wine AppDB bez okna (CI sprawdza, czy strona AppDB nadal się parsuje): shrimp-apps --appdb NAZWA
+    if args.get(1).map(String::as_str) == Some("--appdb") {
+        return match wine::lookup(args.get(2).map(String::as_str).unwrap_or("")) {
+            Ok(Some(v)) => {
+                println!("{} {} {} {}", v.app, v.rating, v.wine, v.url);
+                glib::ExitCode::SUCCESS
+            }
+            Ok(None) => glib::ExitCode::from(3),
+            Err(e) => {
+                eprintln!("{e}");
+                glib::ExitCode::FAILURE
+            }
+        };
     }
 
     // Okienko przy instalatorze spoza sklepu: shrimp-apps --hint download|file PLIK
@@ -115,12 +133,11 @@ fn build(app: &adw::Application, open_id: Option<String>) {
                 let catalog = matches!(ev, backend::Event::Catalog(_));
                 shell.handle(ev);
                 if catalog {
-                    match pending.take() {
-                        Some(id) => match id.strip_prefix("shrimp-search:") {
+                    if let Some(id) = pending.take() {
+                        match id.strip_prefix("shrimp-search:") {
                             Some(q) => shell.search_for(q),
                             None => shell.open_app(&id),
-                        },
-                        None => {}
+                        }
                     }
                 }
             }
@@ -137,7 +154,6 @@ fn build(app: &adw::Application, open_id: Option<String>) {
 
     let actions = [
         ("refresh", vec!["<Control>r"]),
-        ("help", vec!["F1"]),
         ("about", vec![]),
         ("search", vec!["<Control>f"]),
         ("quit", vec!["<Control>q"]),
@@ -147,19 +163,16 @@ fn build(app: &adw::Application, open_id: Option<String>) {
         let s = shell.clone();
         a.connect_activate(move |_, _| match name {
             "refresh" => s.store.send(Cmd::Refresh { force: true }),
-            "help" => {
+            // „O Shrimp Apps” otwiera stronę programu na stronie Shrimp.
+            "about" => {
                 if let Some(u) = help_url() {
                     gtk::UriLauncher::new(&u).launch(Some(&s.window), gio::Cancellable::NONE, |_| {});
                 }
             }
-            "about" => about(&s.window),
             "search" => s.focus_search(),
             "quit" => s.window.close(),
             _ => {}
         });
-        if name == "help" {
-            a.set_enabled(help_url().is_some());
-        }
         app.add_action(&a);
         if !accels.is_empty() {
             app.set_accels_for_action(&format!("app.{name}"), &accels);
@@ -179,14 +192,3 @@ fn build(app: &adw::Application, open_id: Option<String>) {
     shell.window.present();
 }
 
-fn about(window: &adw::ApplicationWindow) {
-    let d = adw::AboutDialog::builder()
-        .application_name("Shrimp Apps")
-        .application_icon(APP_ID)
-        .developer_name("Shrimp")
-        .version(env!("CARGO_PKG_VERSION"))
-        .license_type(gtk::License::Gpl30)
-        .comments(crate::i18n::tr("about.comments"))
-        .build();
-    d.present(Some(window));
-}

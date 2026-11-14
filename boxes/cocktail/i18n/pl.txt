@@ -116,3 +116,4 @@
 116	Zainstaluj
 117	Instaluję…
 118	Tryb zaawansowany
+119	Panel boczny

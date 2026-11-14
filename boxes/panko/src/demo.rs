@@ -283,6 +283,10 @@ impl Backend for Demo {
         Ok(())
     }
 
+    fn try_boot(&self, _: u32) -> Result<()> {
+        Ok(())
+    }
+
     fn max_age(&self) -> Option<u32> {
         self.state.lock().unwrap().max_age
     }

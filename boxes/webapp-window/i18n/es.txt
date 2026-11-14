@@ -1,0 +1,14 @@
+1	Atrás
+2	Adelante
+3	Recargar
+4	Menú principal
+5	Abrir en el navegador
+6	Copiar enlace
+7	Ampliar
+8	Reducir
+9	¿Permitir que {name} use la cámara o el micrófono?
+10	Permitir
+11	Denegar
+12	Descargado en Descargas: {file}
+13	Enlace copiado
+14	Sin conexión a internet

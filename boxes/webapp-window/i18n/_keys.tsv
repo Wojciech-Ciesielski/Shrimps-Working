@@ -1,0 +1,15 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	nav.back	Back
+2	nav.forward	Forward
+3	nav.reload	Reload
+4	menu.main	Main menu
+5	menu.browser	Open in browser
+6	menu.copy	Copy link
+7	menu.zoom-in	Zoom in
+8	menu.zoom-out	Zoom out
+9	perm.title	Allow {name} to use the camera or microphone?
+10	perm.allow	Allow
+11	perm.deny	Deny
+12	download.done	Downloaded to Downloads: {file}
+13	copied	Link copied
+14	offline	No internet connection

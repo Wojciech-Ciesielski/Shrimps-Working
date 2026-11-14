@@ -293,20 +293,33 @@ impl App {
                 );
             }
             Some(s) => {
-                let text = crate::i18n::trf("restore-system.body", &[("name", &snap_label(&s))]);
-                let w = Rc::downgrade(self);
-                self.confirm(
-                    crate::i18n::tr("restore-system.title"),
-                    &text,
-                    crate::i18n::tr("button.restore"),
-                    true,
-                    None,
-                    move || {
-                        if let Some(app) = w.upgrade() {
-                            app.rollback(s.num);
-                        }
-                    },
+                // Najpierw próba: jeden start w tej wersji, decyzja po zalogowaniu (boot.rs). Na stałe od razu
+                // tylko na wyraźne życzenie.
+                let name = snap_label(&s);
+                let text = format!(
+                    "{}\n\n{}",
+                    crate::i18n::trf("tryboot.body", &[("name", &name)]),
+                    crate::i18n::trf("restore-system.body", &[("name", &name)])
                 );
+                let d = adw::AlertDialog::new(Some(crate::i18n::tr("restore-system.title")), Some(&text));
+                d.add_response("cancel", crate::i18n::tr("button.cancel"));
+                d.add_response("forever", crate::i18n::tr("restore-system.forever"));
+                d.add_response("try", crate::i18n::tr("tryboot.button"));
+                d.set_response_appearance("forever", adw::ResponseAppearance::Destructive);
+                d.set_response_appearance("try", adw::ResponseAppearance::Suggested);
+                d.set_default_response(Some("try"));
+                d.set_close_response("cancel");
+                let w = Rc::downgrade(self);
+                let num = s.num;
+                d.connect_response(None, move |_, r| {
+                    let Some(app) = w.upgrade() else { return };
+                    match r {
+                        "try" => app.try_boot(num),
+                        "forever" => app.rollback(num),
+                        _ => {}
+                    }
+                });
+                d.present(Some(&self.window));
             }
         }
     }
@@ -369,6 +382,32 @@ impl App {
                         app.reload();
                     },
                 );
+            },
+        );
+    }
+
+    fn try_boot(self: &Rc<Self>, num: u32) {
+        let backend = self.backend.clone();
+        let w = Rc::downgrade(self);
+        run(
+            move || {
+                backend.try_boot(num)?;
+                Ok::<(), crate::backend::Error>(())
+            },
+            move |r| {
+                let Some(app) = w.upgrade() else { return };
+                match r {
+                    Ok(()) if !app.backend.is_demo() => {
+                        if let Err(e) = crate::boot::set_pending(num) {
+                            eprintln!("panko: znacznik próby: {e}");
+                        }
+                        if app.backend.reboot().is_err() {
+                            app.toast(crate::i18n::tr("toast.restart"));
+                        }
+                    }
+                    Ok(()) => app.toast(crate::i18n::tr("toast.restart")),
+                    Err(e) => app.fail(crate::i18n::tr("error.try-boot"), &e),
+                }
             },
         );
     }

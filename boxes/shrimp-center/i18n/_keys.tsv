@@ -1,0 +1,63 @@
+# id	klucz	angielski (wzorzec); nowe wiersze tylko na końcu, id się nie zmieniają
+1	page.systems	Systems
+2	page.appearance	Appearance
+3	view.sidebar	Show sidebar
+4	menu.about	About Shrimp Center
+5	menu.main	Main menu
+6	restart.title	Restart into
+7	restart.button	Restart
+8	restart.firmware	UEFI settings
+9	restart.firmware.sub	Computer settings such as boot order or Secure Boot
+10	restart.once.sub	Only for the next start, then {name} as usual
+11	default.title	Default system
+12	default.sub	Starts when you turn on the computer
+13	confirm.heading	Restart into {name}?
+14	confirm.body	Save your work first. Open apps will be closed.
+15	confirm.firmware	Restart into UEFI settings?
+16	cancel	Cancel
+17	err.efi	This computer does not start in UEFI mode, so switching systems is not available.
+18	err.action	Could not change the setting: {error}
+19	only.shrimp	No other system was found on this computer.
+20	look.group.desktop	Desktop
+21	look.style	Style
+22	look.light	Light
+23	look.dark	Dark
+24	look.accent	Accent color
+25	accent.blue	Blue
+26	accent.teal	Teal
+27	accent.green	Green
+28	accent.yellow	Yellow
+29	accent.orange	Orange
+30	accent.red	Red
+31	accent.pink	Pink
+32	accent.purple	Purple
+33	accent.slate	Slate
+34	look.animations	Animations
+35	look.group.scale	Scaling
+36	look.text	Text size
+37	look.display	Display scaling
+38	look.display.sub	Opens the display settings
+39	dock.group	Dock
+40	dock.position	Position
+41	dock.bottom	Bottom
+42	dock.left	Left
+43	dock.right	Right
+44	dock.size	Icon size
+45	size.small	Small
+46	size.medium	Medium
+47	size.large	Large
+48	dock.autohide	Hide automatically
+49	dock.autohide.sub	Hides when a window covers it
+50	dock.trash	Show trash
+51	win.group	Window buttons
+52	win.layout	Buttons
+53	win.close	Close only
+54	win.right	Minimize, maximize, close
+55	win.left	On the left side
+56	font.group	Fonts
+57	font.interface	Interface
+58	font.document	Documents
+59	font.mono	Fixed width
+60	reset	Restore defaults
+61	reset.done	Default appearance restored
+62	demo.note	Sample data, nothing on this computer is changed.

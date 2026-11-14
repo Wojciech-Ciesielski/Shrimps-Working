@@ -73,3 +73,39 @@
 73	In Shrimp kommen Programme aus dem Store Shrimp Apps: geprüft, sicher und sie aktualisieren sich selbst. Meist gibt es dort dasselbe Programm oder eine gute Alternative.
 74	In Shrimp Apps suchen
 75	Schließen
+76	Seitenleiste
+77	Aus Ubuntu
+78	Beliebte Programme (über {n} Installationen), die es nicht als verifizierte Apps gibt. Alle laufen in einem gemeinsamen Ubuntu-24.04-Container und erscheinen im App-Raster wie jede andere App.
+79	Container sind nicht verfügbar
+80	Auf diesem System fehlt distrobox oder podman.
+81	Alles aktualisieren
+82	Sicherung wiederherstellen
+83	Vor jeder Aktualisierung wird eine Sicherung des Containers erstellt, sodass Sie zurückkehren können, falls etwas nicht mehr funktioniert.
+84	Programme aus Ubuntu sind aktuell
+85	Sicherung wiederherstellen?
+86	Der Container kehrt zum Stand vor der letzten Aktualisierung zurück. Seitdem vorgenommene Änderungen gehen verloren.
+87	Abbrechen
+88	Sicherung wiederhergestellt
+89	Öffnen
+90	Entfernen
+91	{name} entfernt
+92	Installieren
+93	Wird installiert …
+94	{name} installiert
+95	Fehlgeschlagen: {error}
+96	{file} ist ein Installationsprogramm für Windows. Manche Windows-Programme laufen in Shrimp mit Wine, aber ein Programm aus dem Store ist immer besser.
+97	Wine AppDB wird geprüft …
+98	Wine AppDB, {app}: {rating} (letzter Test: Wine {wine}).
+99	läuft einwandfrei
+100	läuft gut nach kleinen Anpassungen
+101	läuft mit kleinen Problemen
+102	läuft schlecht
+103	läuft nicht
+104	Wine AppDB hat keinen Eintrag für {name}; ob es läuft, ist unbekannt.
+105	Wine AppDB konnte nicht geprüft werden ({error}).
+106	Mit Wine installieren
+107	Installation mit Wine
+108	Beim ersten Mal richtet Shrimp Wine im Ubuntu-Container ein, das kann einige Minuten dauern. Dann öffnet sich das Installationsprogramm.
+109	Installation abgeschlossen
+110	Verknüpfungen des installierten Programms sind im App-Raster.
+111	Installation fehlgeschlagen

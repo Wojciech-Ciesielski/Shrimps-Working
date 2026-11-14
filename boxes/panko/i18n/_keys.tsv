@@ -113,3 +113,16 @@
 112	error.settings	Could not save the settings.
 113	search.placeholder	Search
 114	button.cancel	Cancel
+115	view.sidebar	Sidebar
+116	tryboot.button	Restart into this version
+117	tryboot.body	The computer will start once from the snapshot “{name}”. Nothing changes until you decide: after you log in, Panko asks whether to keep this version. If it does not start, the next start returns to the current system.
+118	restore-system.forever	Restore permanently
+119	check.title	An older version is running
+120	check.body	This is the system from the snapshot “{name}”. Keep it as the current version, or go back to the newest one.
+121	check.keep	Keep this version
+122	check.back	Go back to the newest
+123	check.returned.title	Back to the newest version
+124	check.returned.body	The older version did not start, or the computer was turned off before you decided. The newest system is running.
+125	check.ok	OK
+126	check.kept	This version stays after the next restart.
+127	error.try-boot	Could not prepare the start in this version.

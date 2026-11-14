@@ -1,0 +1,10 @@
+# Po zalogowaniu: pytanie po próbnym starcie w starszej wersji systemu (Panko › Uruchom ponownie w tej wersji).
+# Bez próby program kończy się od razu, bez okna.
+[Desktop Entry]
+Type=Application
+Name=Panko
+Exec=panko --check-boot
+TryExec=panko
+NoDisplay=true
+X-GNOME-Autostart-Phase=Applications
+X-GNOME-AutoRestart=false

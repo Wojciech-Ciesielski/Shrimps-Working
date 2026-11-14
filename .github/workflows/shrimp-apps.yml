@@ -25,6 +25,8 @@ jobs:
             flatpak ostree imagemagick xvfb xdotool dbus-x11 adwaita-icon-theme fonts-cantarell fonts-dejavu-core
       - run: cargo test --locked
       - run: cargo build --locked
+      - name: Wine AppDB na żywo (werdykt przy instalatorze .exe)
+        run: ./target/debug/shrimp-apps --appdb "Notepad++" | tee /dev/stderr | grep -Eq ' (Platinum|Gold|Silver|Bronze|Garbage) '
 
       - name: Lokalne repozytorium testowe (instalacja, aktualizacja, usuwanie)
         run: |
@@ -83,3 +85,11 @@ jobs:
           grep -q '^org.freedesktop.Platform.Compat.i386/' "$RUNNER_TEMP/refs.txt"
           grep -q 'codecs' "$RUNNER_TEMP/refs.txt"   # kodeki (od 25.08 codecs-extra zamiast ffmpeg-full)
           flatpak info --system --show-metadata com.valvesoftware.Steam | sed -n '/Extension/,$p' | head -40
+
+  # Strona „Z Ubuntu”: każda aplikacja ma ponad milion instalacji (statystyki Flathub, na żywo),
+  # nie jest sprawdzona na Flathub i jest w Ubuntu 24.04. Liczby nie są wpisywane ręcznie.
+  ubuntu-apps:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: python3 boxes/shrimp-apps/tools/check-ubuntu-apps.py

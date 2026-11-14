@@ -23,7 +23,7 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 zoxide
 eza
-tealdeer
+tealdeer tldr
 atuin
 yazi
 fastfetch

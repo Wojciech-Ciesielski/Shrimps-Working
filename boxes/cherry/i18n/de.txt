@@ -192,3 +192,5 @@
 192	Kopieren
 193	Einfügen
 194	Alles auswählen
+195	Seitenleiste
+196	Über Cherry

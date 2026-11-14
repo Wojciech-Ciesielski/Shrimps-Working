@@ -192,3 +192,5 @@
 192	Kopiuj
 193	Wklej
 194	Zaznacz wszystko
+195	Panel boczny
+196	O Cherry

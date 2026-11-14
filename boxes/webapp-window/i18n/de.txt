@@ -1,0 +1,14 @@
+1	Zurück
+2	Vorwärts
+3	Neu laden
+4	Hauptmenü
+5	Im Browser öffnen
+6	Link kopieren
+7	Vergrößern
+8	Verkleinern
+9	{name} die Kamera oder das Mikrofon verwenden lassen?
+10	Erlauben
+11	Ablehnen
+12	In Downloads gespeichert: {file}
+13	Link kopiert
+14	Keine Internetverbindung

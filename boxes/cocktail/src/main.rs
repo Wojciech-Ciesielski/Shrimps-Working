@@ -126,21 +126,10 @@ fn build(application: &adw::Application) {
     search.set_visible(false);
     search.set_key_capture_widget(Some(&window));
 
-    // Pasek boczny bez tytułu, pomoc w lewym górnym rogu (jak w Panko i Shrimp Apps).
+    // Pasek boczny bez tytułu (jak w Panko, Shrimp Apps i Filerze); chowa go przycisk w pasku treści.
     let sidebar_header = adw::HeaderBar::new();
     sidebar_header.set_show_title(false);
-    let help = gtk::Button::from_icon_name("dialog-question-symbolic");
-    help.set_tooltip_text(Some(crate::i18n::tr("help")));
-    match help::url() {
-        Some(url) => {
-            help.connect_clicked(move |b| {
-                let root = b.root().and_downcast::<gtk::Window>();
-                gtk::UriLauncher::new(&url).launch(root.as_ref(), gio::Cancellable::NONE, |_| {});
-            });
-        }
-        None => help.set_sensitive(false),
-    }
-    sidebar_header.pack_start(&help);
+    sidebar_header.set_show_end_title_buttons(false);
     let sidebar_view = adw::ToolbarView::new();
     sidebar_view.add_css_class("cocktail-side");
     sidebar_view.add_top_bar(&sidebar_header);
@@ -149,7 +138,6 @@ fn build(application: &adw::Application) {
     nav_scroll.set_child(Some(&nav));
     sidebar_view.set_content(Some(&nav_scroll));
     sidebar_view.add_bottom_bar(&search);
-    let sidebar_page = adw::NavigationPage::new(&sidebar_view, "Cocktail");
 
     // Treść: menu główne (☰) w pasku tytułu.
     let menu = gio::Menu::new();
@@ -174,19 +162,21 @@ fn build(application: &adw::Application) {
     let content_header = adw::HeaderBar::new();
     content_header.set_title_widget(Some(&adw::Bin::new()));
     content_header.pack_end(&menu_button);
+    let side_btn = gtk::ToggleButton::builder().icon_name("sidebar-show-symbolic").tooltip_text(crate::i18n::tr("view.sidebar")).css_classes(["flat"]).build();
+    content_header.pack_start(&side_btn);
     let content_view = adw::ToolbarView::new();
     content_view.add_css_class("cocktail-content");
     content_view.add_top_bar(&content_header);
     content_view.add_top_bar(&banner);
     toasts.set_child(Some(&stack));
     content_view.set_content(Some(&toasts));
-    let content_page = adw::NavigationPage::new(&content_view, crate::i18n::tr("section.updates"));
 
-    let split = adw::NavigationSplitView::new();
-    split.set_sidebar(Some(&sidebar_page));
-    split.set_content(Some(&content_page));
+    let split = adw::OverlaySplitView::new();
+    split.set_sidebar(Some(&sidebar_view));
+    split.set_content(Some(&content_view));
     split.set_min_sidebar_width(200.0);
     split.set_max_sidebar_width(240.0);
+    split.bind_property("show-sidebar", &side_btn, "active").bidirectional().sync_create().build();
 
     let bp = adw::Breakpoint::new(adw::BreakpointCondition::new_length(
         adw::BreakpointConditionLengthType::MaxWidth,
@@ -199,15 +189,13 @@ fn build(application: &adw::Application) {
 
     let current = Rc::new(RefCell::new("aktualizacje".to_string()));
     {
-        let (stack, search, split, content_page, current) =
-            (stack.clone(), search.clone(), split.clone(), content_page.clone(), current.clone());
+        let (stack, search, split, current) = (stack.clone(), search.clone(), split.clone(), current.clone());
         let (devices, packages, history, terminal) = (devices.clone(), packages.clone(), history.clone(), terminal.clone());
         nav.connect_row_selected(move |_, row| {
             let Some(row) = row else { return };
-            let (id, _, title) = SECTIONS[row.index() as usize];
+            let (id, _, _) = SECTIONS[row.index() as usize];
             *current.borrow_mut() = id.to_string();
             stack.set_visible_child_name(id);
-            content_page.set_title(crate::i18n::tr(title));
             search.set_visible(id != "aktualizacje" && id != "terminal");
             search.set_text("");
             match id {
@@ -217,7 +205,10 @@ fn build(application: &adw::Application) {
                 "terminal" => terminal.focus(),
                 _ => {}
             }
-            split.set_show_content(true);
+            // Wąskie okno: panel boczny leży nad treścią, po wyborze znika.
+            if split.is_collapsed() {
+                split.set_show_sidebar(false);
+            }
         });
     }
     // COCKTAIL_PAGE=pakiety otwiera wybraną zakładkę (zrzuty ekranu, praca nad kodem).
@@ -237,18 +228,13 @@ fn build(application: &adw::Application) {
         });
     }
 
+    // „O Cocktailu” otwiera stronę programu na stronie Shrimp (bez okna pomocy w aplikacji).
     let about = gio::SimpleAction::new("about", None);
     let w = window.clone();
     about.connect_activate(move |_, _| {
-        let d = adw::AboutDialog::builder()
-            .application_name("Cocktail")
-            .application_icon("system-software-update")
-            .developer_name("Shrimp")
-            .version(env!("CARGO_PKG_VERSION"))
-            .comments(crate::i18n::tr("about.comments"))
-            .license_type(gtk::License::Gpl30)
-            .build();
-        d.present(Some(&w));
+        if let Some(url) = help::url() {
+            gtk::UriLauncher::new(&url).launch(Some(&w), gio::Cancellable::NONE, |_| {});
+        }
     });
     application.add_action(&about);
     let quit = gio::SimpleAction::new("quit", None);

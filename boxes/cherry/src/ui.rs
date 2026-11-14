@@ -122,15 +122,11 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
     view.set_hexpand(true);
     view.set_vexpand(true);
 
-    // Pasek boczny: u góry tylko pomoc (przyciski okna są w prawym górnym rogu, nad terminalem).
+    // Pasek boczny: pusty pasek u góry (przyciski okna są w prawym górnym rogu, nad terminalem); chowa go
+    // przycisk w pasku terminala, jak w Filerze.
     let header = adw::HeaderBar::new();
     header.set_show_title(false);
-    let help = gtk::Button::builder()
-        .icon_name("dialog-question-symbolic")
-        .tooltip_text(tr("help"))
-        .build();
-    help.set_sensitive(crate::help::url().is_some());
-    header.pack_start(&help);
+    header.set_show_end_title_buttons(false);
 
     let side_tabs = gtk::ListBox::builder()
         .selection_mode(gtk::SelectionMode::Single)
@@ -169,6 +165,12 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
         .tooltip_text(tr("settings"))
         .build();
     top.pack_end(&menu_btn);
+    let side_btn = gtk::ToggleButton::builder()
+        .icon_name("sidebar-show-symbolic")
+        .tooltip_text(tr("view.sidebar"))
+        .css_classes(["flat"])
+        .build();
+    top.pack_start(&side_btn);
     let main = adw::ToolbarView::new();
     main.add_top_bar(&top);
     main.set_content(Some(&view));
@@ -182,6 +184,7 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
         .collapsed(false)
         .show_sidebar(true)
         .build();
+    body.bind_property("show-sidebar", &side_btn, "active").bidirectional().sync_create().build();
     window.set_content(Some(&body));
 
     let me = Rc::new(App {
@@ -199,12 +202,6 @@ fn build(app: &adw::Application, dir: Option<PathBuf>) {
     });
     *me.me.borrow_mut() = Rc::downgrade(&me);
 
-    help.connect_clicked(move |b| {
-        if let Some(u) = crate::help::url() {
-            let root = b.root().and_downcast::<gtk::Window>();
-            gtk::UriLauncher::new(&u).launch(root.as_ref(), gtk::gio::Cancellable::NONE, |_| {});
-        }
-    });
     menu_btn.set_popover(Some(&settings_popover(&me)));
     let w = Rc::downgrade(&me);
     new_tab.connect_clicked(move |_| {
@@ -433,7 +430,21 @@ fn settings_popover(app: &Rc<App>) -> gtk::Popover {
             a.refresh_history();
         }
     });
-    gtk::Popover::builder().child(&b).build()
+    // „O Cherry” otwiera stronę programu na stronie Shrimp.
+    let about = gtk::Button::with_label(tr("menu.about"));
+    about.add_css_class("flat");
+    about.set_margin_top(6);
+    b.append(&about);
+    let pop = gtk::Popover::builder().child(&b).build();
+    let p = pop.clone();
+    let w = Rc::downgrade(app);
+    about.connect_clicked(move |_| {
+        p.popdown();
+        if let (Some(u), Some(a)) = (crate::help::url(), w.upgrade()) {
+            gtk::UriLauncher::new(&u).launch(Some(&a.window), gtk::gio::Cancellable::NONE, |_| {});
+        }
+    });
+    pop
 }
 
 /// Terminal jest najciemniejszym elementem okna, w obu motywach.

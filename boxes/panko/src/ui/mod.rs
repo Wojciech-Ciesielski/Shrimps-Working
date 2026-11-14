@@ -113,27 +113,16 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
         .height_request(400)
         .build();
 
-    // Bez wspólnego paska tytułu: pasek boczny sięga od góry do dołu okna (pomoc w jego rogu),
-    // treść ma własny przezroczysty pasek z menu i przyciskami okna.
+    // Bez wspólnego paska tytułu: pasek boczny sięga od góry do dołu okna, treść ma własny przezroczysty
+    // pasek z przyciskiem panelu bocznego (jak w Filerze), menu i przyciskami okna.
     let header = adw::HeaderBar::new();
     header.set_show_title(false);
     header.set_show_end_title_buttons(false);
     let content_header = adw::HeaderBar::new();
     content_header.set_show_title(false);
     content_header.set_show_start_title_buttons(false);
-    let help = gtk::Button::from_icon_name("dialog-question-symbolic");
-    help.set_tooltip_text(Some(crate::i18n::tr("help")));
-    match crate::help::url() {
-        Some(url) => {
-            help.connect_clicked(move |b| {
-                let root = b.root().and_downcast::<gtk::Window>();
-                gtk::UriLauncher::new(&url).launch(root.as_ref(), gio::Cancellable::NONE, |_| {});
-            });
-        }
-        // Strony pomocy jeszcze nie ma (boxes/help-links/help.json › base): sama podpowiedź.
-        None => help.set_sensitive(false),
-    }
-    header.pack_start(&help);
+    let side_btn = gtk::ToggleButton::builder().icon_name("sidebar-show-symbolic").tooltip_text(crate::i18n::tr("view.sidebar")).css_classes(["flat"]).build();
+    content_header.pack_start(&side_btn);
 
     let (menu_button, menu_timeline, menu_days, menu_age_on, menu_about) = build_menu();
     content_header.pack_end(&menu_button);
@@ -158,7 +147,6 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
     side_body.append(&search);
     let side = gtk::Box::new(gtk::Orientation::Vertical, 0);
     side.add_css_class("panko-side");
-    side.set_size_request(200, -1);
     side.append(&header);
     side.append(&side_body);
 
@@ -217,10 +205,25 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
     right.append(&content_header);
     right.append(&toasts);
     toasts.set_vexpand(true);
-    let window_box = gtk::Box::new(gtk::Orientation::Horizontal, 0);
-    window_box.append(&side);
-    window_box.append(&right);
-    window.set_content(Some(&window_box));
+    let split = adw::OverlaySplitView::new();
+    split.set_sidebar(Some(&side));
+    split.set_content(Some(&right));
+    split.set_min_sidebar_width(200.0);
+    split.set_max_sidebar_width(240.0);
+    split.bind_property("show-sidebar", &side_btn, "active").bidirectional().sync_create().build();
+    // Wąskie okno: panel boczny nad treścią.
+    let bp = adw::Breakpoint::new(adw::BreakpointCondition::new_length(adw::BreakpointConditionLengthType::MaxWidth, 560.0, adw::LengthUnit::Sp));
+    bp.add_setter(&split, "collapsed", Some(&true.to_value()));
+    window.add_breakpoint(bp);
+    window.set_content(Some(&split));
+    {
+        let split = split.clone();
+        sidebar.connect_row_activated(move |_, _| {
+            if split.is_collapsed() {
+                split.set_show_sidebar(false);
+            }
+        });
+    }
 
     let this = Rc::new(App {
         backend,
@@ -318,14 +321,10 @@ pub fn build(app: &adw::Application, backend: Arc<dyn Backend>) {
         {
             p.popdown();
         }
-        let about = adw::AboutDialog::builder()
-            .application_name("Panko")
-            .developer_name("Shrimp")
-            .version(env!("CARGO_PKG_VERSION"))
-            .comments(crate::i18n::tr("about.comments"))
-            .license_type(gtk::License::Gpl30)
-            .build();
-        about.present(Some(&win));
+        // „O Panko” otwiera stronę programu na stronie Shrimp.
+        if let Some(url) = crate::help::url() {
+            gtk::UriLauncher::new(&url).launch(Some(&win), gio::Cancellable::NONE, |_| {});
+        }
     });
 
     // Okno trzyma stan aplikacji; sygnały mają tylko słabe odwołania.
@@ -730,4 +729,80 @@ impl App {
             },
         );
     }
+}
+
+/// `panko --check-boot` (autostart po zalogowaniu): po próbnym starcie w starszej wersji (boot.rs) pyta,
+/// czy ją zostawić. Gdy działa już najnowsza wersja (próba się nie udała albo komputer wyłączono), mówi o tym raz.
+pub fn check_boot(app: &adw::Application, backend: Arc<dyn Backend>) {
+    let Some(num) = crate::boot::pending() else { return };
+    let running = crate::boot::root_snapshot() == Some(num);
+    let window = adw::ApplicationWindow::builder().application(app).title("Panko").default_width(520).default_height(380).resizable(false).build();
+    let page = adw::StatusPage::new();
+    page.set_icon_name(Some("org.shrimp.Panko"));
+    let buttons = gtk::Box::new(gtk::Orientation::Horizontal, 12);
+    buttons.set_halign(gtk::Align::Center);
+    let pill = |t: &str, class: &str| {
+        let b = gtk::Button::with_label(t);
+        b.add_css_class("pill");
+        if !class.is_empty() {
+            b.add_css_class(class);
+        }
+        buttons.append(&b);
+        b
+    };
+    if running {
+        let name = backend
+            .configs()
+            .ok()
+            .and_then(|c| c.into_iter().find(|c| c.subvolume == "/"))
+            .and_then(|c| backend.snapshots(&c.name).ok())
+            .and_then(|v| v.into_iter().find(|s| s.num == num))
+            .map(|s| snapshots::snap_label(&s))
+            .unwrap_or_else(|| format!("#{num}"));
+        page.set_title(crate::i18n::tr("check.title"));
+        page.set_description(Some(&crate::i18n::trf("check.body", &[("name", &name)])));
+        let back = pill(crate::i18n::tr("check.back"), "");
+        let keep = pill(crate::i18n::tr("check.keep"), "suggested-action");
+        let b = backend.clone();
+        back.connect_clicked(move |_| {
+            crate::boot::clear_pending();
+            let _ = b.reboot();
+        });
+        let (b, w, p) = (backend.clone(), window.clone(), page.clone());
+        keep.connect_clicked(move |btn| {
+            btn.set_sensitive(false);
+            let b2 = b.clone();
+            let (w, p) = (w.clone(), p.clone());
+            run(
+                move || b2.rollback(num),
+                move |r| match r {
+                    Ok(()) => {
+                        crate::boot::clear_pending();
+                        p.set_description(Some(crate::i18n::tr("check.kept")));
+                        let w = w.clone();
+                        glib::timeout_add_local_once(std::time::Duration::from_secs(3), move || w.close());
+                    }
+                    Err(e) => {
+                        eprintln!("panko: {e}");
+                        p.set_description(Some(crate::i18n::tr("error.restore-system")));
+                    }
+                },
+            );
+        });
+    } else {
+        crate::boot::clear_pending();
+        page.set_title(crate::i18n::tr("check.returned.title"));
+        page.set_description(Some(crate::i18n::tr("check.returned.body")));
+        let ok = pill(crate::i18n::tr("check.ok"), "suggested-action");
+        let w = window.clone();
+        ok.connect_clicked(move |_| w.close());
+    }
+    page.set_child(Some(&buttons));
+    let tv = adw::ToolbarView::new();
+    let hb = adw::HeaderBar::new();
+    hb.set_show_title(false);
+    tv.add_top_bar(&hb);
+    tv.set_content(Some(&page));
+    window.set_content(Some(&tv));
+    window.present();
 }

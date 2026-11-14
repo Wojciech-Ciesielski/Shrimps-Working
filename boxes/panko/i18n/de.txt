@@ -112,3 +112,16 @@
 112	Die Einstellungen konnten nicht gespeichert werden.
 113	Suchen
 114	Abbrechen
+115	Seitenleiste
+116	In dieser Version neu starten
+117	Der Computer startet einmal aus dem Snapshot „{name}“. Bis du dich entscheidest, ändert sich nichts: Nach der Anmeldung fragt Panko, ob diese Version bleiben soll. Startet sie nicht, kehrt der nächste Start zum aktuellen System zurück.
+118	Dauerhaft wiederherstellen
+119	Eine ältere Version läuft
+120	Das ist das System aus dem Snapshot „{name}“. Behalte es als aktuelle Version oder kehre zur neuesten zurück.
+121	Diese Version behalten
+122	Zur neuesten zurück
+123	Zurück zur neuesten Version
+124	Die ältere Version ist nicht gestartet oder der Computer wurde vor der Entscheidung ausgeschaltet. Das neueste System läuft.
+125	OK
+126	Diese Version bleibt nach dem nächsten Neustart.
+127	Der Start in dieser Version konnte nicht vorbereitet werden.

@@ -112,3 +112,16 @@
 112	Nie udało się zapisać ustawień.
 113	Szukaj
 114	Anuluj
+115	Panel boczny
+116	Uruchom ponownie w tej wersji
+117	Komputer uruchomi się raz z migawki „{name}”. Nic się nie zmienia, dopóki nie zdecydujesz: po zalogowaniu Panko zapyta, czy zostawić tę wersję. Jeśli się nie uruchomi, następny start wróci do obecnego systemu.
+118	Przywróć na stałe
+119	Działa starsza wersja systemu
+120	To system z migawki „{name}”. Zostaw go jako bieżący albo wróć do najnowszego.
+121	Zostaw tę wersję
+122	Wróć do najnowszej
+123	Wrócono do najnowszej wersji
+124	Starsza wersja nie uruchomiła się albo komputer został wyłączony przed decyzją. Działa najnowszy system.
+125	OK
+126	Ta wersja zostanie po następnym uruchomieniu.
+127	Nie udało się przygotować startu w tej wersji.

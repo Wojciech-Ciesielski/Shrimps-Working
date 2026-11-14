@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Shrimp Center
+Comment=Switch to Windows, choose the default system and change the look of the desktop
+Comment[pl]=Przełączanie na Windows, domyślny system i wygląd pulpitu
+Comment[de]=Zu Windows wechseln, Standardsystem wählen und das Aussehen ändern
+Comment[es]=Cambiar a Windows, elegir el sistema predeterminado y la apariencia
+Comment[fr]=Passer à Windows, choisir le système par défaut et l’apparence
+Keywords=windows;boot;uefi;bios;dual;theme;accent;dock;font;appearance;
+Keywords[pl]=windows;start;uefi;bios;system;motyw;akcent;dok;czcionka;wygląd;
+Exec=shrimp-center
+Icon=org.shrimp.Center
+Terminal=false
+Categories=GNOME;GTK;System;Settings;
+StartupNotify=true

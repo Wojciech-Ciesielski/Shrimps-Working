@@ -1,0 +1,62 @@
+1	Systèmes
+2	Apparence
+3	Afficher le panneau latéral
+4	À propos de Shrimp Center
+5	Menu principal
+6	Redémarrer dans
+7	Redémarrer
+8	Paramètres UEFI
+9	Réglages de l’ordinateur, comme l’ordre de démarrage ou Secure Boot
+10	Seulement au prochain démarrage, ensuite {name} comme d’habitude
+11	Système par défaut
+12	Démarre quand vous allumez l’ordinateur
+13	Redémarrer dans {name} ?
+14	Enregistrez d’abord votre travail. Les applications ouvertes seront fermées.
+15	Redémarrer dans les paramètres UEFI ?
+16	Annuler
+17	Cet ordinateur ne démarre pas en mode UEFI, le changement de système n’est donc pas disponible.
+18	Impossible de modifier le réglage : {error}
+19	Aucun autre système n’a été trouvé sur cet ordinateur.
+20	Bureau
+21	Style
+22	Clair
+23	Sombre
+24	Couleur d’accentuation
+25	Bleu
+26	Bleu canard
+27	Vert
+28	Jaune
+29	Orange
+30	Rouge
+31	Rose
+32	Violet
+33	Ardoise
+34	Animations
+35	Mise à l’échelle
+36	Taille du texte
+37	Mise à l’échelle de l’écran
+38	Ouvre les paramètres d’affichage
+39	Dock
+40	Position
+41	En bas
+42	À gauche
+43	À droite
+44	Taille des icônes
+45	Petites
+46	Moyennes
+47	Grandes
+48	Masquer automatiquement
+49	Se masque quand une fenêtre le recouvre
+50	Afficher la corbeille
+51	Boutons des fenêtres
+52	Boutons
+53	Fermer uniquement
+54	Réduire, agrandir, fermer
+55	Sur le côté gauche
+56	Polices
+57	Interface
+58	Documents
+59	Chasse fixe
+60	Rétablir les valeurs par défaut
+61	Apparence par défaut rétablie
+62	Données d’exemple, rien n’est modifié sur cet ordinateur.

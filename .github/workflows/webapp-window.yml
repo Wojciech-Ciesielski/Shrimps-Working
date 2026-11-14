@@ -1,0 +1,23 @@
+name: Web App Window
+
+on:
+  push:
+    paths: ["boxes/webapp-window/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", ".github/workflows/webapp-window.yml"]
+  pull_request:
+    paths: ["boxes/webapp-window/**", "boxes/shrimp-i18n/**", "boxes/i18n-core/**", ".github/workflows/webapp-window.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    env: { LANGUAGE: pl }
+    defaults: { run: { working-directory: boxes/webapp-window } }
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libgtk-4-dev libadwaita-1-dev libwebkitgtk-6.0-dev
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
+      - run: cargo build --locked --release

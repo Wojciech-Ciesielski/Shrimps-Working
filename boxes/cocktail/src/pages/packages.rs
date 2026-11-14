@@ -169,7 +169,10 @@ impl Packages {
         // Stałe szerokości kolumn: wiersze ListView nie dzielą SizeGroup.
         name.set_size_request(170, -1);
         b.append(&name);
-        let ver = gtk::Label::new(Some(if pkg.installed { &pkg.version } else { crate::i18n::tr("state.available") }));
+        let ver = gtk::Label::new(Some(if pkg.installed { crate::zypper::short_version(&pkg.version) } else { crate::i18n::tr("state.available") }));
+        if pkg.installed {
+            ver.set_tooltip_text(Some(&pkg.version));
+        }
         ver.add_css_class("dim-label");
         ver.add_css_class("numeric");
         ver.set_xalign(0.0);
@@ -194,7 +197,10 @@ impl Packages {
             return b;
         }
         if let Some(new) = &pkg.update {
-            let l = gtk::Label::new(Some(&format!("→ {new}")));
+            // Sama zmiana wydania (ta sama wersja): wtedy pełny zapis, inaczej strzałka nic by nie mówiła.
+            let short = crate::zypper::short_version(new);
+            let shown = if short == crate::zypper::short_version(&pkg.version) { new.as_str() } else { short };
+            let l = gtk::Label::new(Some(&format!("→ {shown}")));
             l.set_tooltip_text(Some(&crate::i18n::trf("packages.update-to", &[("version", new)])));
             l.add_css_class("cocktail-new");
             l.add_css_class("numeric");

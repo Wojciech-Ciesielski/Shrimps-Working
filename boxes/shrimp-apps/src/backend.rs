@@ -201,7 +201,7 @@ impl Worker {
                 return;
             }
         };
-        let stale = force || self.appstream_age(&remote).map_or(true, |a| a > APPSTREAM_MAX_AGE);
+        let stale = force || self.appstream_age(&remote).is_none_or(|a| a > APPSTREAM_MAX_AGE);
         let mut net_error = None;
         if stale {
             self.emit(Event::Status(crate::i18n::tr("status.downloading-catalog").into()));
@@ -209,7 +209,10 @@ impl Worker {
                 net_error = Some(e.to_string());
             }
         }
-        match self.appstream_dir(&remote).ok_or_else(|| crate::i18n::tr("error.no-catalog").to_string()).and_then(|d| catalog::load_dir(&d, &self.langs)) {
+        let installed = self.installed();
+        let ids: Vec<String> = installed.iter().map(|i| i.id.clone()).collect();
+        let catalog = self.appstream_dir(&remote).ok_or_else(|| crate::i18n::tr("error.no-catalog").to_string()).and_then(|d| catalog::load_dir(&d, &self.langs));
+        match catalog.map(|apps| catalog::verified_only(apps, &ids)) {
             Ok(apps) if !apps.is_empty() => {
                 self.emit(Event::Catalog(apps));
                 if let Some(e) = net_error {
@@ -219,7 +222,7 @@ impl Worker {
             Ok(_) => self.emit(Event::CatalogFailed(net_error.unwrap_or_else(|| crate::i18n::tr("error.empty-catalog").into()))),
             Err(e) => self.emit(Event::CatalogFailed(net_error.unwrap_or(e))),
         }
-        self.send_installed();
+        self.emit(Event::Installed(installed));
     }
 
     fn installed(&self) -> Vec<Installed> {

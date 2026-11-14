@@ -29,6 +29,14 @@ pub fn get_bytes(url: &str) -> Result<Vec<u8>, String> {
     Ok(out)
 }
 
+/// Formularz POST (Wine AppDB filtruje wyszukiwanie tylko z formularza); odpowiedź jako tekst.
+pub fn post_form(url: &str, form: &[(&str, &str)]) -> Result<String, String> {
+    let mut resp = agent().post(url).send_form(form.iter().copied()).map_err(|e| e.to_string())?;
+    let mut out = Vec::new();
+    resp.body_mut().as_reader().take(MAX_BYTES).read_to_end(&mut out).map_err(|e| e.to_string())?;
+    Ok(String::from_utf8_lossy(&out).into_owned())
+}
+
 pub fn cache_dir() -> PathBuf {
     let base = std::env::var_os("XDG_CACHE_HOME")
         .map(PathBuf::from)

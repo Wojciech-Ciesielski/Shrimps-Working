@@ -16,6 +16,8 @@ install -Dm644 "$HERE/data/org.shrimp.Panko.svg" "$D/usr/share/icons/hicolor/sca
 install -Dm644 "$HERE/data/org.shrimp.Panko.policy" "$D/usr/share/polkit-1/actions/org.shrimp.Panko.policy"
 install -Dm644 "$HERE/data/panko-cleanup.service" "$D/usr/lib/systemd/system/panko-cleanup.service"
 install -Dm644 "$HERE/data/panko-cleanup.timer" "$D/usr/lib/systemd/system/panko-cleanup.timer"
+# Start w starszej wersji na próbę: po zalogowaniu pytanie, czy ją zostawić (src/boot.rs).
+install -Dm644 "$HERE/data/panko-check-boot.desktop" "$D/etc/xdg/autostart/panko-check-boot.desktop"
 # panko-cleanup.timer włącza shrimp-box ([image] enable w box.toml). Bez pliku
 # /etc/panko/panko.conf (ustawienie wyłączone) usługa nic nie robi.
 echo "Panko zainstalowany w $D"

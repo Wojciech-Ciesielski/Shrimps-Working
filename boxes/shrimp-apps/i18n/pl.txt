@@ -73,3 +73,39 @@
 73	W Shrimp programy pochodzą ze sklepu Shrimp Apps: są sprawdzone, bezpieczne i aktualizują się same. Zwykle jest tam ten sam program albo dobry zamiennik.
 74	Szukaj w Shrimp Apps
 75	Zamknij
+76	Panel boczny
+77	Z Ubuntu
+78	Popularne programy (ponad {n} instalacji), których nie ma wśród sprawdzonych aplikacji. Wszystkie działają w jednym wspólnym kontenerze Ubuntu 24.04 i widać je w siatce aplikacji jak każdą inną.
+79	Kontenery są niedostępne
+80	W tym systemie nie ma distrobox albo podman.
+81	Aktualizuj wszystko
+82	Przywróć kopię
+83	Przed każdą aktualizacją powstaje kopia kontenera, więc można wrócić, jeśli coś przestanie działać.
+84	Programy z Ubuntu są aktualne
+85	Przywrócić kopię?
+86	Kontener wróci do stanu sprzed ostatniej aktualizacji. Zmiany wprowadzone od tego czasu przepadną.
+87	Anuluj
+88	Kopia przywrócona
+89	Otwórz
+90	Usuń
+91	Usunięto: {name}
+92	Zainstaluj
+93	Instalowanie…
+94	Zainstalowano: {name}
+95	Nie udało się: {error}
+96	{file} to instalator dla Windows. Część programów dla Windows działa w Shrimp przez Wine, ale program ze sklepu jest zawsze lepszy.
+97	Sprawdzanie w Wine AppDB…
+98	Wine AppDB, {app}: {rating} (ostatni test: Wine {wine}).
+99	działa bez zarzutu
+100	działa dobrze po drobnych ustawieniach
+101	działa z drobnymi problemami
+102	działa słabo
+103	nie działa
+104	Wine AppDB nie ma wpisu dla {name}, więc nie wiadomo, czy zadziała.
+105	Nie udało się sprawdzić Wine AppDB ({error}).
+106	Zainstaluj przez Wine
+107	Instalowanie przez Wine
+108	Za pierwszym razem Shrimp przygotowuje Wine w kontenerze Ubuntu, co może potrwać kilka minut. Potem otworzy się instalator.
+109	Instalacja zakończona
+110	Skróty zainstalowanego programu są w siatce aplikacji.
+111	Instalacja nie powiodła się

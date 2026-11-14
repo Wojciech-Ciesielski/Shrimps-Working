@@ -192,3 +192,5 @@
 192	Copiar
 193	Pegar
 194	Seleccionar todo
+195	Barra lateral
+196	Acerca de Cherry

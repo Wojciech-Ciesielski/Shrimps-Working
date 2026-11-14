@@ -121,6 +121,16 @@ pub fn fwupd_updates(json: &str) -> usize {
         .unwrap_or(0)
 }
 
+/// Wersja do wyświetlenia: bez epoki („1:”) i bez numeru wydania pakietu po ostatnim „-”.
+/// W Leap 16.1 wydanie wygląda jak „160100.3.1”, więc „1.2.3-160100.3.1” było nieczytelne; całość idzie do podpowiedzi.
+pub fn short_version(edition: &str) -> &str {
+    let e = edition.split_once(':').map(|(ep, rest)| if ep.chars().all(|c| c.is_ascii_digit()) { rest } else { edition }).unwrap_or(edition);
+    match e.rsplit_once('-') {
+        Some((v, _)) if !v.is_empty() => v,
+        _ => e,
+    }
+}
+
 /// Nazwa systemu do wyświetlenia z `/etc/os-release`, np. „Shrimp 26”.
 pub fn os_name(os_release: &str) -> String {
     let get = |key: &str| {
@@ -159,6 +169,15 @@ mod tests {
         assert!(r[0].installed);
         assert_eq!(r[1].name, "vlc-codecs");
         assert!(!r[1].installed);
+    }
+
+    #[test]
+    fn short_versions() {
+        assert_eq!(short_version("6.12.2-160100.3.1"), "6.12.2");
+        assert_eq!(short_version("2:1.0.0-1.1"), "1.0.0");
+        assert_eq!(short_version("3.0.21"), "3.0.21");
+        assert_eq!(short_version("1.2-rc1-160100.1"), "1.2-rc1");
+        assert_eq!(short_version(""), "");
     }
 
     #[test]

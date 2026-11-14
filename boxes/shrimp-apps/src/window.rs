@@ -1,4 +1,4 @@
-//! Okno: pasek boczny (Odkrywaj, Zainstalowane, Aplikacje internetowe, kategorie,
+//! Okno: pasek boczny (Odkrywaj, Zainstalowane, Aplikacje internetowe, Z Ubuntu, kategorie,
 //! wyszukiwanie) i treść w `AdwNavigationView` (strony aplikacji wjeżdżają na wierzch).
 
 use std::cell::{Cell, RefCell};
@@ -19,6 +19,7 @@ pub enum Page {
     Discover,
     Installed,
     Web,
+    Ubuntu,
     Category(Category),
     Search,
 }
@@ -27,7 +28,7 @@ pub struct Shell {
     pub window: adw::ApplicationWindow,
     pub store: Rc<Store>,
     nav: adw::NavigationView,
-    split: adw::NavigationSplitView,
+    split: adw::OverlaySplitView,
     sidebar: gtk::ListBox,
     search: gtk::SearchEntry,
     toasts: adw::ToastOverlay,
@@ -65,6 +66,7 @@ impl Shell {
         add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_DISCOVER), crate::i18n::tr("page.discover"), Page::Discover);
         add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_INSTALLED), crate::i18n::tr("page.installed"), Page::Installed);
         add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_WEB), crate::i18n::tr("page.web"), Page::Web);
+        add(&sidebar, &mut pages, widgets::pick_icon(widgets::ICON_UBUNTU), crate::i18n::tr("page.ubuntu"), Page::Ubuntu);
         {
             let l = gtk::Label::builder().label(crate::i18n::tr("sidebar.categories")).xalign(0.0).build();
             l.add_css_class("sidebar-heading");
@@ -88,27 +90,21 @@ impl Shell {
         search_bar.add_css_class("sidebar-search");
         search_bar.append(&search);
 
-        let side_header = adw::HeaderBar::builder().show_title(false).build();
-        let help = gtk::Button::from_icon_name(widgets::pick_icon(widgets::ICON_HELP));
-        help.set_tooltip_text(Some(crate::i18n::tr("help")));
-        help.set_action_name(Some("app.help"));
-        side_header.pack_start(&help);
+        let side_header = adw::HeaderBar::builder().show_title(false).show_end_title_buttons(false).build();
 
         let side_view = adw::ToolbarView::new();
         side_view.add_top_bar(&side_header);
         side_view.set_content(Some(&side_scroll));
         side_view.add_bottom_bar(&search_bar);
-        let side_page = adw::NavigationPage::builder().title("Shrimp Apps").child(&side_view).build();
 
         // Treść
         let nav = adw::NavigationView::new();
         let toasts = adw::ToastOverlay::new();
         toasts.set_child(Some(&nav));
-        let content_page = adw::NavigationPage::builder().title("Shrimp Apps").child(&toasts).build();
-
-        let split = adw::NavigationSplitView::builder()
-            .sidebar(&side_page)
-            .content(&content_page)
+        // Panel boczny chowa przycisk w pasku tytułu strony (jak w Filerze).
+        let split = adw::OverlaySplitView::builder()
+            .sidebar(&side_view)
+            .content(&toasts)
             .min_sidebar_width(220.0)
             .max_sidebar_width(260.0)
             .build();
@@ -220,8 +216,15 @@ impl Shell {
     }
 
     pub fn focus_search(&self) {
-        self.split.set_show_content(false);
+        self.split.set_show_sidebar(true);
         self.search.grab_focus();
+    }
+
+    /// Wąskie okno: panel boczny leży nad treścią, po wyborze strony znika.
+    fn hide_overlay_sidebar(&self) {
+        if self.split.is_collapsed() {
+            self.split.set_show_sidebar(false);
+        }
     }
 
     fn select_row(&self, page: Page) {
@@ -245,7 +248,7 @@ impl Shell {
         let Some(app) = self.store.app(id) else { return };
         let page = details::page(&self.store, &app, self.window.upcast_ref());
         self.nav.push(&page);
-        self.split.set_show_content(true);
+        self.hide_overlay_sidebar();
     }
 
     pub fn show(self: &Rc<Self>, page: Page) {
@@ -259,11 +262,12 @@ impl Shell {
             Page::Discover => self.discover_page(),
             Page::Installed => self.installed_page(),
             Page::Web => self.web_page(),
+            Page::Ubuntu => self.root_page(crate::i18n::tr("page.ubuntu"), "ubuntu", &crate::ubuntu::page(), true),
             Page::Category(c) => self.category_page(c),
             Page::Search => self.search_page(),
         };
         self.nav.replace(&[p]);
-        self.split.set_show_content(true);
+        self.hide_overlay_sidebar();
     }
 
     fn search_changed(self: &Rc<Self>) {
@@ -397,7 +401,6 @@ impl Shell {
         let header = adw::HeaderBar::builder().show_title(show_title).build();
         let menu = gio::Menu::new();
         menu.append(Some(crate::i18n::tr("menu.refresh")), Some("app.refresh"));
-        menu.append(Some(crate::i18n::tr("help")), Some("app.help"));
         menu.append(Some(crate::i18n::tr("menu.about")), Some("app.about"));
         let mb = gtk::MenuButton::builder()
             .icon_name("open-menu-symbolic")
@@ -406,6 +409,13 @@ impl Shell {
             .tooltip_text(crate::i18n::tr("menu.main"))
             .build();
         header.pack_end(&mb);
+        let side_btn = gtk::ToggleButton::builder()
+            .icon_name("sidebar-show-symbolic")
+            .tooltip_text(crate::i18n::tr("view.sidebar"))
+            .css_classes(["flat"])
+            .build();
+        self.split.bind_property("show-sidebar", &side_btn, "active").bidirectional().sync_create().build();
+        header.pack_start(&side_btn);
         let tv = adw::ToolbarView::new();
         tv.add_top_bar(&header);
         tv.set_content(Some(content));
