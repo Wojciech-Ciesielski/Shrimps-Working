@@ -194,14 +194,14 @@ fi
 # Ctrl+Z cofa, Ctrl+Y ponawia, Ctrl+strzałki skaczą o słowo, Ctrl+Backspace i Ctrl+Delete usuwają słowo.
 # Ctrl+V wkleja okno Cherry.
 @KEYS@
-# Wtyczki zsh (pakiety openSUSE i inne typowe miejsca); podświetlanie składni musi być ostatnie.
-for f in /usr/share/{zsh/plugins/,zsh-plugins/,}zsh-autosuggestions/zsh-autosuggestions.zsh(N); do
+# Wtyczki zsh (pakiety openSUSE i inne typowe miejsca, na końcu kopie Cherry); podświetlanie składni musi być ostatnie.
+for f in /usr/share/{zsh/plugins/,zsh-plugins/,,cherry/zsh-plugins/}zsh-autosuggestions/zsh-autosuggestions.zsh(N); do
   source $f
   ZSH_AUTOSUGGEST_ACCEPT_WIDGETS+=(cherry-move-forward-char cherry-move-end-of-line)
   ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(cherry-move-forward-word)
   break
 done
-for f in /usr/share/{zsh/plugins/,zsh-plugins/,}zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N); do
+for f in /usr/share/{zsh/plugins/,zsh-plugins/,,cherry/zsh-plugins/}zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N); do
   source $f
   break
 done

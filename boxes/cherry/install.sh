@@ -16,6 +16,9 @@ install -Dm644 "$HERE/data/org.shrimp.Cherry.svg" "$D/usr/share/icons/hicolor/sc
 # Narzędzia (configure.sh w obrazie, post-install.sh w zainstalowanym systemie) i fastfetch z logo Shrimp.
 install -Dm644 "$HERE/data/tools.txt" "$D/usr/share/cherry/tools.txt"
 install -Dm644 "$HERE/data/fastfetch.jsonc" "$D/usr/share/cherry/fastfetch.jsonc"
+# Wtyczki zsh, których nie ma w repozytorium Leap (vendor/README.md).
+mkdir -p "$D/usr/share/cherry/zsh-plugins"
+cp -r "$HERE/vendor/zsh-autosuggestions" "$HERE/vendor/zsh-syntax-highlighting" "$D/usr/share/cherry/zsh-plugins/"
 install -Dm644 "$HERE/data/fastfetch-logo.txt" "$D/usr/share/cherry/fastfetch-logo.txt"
 # Ten sam wygląd fastfetch w każdym terminalu (bez tego fastfetch pokazywał logo Leap z os-release).
 install -Dm644 "$HERE/data/fastfetch.jsonc" "$D/etc/xdg/fastfetch/config.jsonc"

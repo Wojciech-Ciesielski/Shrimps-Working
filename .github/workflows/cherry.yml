@@ -23,3 +23,9 @@ jobs:
       - run: cargo test --locked
       - run: cargo build --locked --release
       - run: desktop-file-validate data/org.shrimp.Cherry.desktop
+      - name: Wtyczki zsh z Cherry (vendor/) ładują się w zsh
+        run: |
+          sudo apt-get install -y --no-install-recommends zsh
+          SHRIMP_PREBUILT=1 ./install.sh "$RUNNER_TEMP/root"
+          P="$RUNNER_TEMP/root/usr/share/cherry/zsh-plugins"
+          zsh -f -c "source $P/zsh-autosuggestions/zsh-autosuggestions.zsh && source $P/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && print -r -- \"\$ZSH_AUTOSUGGEST_STRATEGY \$ZSH_HIGHLIGHT_VERSION\"" | tee /dev/stderr | grep -q '0.8.0'
