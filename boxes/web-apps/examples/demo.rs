@@ -17,6 +17,7 @@ fn main() -> gtk::glib::ExitCode {
         win.present();
         if let Some(id) = click.clone() {
             let root: gtk::Widget = win.clone().upcast();
+            let app = app.clone();
             gtk::glib::timeout_add_local_once(std::time::Duration::from_millis(500), move || {
                 let row = find(&root, &|w| w.widget_name().contains(&format!("|{id}|"))).expect("brak wiersza");
                 let line = row.first_child().unwrap();
@@ -24,6 +25,8 @@ fn main() -> gtk::glib::ExitCode {
                 println!("przycisk przed: {}", button.label().unwrap_or_default());
                 button.emit_clicked();
                 println!("przycisk po: {}", button.label().unwrap_or_default());
+                // Test skończony: bez tego okno działa dalej i krok CI wisi do limitu GitHuba.
+                app.quit();
             });
         }
     });
