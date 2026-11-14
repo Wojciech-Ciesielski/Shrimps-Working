@@ -6,13 +6,6 @@
   "min_downloads": 1000000,
   "apps": [
     { "package": "vlc", "exec": "vlc", "name": "VLC", "flathub": "org.videolan.VLC", "category": "video" },
-    { "package": "audacity", "exec": "audacity", "name": "Audacity", "flathub": "org.audacityteam.Audacity", "category": "music" },
-    { "package": "inkscape", "exec": "inkscape", "name": "Inkscape", "flathub": "org.inkscape.Inkscape", "category": "graphics" },
-    { "package": "remmina", "exec": "remmina", "name": "Remmina", "flathub": "org.remmina.Remmina", "category": "internet" },
-    { "package": "darktable", "exec": "darktable", "name": "darktable", "flathub": "org.darktable.Darktable", "category": "graphics" },
-    { "package": "shotcut", "exec": "shotcut", "name": "Shotcut", "flathub": "org.shotcut.Shotcut", "category": "video" },
-    { "package": "freecad", "exec": "freecad", "name": "FreeCAD", "flathub": "org.freecad.FreeCAD", "category": "tools" },
-    { "package": "torbrowser-launcher", "exec": "torbrowser-launcher", "name": "Tor Browser", "flathub": "org.torproject.torbrowser-launcher", "category": "internet" },
-    { "package": "strawberry", "exec": "strawberry", "name": "Strawberry", "flathub": "org.strawberrymusicplayer.strawberry", "category": "music" }
+    { "package": "audacity", "exec": "audacity", "name": "Audacity", "flathub": "org.audacityteam.Audacity", "category": "music" }
   ]
 }
